@@ -2,13 +2,13 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from "react-native";
 
-function HomePage() {
+function HomePage(props) {
 
   return (
     <View style={styles.container}>
 
     <ImageBackground source={require('../assets/LandingPage.jpeg')} style={styles.image} >
-      <Text style={styles.text}>Hello, Welcome to Landing Page</Text>
+      <Text style={styles.name}>{props.name}</Text>
       </ImageBackground>
   </View>
     )
@@ -32,6 +32,13 @@ const styles = StyleSheet.create({
     marginTop: 200,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  name: {
+    fontSize: 19,
+    color: 'red',
+    marginLeft: 12,
+    marginTop: 490,
+    fontWeight: "bold"
   }
 });
 

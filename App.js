@@ -1,22 +1,23 @@
-import React from "react";
+import React, {useState} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import HomePage from './components/home.js'
-
-
+import SearchBar from './components/searchBar.js'
+import Friends from './components/friends.js'
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  // State Hooks Can go up here
+  // Add State that will be shared globally here
+  const [name, setName] = useState('Woofy GoldBerg');
 
   // Functions that will nagivate to each componenet // acts like a router
   function HomeScreen() {
       return (
       <View style={{ flex: 1}}>
-        <HomePage />
+        <HomePage name={name}/>
       </View>
     );
   }
@@ -24,7 +25,8 @@ export default function App() {
   function DiscoverScreen() {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-         <Text> Discover Component Goes Here</Text>
+        <SearchBar />
+         <Text style={{ marginBottom: 250}}> Discover Component Goes Here</Text>
       </View>
     );
   }
@@ -48,7 +50,8 @@ export default function App() {
   function ChatScreen() {
     return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text> Put Chat Component Here</Text>
+      <SearchBar />
+      <Text style={{ marginBottom: 250}}> Put Chat Component Here</Text>
     </View>
   );
   }
@@ -61,10 +64,14 @@ export default function App() {
   );
   }
 
-  return (
-    <NavigationContainer>
-      <Tab.Navigator>
 
+  return (
+
+
+    <NavigationContainer>
+
+
+      <Tab.Navigator>
         <Tab.Screen
           name="Home"
           component={HomeScreen}
@@ -83,11 +90,11 @@ export default function App() {
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="paw-outline" color={color} size={size} />
             ),
-          }}/>
+          }}
+          />
 
         <Tab.Screen
-
-          name="Middle"
+          name="Camera"
           component={CameraScreen}
           options={{
             tabBarLabel: 'Home',
@@ -118,7 +125,6 @@ export default function App() {
               <Ionicons name="person-circle-outline" color={color} size={size} />
             ),
           }}/>
-
       </Tab.Navigator>
     </NavigationContainer>
   );

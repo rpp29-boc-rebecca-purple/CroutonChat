@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Crutons for Chat</Text>
+      <Text>Crutons for Chat App</Text>
       <StatusBar style="auto" />
     </View>
   );

@@ -1,5 +1,5 @@
 
-import React, {useState} from "react";
+import React from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-native";
 import data from '../data/data.js'
 

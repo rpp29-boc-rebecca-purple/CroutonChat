@@ -5,6 +5,7 @@ import { StyleSheet, View, Dimensions } from "react-native";
 
 function SearchBar(prop) {
 
+
   //const { width, height } = Dimensions.get("window");
   const [searchTerm, setSearchTerm] = useState('');
 

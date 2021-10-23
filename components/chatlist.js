@@ -1,15 +1,13 @@
 
-import React, {useState} from "react";
-import { Searchbar } from 'react-native-paper';
-import { StyleSheet, Text, View, TouchableOpacity, Button, Image, ScrollView, Dimensions} from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import React from "react";
+import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-native";
 import data from '../data/data.js'
 
 
 function ChatList(prop) {
   return (
 <ScrollView>
-      <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{data.slice(0, 6).map((e, index) => {
+      <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{data.map((e, index) => {
         return <Text style={styles.container}>
                 <View>
                 <Image style={styles.images} source={e.photo} key={index}/>

@@ -1,8 +1,6 @@
 
 import React, {useState} from "react";
-import { Searchbar } from 'react-native-paper';
-import { StyleSheet, Text, View, TouchableOpacity, Button, Image, ScrollView, Dimensions} from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-native";
 import data from '../data/data.js'
 
 
@@ -20,12 +18,6 @@ function Friends(prop) {
                 </View>
               </Text>
       })}
-
-      {/* <Button onPress={() => {}}
-        title="Button"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      /> */}
     </View>
 </ScrollView>
     )

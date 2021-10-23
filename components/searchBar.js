@@ -1,11 +1,11 @@
 
 import React, {useState} from "react";
 import { Searchbar } from 'react-native-paper';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 
 function SearchBar(prop) {
 
-  const { width, height } = Dimensions.get("window");
+  //const { width, height } = Dimensions.get("window");
   const [searchTerm, setSearchTerm] = useState('');
 
   const onChangeSearch = q => {

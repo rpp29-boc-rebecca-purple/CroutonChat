@@ -1,11 +1,12 @@
 import React, {useState} from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import HomePage from './components/home.js'
 import SearchBar from './components/searchBar.js'
 import Friends from './components/friends.js'
+import ChatList from './components/chatlist.js'
 
 const Tab = createBottomTabNavigator();
 
@@ -22,12 +23,14 @@ export default function App() {
     );
   }
 
-  function DiscoverScreen() {
+  function FriendsScreen() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ScrollView>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
         <SearchBar />
-         <Text style={{ marginBottom: 250}}> Discover Component Goes Here</Text>
+        <Friends />
       </View>
+      </ScrollView>
     );
   }
 
@@ -49,10 +52,12 @@ export default function App() {
   );
   function ChatScreen() {
     return (
+    <ScrollView>
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <SearchBar />
-      <Text style={{ marginBottom: 250}}> Put Chat Component Here</Text>
+      <ChatList />
     </View>
+    </ScrollView>
   );
   }
 
@@ -66,11 +71,7 @@ export default function App() {
 
 
   return (
-
-
     <NavigationContainer>
-
-
       <Tab.Navigator>
         <Tab.Screen
           name="Home"
@@ -83,10 +84,10 @@ export default function App() {
           }}/>
 
         <Tab.Screen
-          name="Discover"
-          component={DiscoverScreen}
+          name="Friends"
+          component={FriendsScreen}
           options={{
-            tabBarLabel: 'Discover',
+            tabBarLabel: 'Friends',
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="paw-outline" color={color} size={size} />
             ),

@@ -37,7 +37,7 @@ function Friends(prop) {
       borderBottomWidth: 2,
     },
   username: {
-    color: 'black',
+    color: 'red',
     fontWeight: 'bold',
     marginTop: 38,
     fontSize: 20,

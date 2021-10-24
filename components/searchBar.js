@@ -1,21 +1,18 @@
 
 import React, {useState} from "react";
 import { Searchbar } from 'react-native-paper';
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 function SearchBar(prop) {
 
-
-  //const { width, height } = Dimensions.get("window");
   const [searchTerm, setSearchTerm] = useState('');
-
   const onChangeSearch = q => {
     setSearchTerm(q);
   }
   return (
     <View style={styles.container}>
       <Searchbar style={styles.searchbar}
-      placeholder="Search"
+      placeholder="Search for friends"
       onChangeText={onChangeSearch}
       value={searchTerm}/>
     </View>

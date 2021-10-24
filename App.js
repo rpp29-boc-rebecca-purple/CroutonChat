@@ -34,6 +34,18 @@ export default function App() {
     );
   }
 
+  function ChatScreen() {
+    return (
+    <ScrollView>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
+      <SearchBar />
+      <ChatList />
+    </View>
+    </ScrollView>
+  );
+  }
+
+
   // This function is the circle in middle, Camera function
   function CameraScreen() {
     return (
@@ -50,16 +62,6 @@ export default function App() {
       <Image style={styles.cameraicon} source={require('./assets/cameraicon.jpeg')}/>
     </TouchableOpacity>
   );
-  function ChatScreen() {
-    return (
-    <ScrollView>
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <SearchBar />
-      <ChatList />
-    </View>
-    </ScrollView>
-  );
-  }
 
   function ProfileScreen() {
   return (

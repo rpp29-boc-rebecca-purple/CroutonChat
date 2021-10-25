@@ -1,4 +1,7 @@
 version: 2.1
+orbs:
+  aws-ecs: circleci/aws-ecs@2.2.1
+
 jobs:
   build:
     working_directory: ~/repo
@@ -21,3 +24,17 @@ jobs:
       - run:
           name: Run tests
           command: npm run test
+
+workflows:
+    build-and-test: 
+      jobs:
+        - build
+    build-and-deploy:
+      jobs:
+        - build
+        - aws-ecs/deploy-service-update:
+            cluster-name: arn:aws:ec2:*:*:instance/i-0db512246729173fd 
+            docker-image-for-job: circleci/node:10.16.3 
+            family: T2-micro 
+            requires: 
+              - build

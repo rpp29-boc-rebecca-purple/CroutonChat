@@ -33,6 +33,7 @@ workflows:
       jobs:
         - build
         - aws-ecs/deploy-service-update:
+            aws-secret-access-key: secretAccessKey
             cluster-name: arn:aws:ec2:*:*:instance/i-0db512246729173fd 
             docker-image-for-job: circleci/node:10.16.3 
             family: T2-micro 

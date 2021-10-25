@@ -115,8 +115,6 @@ export default class CameraComponent extends React.Component {
   }
 }
 
-
-
 const styles = StyleSheet.create({
   center: {
     alignSelf: 'flex-end',

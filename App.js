@@ -7,6 +7,8 @@ import HomePage from './components/homePage.js'
 import SearchBar from './components/searchBar.js'
 import Friends from './components/friends.js'
 import ChatList from './components/chatlist.js'
+import CameraComponent from './components/camera.js'
+
 
 const Tab = createBottomTabNavigator();
 
@@ -34,31 +36,24 @@ export default function App() {
     );
   }
 
-  // This function is the circle in middle, Camera function
-  function CameraScreen() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Camera Capturing Component Goes here that will open user phone camera directly</Text>
-      </View>
-    );
-  }
-
-  const CameraButton = ({ children, onPress }) => (
-    <TouchableOpacity
-      style={styles.CameraButton} onPress={onPress} >
-      <View style={styles.CameraButton1}></View>
-      <Image style={styles.cameraicon} source={require('./assets/cameraicon.jpeg')}/>
-    </TouchableOpacity>
-  );
   function ChatScreen() {
     return (
     <ScrollView>
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
       <SearchBar />
       <ChatList />
     </View>
     </ScrollView>
   );
+  }
+
+  //  Camera function
+  function CameraScreen() {
+    return (
+      <View style={{ flex: 1}}>
+      <CameraComponent />
+      </View>
+    );
   }
 
   function ProfileScreen() {
@@ -98,12 +93,10 @@ export default function App() {
           name="Camera"
           component={CameraScreen}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Camera',
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="camera-outline" color={color} size={size} />
             ),
-            tabBarButton: (props) => <CameraButton {...props} />,
-
           }}
         />
 
@@ -132,18 +125,12 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  CameraButton: {
-    top: -10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   cameraicon: {
       width: 60,
       height: 60,
       borderRadius: 45,
       borderWidth: 1,
       resizeMode: 'contain'
-    }
+    },
 });
-
-

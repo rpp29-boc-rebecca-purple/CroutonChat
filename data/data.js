@@ -22,6 +22,38 @@ const data = [{
   name: 'Bork',
   photo:require("../assets/data/pet5.jpeg")
 },
+
+
+{
+  name: 'Bork',
+  photo:require("../assets/data/pet5.jpeg")
+},
+
+
+{
+  name: 'Bork',
+  photo:require("../assets/data/pet5.jpeg")
+},
+
+
+{
+  name: 'Bork',
+  photo:require("../assets/data/pet5.jpeg")
+},
+
+{
+  name: 'Bork',
+  photo:require("../assets/data/pet5.jpeg")
+},
+
+
+{
+  name: 'Bork',
+  photo:require("../assets/data/pet5.jpeg")
+},
+
+
+
 {
   name: 'Ruffalot',
   photo:require("../assets/data/pet6.png")

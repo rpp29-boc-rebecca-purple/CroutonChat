@@ -25,32 +25,28 @@ function ChatList(prop) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      flexDirection: 'row',
+      flexDirection: 'column',
       width: Dimensions.get('window').width,
-      height: 130,
-      marginTop: 20,
+      height: 100,
+      marginTop: 11,
+      marginBottom: 1,
       left: 15,
-      top: 14,
+      top: 15,
       borderBottomColor: 'black',
       borderBottomWidth: 2,
     },
-  box: {
-    flex: 1,
-    width: 300,
-    height:444,
-    padding: 5,
-  },
   username: {
     color: 'black',
     fontWeight: 'bold',
-    marginTop: 55,
+    marginTop: 38,
     fontSize: 20,
     flex: 1,
-    left: 5
+    left: 15
   },
   images: {
-    width: 100,
-    height: 100,
+    width: 75,
+    height: 75,
+    borderWidth: .5,
     borderRadius: 55,
     marginBottom: 11,
   }

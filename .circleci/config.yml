@@ -2,6 +2,29 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@0.0.2
   aws-ecs: circleci/aws-ecs@0.0.10
+
+  jobs:
+    build:
+      working_directory: ~/repo
+      docker:
+        - image: circleci/node:10.16.3
+      steps:
+        - checkout
+        - run:
+            name: Update NPM
+            command: "sudo npm install -g npm@5"
+        - restore_cache:
+            key: dependency-cache-{{ checksum "package-lock.json" }}
+        - run:
+            name: Install Dependencies
+            command: npm install
+        - save_cache:
+            key: dependency-cache-{{ checksum "package-lock.json" }}
+            paths:
+              - ./node_modules
+        - run:
+            name: Run tests
+            command: npm run test
 workflows:
   build-and-deploy:
     jobs:
@@ -10,7 +33,6 @@ workflows:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           region: ${AWS_DEFAULT_REGION}
           tag: "${CIRCLE_SHA1}"
-          dockerfile: CrutonChat/Dockerfile
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build_and_push_image

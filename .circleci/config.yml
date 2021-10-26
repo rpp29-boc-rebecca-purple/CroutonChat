@@ -37,7 +37,7 @@ workflows:
           region: AWS_REGION
           repo: croutonchat-v0
           tag: "latest,v0.1.${CIRCLE_BUILD_NUM}"
-          path: /home/ec2-user
+          path: lstat /home/ec2-user
           # requires: 
           #   - build
       - aws-ecs/deploy-service-update:

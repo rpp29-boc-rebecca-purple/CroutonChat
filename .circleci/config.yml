@@ -1,5 +1,6 @@
 version: 2.1
 orbs:
+  aws-ecr: circleci/aws-ecr@7.2.0
   aws-ecs: circleci/aws-ecs@2.2.1
 
 jobs:
@@ -31,10 +32,21 @@ workflows:
         - build
     build-and-deploy:
       jobs:
-        - build
-        - aws-ecs/deploy-service-update:
-            cluster-name: arn:aws:ec2:*:*:instance/i-0db512246729173fd 
-            docker-image-for-job: circleci/node:10.16.3 
-            family: T2-micro 
-            requires: 
-              - build
+      - build
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: ACCESS_KEY_ID
+          aws-secret-access-key: SECRET_ACCESS_KEY
+          region: AWS_REGION
+          repo: demoAppCD
+          tag: "latest,v0.1.${CIRCLE_BUILD_NUM}"
+          requires: 
+            - build
+      - aws-ecs/deploy-service-update:
+          requires:
+            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+            - build
+          cluster-name: arn:aws:ec2:*:*:instance/i-0db512246729173fd 
+          docker-image-for-job: circleci/node:10.16.3 
+          family: T2-micro 
+              

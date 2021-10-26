@@ -3,46 +3,46 @@ orbs:
   aws-ecr: circleci/aws-ecr@7.2.0
   aws-ecs: circleci/aws-ecs@2.2.1
 
-jobs:
-  build:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:10.16.3
-    steps:
-      - checkout
-      - run:
-          name: Update NPM
-          command: "sudo npm install -g npm@5"
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-          paths:
-            - ./node_modules
-      - run:
-          name: Run tests
-          command: npm run test
+# jobs:
+#   build:
+#     working_directory: ~/repo
+#     docker:
+#       - image: circleci/node:10.16.3
+#     steps:
+#       - checkout
+#       - run:
+#           name: Update NPM
+#           command: "sudo npm install -g npm@5"
+#       - restore_cache:
+#           key: dependency-cache-{{ checksum "package-lock.json" }}
+#       - run:
+#           name: Install Dependencies
+#           command: npm install
+#       - save_cache:
+#           key: dependency-cache-{{ checksum "package-lock.json" }}
+#           paths:
+#             - ./node_modules
+#       - run:
+#           name: Run tests
+#           command: npm run test
 
 workflows:
-    build-and-test: 
-      jobs:
-        - build
+    # build-and-test: 
+    #   jobs:
+    #     - build
     build-and-deploy:
       jobs:
-      - build
+      # - build
       - aws-ecr/build-and-push-image:
           region: AWS_REGION
           repo: croutonchat-v0
           tag: "latest,v0.1.${CIRCLE_BUILD_NUM}"
-          requires: 
-            - build
+          # requires: 
+          #   - build
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
-            - build
+            # - build
           cluster-name: arn:aws:ec2:*:*:instance/i-0db512246729173fd 
           docker-image-for-job: circleci/node:10.16.3 
           family: T2-micro 

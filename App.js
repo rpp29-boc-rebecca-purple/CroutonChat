@@ -50,7 +50,7 @@ export default function App() {
   }
 
   function ProfileScreen( {navigation, route} ) {
-    const { dogname } = route.params;
+    const { dogname } = route.params || 'testname';
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={styles.backbutton}>

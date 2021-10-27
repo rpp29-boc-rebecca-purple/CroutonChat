@@ -3,6 +3,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View ,TouchableOpacity,Platform, Image, ImageBackground} from 'react-native';
 import { Camera } from 'expo-camera';
+import axios from 'axios'
 import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons';
 //import { globalStyles } from '../styles/global.js'
 
@@ -10,6 +11,7 @@ import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons
 import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
+
 
 
   // **********************
@@ -30,7 +32,8 @@ export default class CameraComponent extends React.Component {
       cameraType: Camera.Constants.Type.back,
       setpreview: false,
       imageuploaded: null,
-      photoTaken: null
+      removed: '',
+      phototaken: ''
     }
   }
 
@@ -60,51 +63,66 @@ export default class CameraComponent extends React.Component {
     })
   }
 
+
    takePicture = async () => {
     if (this.camera) {
       const options = { quality: 0.5, base64: true, skipProcessing: true };
       const data = await this.camera.takePictureAsync(options);
       //camera roll (saving picture)
+
+      this.setState({
+        phototaken: data
+      })
+
       const photo = await MediaLibrary.createAssetAsync(data.uri);
       const source = photo.uri;
       if (source) {
-        let base64Img = `data:image/jpg;base64,${source}`;
-        this.setState({
-          photoTaken: { base64: source }
-        })
-        alert('photo added')
-        console.log(this.state.photoTaken)
+         alert('photo added')
+
     }
   };
 }
 
-  pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images
+
+    pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
-    this.setState({
-      imageuploaded: result.uri
-    })
 
-  // formatting URI link to match URL
-  // let localUri = result.uri;
-  // let filename = localUri.split('/').pop();
-  // let match = /\.(\w+)$/.exec(filename);
-  // let type = match ? `image/${match[1]}` : `image`;
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+      let localUri = result.uri;
+      let filename = localUri.split('/').pop();
+      let match = /\.(\w+)$/.exec(filename);
+      let type = match ? `image/${match[1]}` : `image`;
 
-  // let formData = new FormData();
-  // // Information of what sent will be changed depending on API data expected and structure
-  // formData.append('photo', { uri: localUri, name: filename, type });
-  //   return await fetch(YOUR_SERVER_URL, {
-  //     method: 'POST',
-  //     body: formData,
-  //     headers: {
-  //     'content-type': 'multipart/form-data',
-  //   },
-  // });
-    // alert('photo uploaded successfully')
-   console.log(this.state.imageuploaded)
+      let formData = new FormData();
+      formData.append('photo', {type:type, uri:localUri, name:filename});
+
+      console.log(formData, '🙂🙂🙂')
+
+    const handleSubmit = () => {
+      fetch('http://3.133.100.147:2550/addPhoto', {
+      method: 'POST',
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': `multipart/form-data`
+      },
+      body:formData
+      })
+      .then(function(data) {
+       console.log(data, 'image send successful')
+      // console.log(localUri, 'localUri')
+      }).catch(function() {
+        console.log("fail");
+      });
+    }
+    handleSubmit()
   }
+}
 
 
   render(){

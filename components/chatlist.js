@@ -15,7 +15,6 @@ function ChatList() {
   // **********************
   //       TASK TO DO    //
   // **********************
-
   // fetch((endpoint of our API))
   //  -> expect to get name, unread count, email, profile pic
   // .then( set setUserData)

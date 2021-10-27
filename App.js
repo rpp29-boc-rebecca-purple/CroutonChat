@@ -1,35 +1,28 @@
 import React, {useState} from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Button} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator} from '@react-navigation/stack'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
-import HomePage from './components/homePage.js'
-import SearchBar from './components/searchBar.js'
+import SearchBarMessages from './components/searchBarMessages.js'
+import SearchBarFriends from './components/searchBarFriends.js'
 import Friends from './components/friends.js'
 import ChatList from './components/chatlist.js'
 import CameraComponent from './components/camera.js'
 
-
 const Tab = createBottomTabNavigator();
+
 
 export default function App() {
   // Add State that will be shared globally here
   const [name, setName] = useState('Woofy GoldBerg');
-
   // Functions that will nagivate to each componenet // acts like a router
-  function HomeScreen() {
-      return (
-      <View style={{ flex: 1}}>
-        <HomePage name={name}/>
-      </View>
-    );
-  }
 
   function FriendsScreen() {
     return (
       <ScrollView>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-        <SearchBar />
+        <SearchBarMessages />
         <Friends />
       </View>
       </ScrollView>
@@ -40,7 +33,7 @@ export default function App() {
     return (
     <ScrollView>
     <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-      <SearchBar />
+      <SearchBarMessages />
       <ChatList />
     </View>
     </ScrollView>
@@ -56,28 +49,22 @@ export default function App() {
     );
   }
 
-  function ProfileScreen() {
+  function ProfileScreen( {navigation, route} ) {
+    const { dogname } = route.params;
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text> Put Profile Component Here</Text>
+      <View style={styles.backbutton}>
+        <Button title="Back" onPress={() => navigation.goBack()} />
+      </View>
+      <Text> Put Profile Component Here  {JSON.stringify(dogname)}</Text>
     </View>
+
   );
   }
-
 
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home" color={color} size={size} />
-            ),
-          }}/>
-
         <Tab.Screen
           name="Friends"
           component={FriendsScreen}
@@ -124,8 +111,8 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
 
+const styles = StyleSheet.create({
   cameraicon: {
       width: 60,
       height: 60,
@@ -133,4 +120,8 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       resizeMode: 'contain'
     },
-});
+    backbutton: {
+      top: -310,
+      left: -150
+    }
+  })

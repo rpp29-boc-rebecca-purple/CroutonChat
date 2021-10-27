@@ -1,14 +1,25 @@
 
 
-import React, {useState} from 'react';
-import { StyleSheet, Text, View ,TouchableOpacity,Platform } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, View ,TouchableOpacity,Platform, Image, ImageBackground} from 'react-native';
 import { Camera } from 'expo-camera';
 import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons';
+//import { globalStyles } from '../styles/global.js'
 
 // * just means it will import everything from those packages
 import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
+
+
+  // **********************
+  //       TASK TO DO    //
+  // **********************
+
+  // post request to send the uploaded photo to the API database line 89-105
+  // Figure out URI and how to send that to database base64 data type
+
+   // ********************
 
 
 export default class CameraComponent extends React.Component {
@@ -17,14 +28,15 @@ export default class CameraComponent extends React.Component {
     this.state = {
       hasPermission: null,
       cameraType: Camera.Constants.Type.back,
-      setpreview: false
+      setpreview: false,
+      imageuploaded: null,
+      photoTaken: null
     }
   }
 
   async componentDidMount() {
     this.getPermissionAsync()
   }
-
 
   // Camera roll Permission
   getPermissionAsync = async () => {
@@ -56,19 +68,44 @@ export default class CameraComponent extends React.Component {
       const photo = await MediaLibrary.createAssetAsync(data.uri);
       const source = photo.uri;
       if (source) {
-        alert('photo has been taken')
-      }
+        let base64Img = `data:image/jpg;base64,${source}`;
+        this.setState({
+          photoTaken: { base64: source }
+        })
+        alert('photo added')
+        console.log(this.state.photoTaken)
     }
   };
-
+}
 
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images
     });
-    console.log(result, 'uploaded photo')
-    alert('photo uploaded successfully')
+    this.setState({
+      imageuploaded: result.uri
+    })
+
+  // formatting URI link to match URL
+  // let localUri = result.uri;
+  // let filename = localUri.split('/').pop();
+  // let match = /\.(\w+)$/.exec(filename);
+  // let type = match ? `image/${match[1]}` : `image`;
+
+  // let formData = new FormData();
+  // // Information of what sent will be changed depending on API data expected and structure
+  // formData.append('photo', { uri: localUri, name: filename, type });
+  //   return await fetch(YOUR_SERVER_URL, {
+  //     method: 'POST',
+  //     body: formData,
+  //     headers: {
+  //     'content-type': 'multipart/form-data',
+  //   },
+  // });
+    // alert('photo uploaded successfully')
+   console.log(this.state.imageuploaded)
   }
+
 
   render(){
     const { hasPermission } = this.state
@@ -80,7 +117,7 @@ export default class CameraComponent extends React.Component {
       return (
           <View style={{ flex: 1 }}>
             <Camera style={{ flex: 1 }} type={this.state.cameraType}  ref={ref => {this.camera = ref}}>
-              <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:30}}>
+            <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:30}}>
                 <TouchableOpacity
                   style={styles.center}
                   onPress={()=>this.pickImage()}>
@@ -109,6 +146,10 @@ export default class CameraComponent extends React.Component {
                 </TouchableOpacity>
               </View>
             </Camera>
+
+        {/* this just shows the photo below camera to see what was added testing** */}
+            {/* <Image source={{ uri: this.state.imageuploaded }} style={{ width: 305, height: 159 }} /> */}
+
         </View>
       );
     }

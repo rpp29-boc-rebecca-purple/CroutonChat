@@ -3,11 +3,12 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView} from "reac
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
-import HomePage from './components/homePage.js'
-import SearchBar from './components/searchBar.js'
-import Friends from './components/friends.js'
-import ChatList from './components/chatlist.js'
-import CameraComponent from './components/camera.js'
+import HomePage from './components/homePage.js';
+import SearchBar from './components/searchBar.js';
+import Friends from './components/friends.js';
+import ChatList from './components/chatlist.js';
+import CameraComponent from './components/camera.js';
+import Conversation from './components/conversation.js';
 
 
 const Tab = createBottomTabNavigator();
@@ -20,7 +21,7 @@ export default function App() {
   function HomeScreen() {
       return (
       <View style={{ flex: 1}}>
-        <HomePage name={name}/>
+        <Conversation name={name}/>
       </View>
     );
   }

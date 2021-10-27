@@ -4,7 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator} from '@react-navigation/stack'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
-import HomePage from './components/homePage.js'
 import SearchBarMessages from './components/searchBarMessages.js'
 import SearchBarFriends from './components/searchBarFriends.js'
 import Friends from './components/friends.js'

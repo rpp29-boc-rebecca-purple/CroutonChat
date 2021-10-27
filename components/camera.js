@@ -4,6 +4,7 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View ,TouchableOpacity,Platform, Image, ImageBackground} from 'react-native';
 import { Camera } from 'expo-camera';
 import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons';
+//import { globalStyles } from '../styles/global.js'
 
 // * just means it will import everything from those packages
 import * as MediaLibrary from 'expo-media-library';

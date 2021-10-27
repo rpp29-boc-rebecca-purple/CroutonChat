@@ -2,6 +2,7 @@
 import React, {useState} from "react";
 import { Searchbar } from 'react-native-paper';
 import { StyleSheet, View } from "react-native";
+//import { globalStyles } from '../styles/global.js'c
 
 function SearchBarMessages(prop) {
 

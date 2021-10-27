@@ -1,8 +1,9 @@
 
   import React, {useState} from "react";
-  import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-native";
+  import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithoutFeedback, Keyboard} from "react-native";
   import { useNavigation } from '@react-navigation/native';
   import data from '../data/data.js'
+  //import { globalStyles } from '../styles/global.js'
 
   function ChatList( { route } ) {
 
@@ -26,27 +27,29 @@
 
 
     return (
-      <ScrollView>
-            <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{userData.map((e) => {
-              return <Text onPress={() => {
-                navigation.navigate('Profile', { dogname: e.name})
-                console.log(`you clicked on user:  ${e.name}`)
-              }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
-                <View >
-                <Image style={styles.images} source={e.photo}/>
-                </View>
-                <View style={{
-                    borderBottomColor: 'black',
-                    borderBottomWidth: 1,
-                    }}>
-                <Text style={styles.username}> {e.name}</Text>
-                <Text style={styles.friendsonline}> {e.friends} friends online</Text>
-                </View>
 
-              </Text>
-            })}
-          </View>
-      </ScrollView>
+      <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+        <ScrollView>
+              <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{userData.map((e) => {
+                return <Text onPress={() => {
+                  navigation.navigate('Profile', { dogname: e.name})
+                  console.log(`you clicked on user:  ${e.name}`)
+                }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
+                  <View >
+                  <Image style={styles.images} source={e.photo}/>
+                  </View>
+                  <View style={{
+                      borderBottomColor: 'black',
+                      borderBottomWidth: 1,
+                      }}>
+                  <Text style={styles.username}> {e.name}</Text>
+                  <Text style={styles.friendsonline}> {e.friends} friends online</Text>
+                  </View>
+                </Text>
+              })}
+            </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
           )
         }
 

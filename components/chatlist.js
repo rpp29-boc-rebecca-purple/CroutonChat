@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-native";
 import data from '../data/data.js'
 import { useNavigation } from '@react-navigation/native';
+//import { globalStyles } from '../styles/global.js'
 
 function ChatList() {
 

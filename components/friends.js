@@ -14,7 +14,6 @@
    // **********************
   //       TASK TO DO    //
   // **********************
-
   // fetch((endpoint of our API))
   //  -> expect to get back name, friendscount, friendslist, profile pic
   // .then( set setUserData)

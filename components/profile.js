@@ -12,6 +12,7 @@ import {
   View,
   Image,
   SafeAreaView,
+  ImageBackground,
 } from 'react-native';
 
 
@@ -21,18 +22,22 @@ const Profile = (props) => {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.userInfoSection}>
-          <View style={{alignItems: 'center'}}>
-            <Avatar.Image
-              source={{
-                uri: 'https://i.imgur.com/ckCX9Xc.jpg'
-              }}
-              size={100}
-            />
-            <View style={{alignItems: 'center'}}>
-              <Title style={styles.title}>Ladypants</Title>
-              <Caption style={styles.caption}>Likes to snack on roast turkey</Caption>
+          <ImageBackground
+          source={require('../assets/BOC.profile.cloud.bg.webp')}
+          style={{width: 400}}>
+            <View style={{alignItems: 'center', marginTop: 75}}>
+              <Avatar.Image
+                source={{
+                  uri: 'https://i.imgur.com/ckCX9Xc.jpg'
+                }}
+                size={100}
+              />
+              <View style={{alignItems: 'center'}}>
+                <Title style={styles.title}>Ladypants</Title>
+                <Caption style={styles.caption}>Likes to snack on roast turkey</Caption>
+              </View>
             </View>
-          </View>
+            </ImageBackground>
         </View>
       </SafeAreaView>
     );

@@ -8,7 +8,7 @@ import SearchBar from './components/searchBar.js'
 import Friends from './components/friends.js'
 import ChatList from './components/chatlist.js'
 import CameraComponent from './components/camera.js'
-import Profile from './components/profile.js'
+import Profile from './components/profileScreen.js'
 
 const Tab = createBottomTabNavigator();
 

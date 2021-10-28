@@ -21,6 +21,7 @@ const Profile = (props) => {
 
     return (
       <SafeAreaView style={styles.container}>
+        {/* profile pic, name, and snack tag */}
         <View style={styles.userInfoSection}>
           <ImageBackground
           source={require('../assets/BOC.profile.cloud.bg.webp')}
@@ -34,10 +35,40 @@ const Profile = (props) => {
               />
               <View style={{alignItems: 'center'}}>
                 <Title style={styles.title}>Ladypants</Title>
-                <Caption style={styles.caption}>Likes to snack on roast turkey</Caption>
+                <Caption style={styles.caption}>Loves snacking on roast turkey sandwhiches</Caption>
               </View>
             </View>
             </ImageBackground>
+        </View>
+
+        {/* user info section */}
+        <View style={styles.userInfoSection}>
+          <View style={styles.row}>
+            <Text>Name: Ladypants</Text>
+          </View>
+          <View style={styles.row}>
+            <Text>Age: 3</Text>
+          </View>
+          <View style={styles.row}>
+            <Text>Species: Dog</Text>
+          </View>
+          <View style={styles.row}>
+            <Text>Favorite Snack: Roast Turkey Sandwhiches</Text>
+          </View>
+        </View>
+
+        {/* buttons for edit profile and navigate to settings */}
+        <View style={styles.profileButtonsWrapper}>
+          <View style={[styles.profileButton]}>
+            <Button
+            title='Edit Profile'
+            onPress={()=> alert('user editting profile')}></Button>
+          </View>
+          <View style={styles.profileButton}>
+            <Button
+            title='Settings'
+            onPress={()=> alert('user entering settings')}></Button>
+          </View>
         </View>
       </SafeAreaView>
     );
@@ -63,37 +94,25 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 5,
+    marginLeft: 20
   },
-  infoBoxWrapper: {
-    borderBottomColor: '#dddddd',
-    borderBottomWidth: 1,
+  profileButtons: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  profileButtonsWrapper: {
     borderTopColor: '#dddddd',
     borderTopWidth: 1,
     flexDirection: 'row',
     height: 100,
+    marginTop: 'auto'
   },
-  infoBox: {
+  profileButton: {
     width: '50%',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  menuWrapper: {
-    marginTop: 10,
-  },
-  menuItem: {
-    flexDirection: 'row',
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-  },
-  menuItemText: {
-    color: '#777777',
-    marginLeft: 20,
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 26,
-  },
-
+  }
 });
 
 

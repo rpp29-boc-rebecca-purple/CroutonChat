@@ -4,7 +4,7 @@ const data = [
     messageid: 0,
     uid: 4,
     body: 'woof woof woof! woof woof?',
-    date: '',
+    date: new Date(1635368869554),
     read: true,
     photo: false,
     photoid: null
@@ -14,7 +14,7 @@ const data = [
     messageid: 1,
     uid: 5,
     body: 'bark bark bark?',
-    date: '',
+    date: new Date(1635368969554),
     read: true,
     photo: false,
     photoid: null
@@ -24,7 +24,7 @@ const data = [
     messageid: 2,
     uid: 5,
     body: 'bark...',
-    date: '',
+    date: new Date(1635368972554),
     read: true,
     photo: false,
     photoid: null
@@ -34,7 +34,7 @@ const data = [
     messageid: 3,
     uid: 4,
     body: 'WOOOOOOFFFFF. woof woof woof woof',
-    date: '',
+    date: new Date(1635369972554),
     read: true,
     photo: false,
     photoid: null
@@ -44,7 +44,7 @@ const data = [
     messageid: 4,
     uid: 5,
     body: 'meow?',
-    date: '',
+    date: new Date(1635369992554),
     read: true,
     photo: false,
     photoid: 0
@@ -54,7 +54,7 @@ const data = [
     messageid: 5,
     uid: 4,
     body: 'get out.',
-    date: '',
+    date: new Date(1635369998554),
     read: false,
     photo: false,
     photoid: 0

@@ -21,14 +21,18 @@ const Profile = (props) => {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.userInfoSection}>
-          <Avatar.Image
-            source={{
-              uri: 'https://i.imgur.com/ckCX9Xc.jpg'
-            }}
-          />
-
-
-
+          <View style={{alignItems: 'center'}}>
+            <Avatar.Image
+              source={{
+                uri: 'https://i.imgur.com/ckCX9Xc.jpg'
+              }}
+              size={100}
+            />
+            <View style={{alignItems: 'center'}}>
+              <Title style={styles.title}>Ladypants</Title>
+              <Caption style={styles.caption}>Likes to snack on roast turkey</Caption>
+            </View>
+          </View>
         </View>
       </SafeAreaView>
     );

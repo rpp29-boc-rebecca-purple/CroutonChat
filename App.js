@@ -8,7 +8,7 @@ import SearchBar from './components/searchBar.js'
 import Friends from './components/friends.js'
 import ChatList from './components/chatlist.js'
 import CameraComponent from './components/camera.js'
-
+import Profile from './components/profile.js'
 
 const Tab = createBottomTabNavigator();
 
@@ -59,7 +59,7 @@ export default function App() {
   function ProfileScreen() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text> Put Profile Component Here</Text>
+      <Profile name={name} />
     </View>
   );
   }

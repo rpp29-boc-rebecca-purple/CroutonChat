@@ -18,7 +18,6 @@ import {
 
 
 const Profile = (props) => {
-
     return (
       <SafeAreaView style={styles.container}>
         {/* profile pic, name, and snack tag */}

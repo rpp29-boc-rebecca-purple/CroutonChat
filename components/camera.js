@@ -10,7 +10,6 @@ import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons
 import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
-import { RNS3 } from 'react-native-aws3';
 
 
 export default class CameraComponent extends React.Component {
@@ -87,7 +86,6 @@ export default class CameraComponent extends React.Component {
   let formData = new FormData();
   formData.append('photo', { uri: localUri, name: filename, type: type, email: this.state.email });
 
-  console.log(formData)
   return await fetch('http://3.133.100.147:2550/addPhoto', {
     method: 'POST',
     body: formData,
@@ -97,7 +95,7 @@ export default class CameraComponent extends React.Component {
     },
   })
     .then((response) => {
-       console.log(response, 'image send successful')
+       console.log('image send successful')
       }).catch(function() {
         console.log("image upload failed");
       })

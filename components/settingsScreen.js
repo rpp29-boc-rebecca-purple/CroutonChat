@@ -15,10 +15,12 @@ import {
 } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
+
 const SettingsScreen = (props) => {
+
   return (
     <SafeAreaView>
-      {/* Header Image */}
+      {/* Header Image  and Back Button*/}
       <ScrollView>
         <View style={styles.headerContainer}>
           <ImageBackground
@@ -26,12 +28,14 @@ const SettingsScreen = (props) => {
             style={{width: 400}}>
             <View style={styles.headerImage}></View>
             <View style={styles.backButton}>
-            <TouchableOpacity onPress={()=> alert('Go back')}>
-              <Text style={{fontSize: 35}}>&#x2190;</Text>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={()=> props.toggleSettings()}>
+                <Text style={{fontSize: 35}}
+                >&#x2190;</Text>
+              </TouchableOpacity>
             </View>
           </ImageBackground>
         </View>
+
         {/* LightMode/DarkMode Toggle */}
         <View style={styles.modeToggleWrap}>
           <Text style={{fontSize: 20}}>Theme:</Text>
@@ -60,13 +64,13 @@ const SettingsScreen = (props) => {
         {/* About CroutonChat */}
         <View style={styles.aboutSection}>
           <Title style={{textDecorationLine: 'underline'}}>About CroutonChat</Title>
-          <Text style={styles.aboutText}>Our team aims to create a native mobile application that allows users to share pictures
-             of their pets with their friends. Users will create a profile, add friends via email,
-             and then message those friends via text or photo. We will provide secure login for users so
-              that their personal data will be safe. The user can create and edit their profile, send
-               text messages or disappearing photo messages to their friends, and view their friend’s
-                profiles. This project will adhere to the highest accessibility standards, including
-                 color-blind friendly schemes and semantic html.</Text>
+          <Text style={styles.aboutText}>Our team aims to create a native mobile application that allows
+            users to share pictures of their pets with their friends. Users will create a profile, add
+            friends via email, and then message those friends via text or photo. We will provide secure
+            login for users so that their personal data will be safe. The user can create and edit their
+            profile, send text messages or disappearing photo messages to their friends, and view their
+            friend’s profiles. This project will adhere to the highest accessibility standards, including
+            color-blind friendly schemes and semantic html.</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

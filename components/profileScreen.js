@@ -17,6 +17,8 @@ import {
 
 
 const Profile = (props) => {
+  // console.log(props.toggleSettings, 'prof')
+  // console.log(props.state)
     return (
       <SafeAreaView style={styles.container}>
         {/* profile pic, name, and snack tag */}
@@ -65,10 +67,10 @@ const Profile = (props) => {
           </TouchableRipple>
             </View>
           <View style={styles.profileButton}>
-          <TouchableRipple onPress={()=>{}}>
+          <TouchableRipple>
             <Button
             title='Settings'
-            onPress={()=> alert('user entering settings')}></Button>
+            onPress={()=> props.toggleSettings()}></Button>
           </TouchableRipple>
           </View>
         </View>

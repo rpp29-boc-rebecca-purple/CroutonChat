@@ -11,6 +11,7 @@ import ChatList from './components/chatlist.js'
 import CameraComponent from './components/camera.js'
 import Profile from './components/profileScreen.js'
 import Settings from './components/settingsScreen.js'
+import useToggle from "./HelperFuncs/UseToggle.js";
 
 
 const Tab = createBottomTabNavigator();
@@ -19,6 +20,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   // Add State that will be shared globally here
   const [name, setName] = useState('Woofy GoldBerg');
+  const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(true);
   // Functions that will nagivate to each componenet // acts like a router
 
   function FriendsScreen() {
@@ -54,13 +56,16 @@ export default function App() {
 
   function ProfileScreen( {navigation, route} ) {
     const { dogname } = route.params || 'testname';
-    const settingsOpen = false ? <Profile name={name} /> : <Settings />
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {settingsOpen}
-    </View>
 
-  );
+    const settingsOpen = profileSettingsOpen ?
+    <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} /> :
+    <Profile name={name} toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} />;
+
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        {settingsOpen}
+      </View>
+    );
   }
 
   return (

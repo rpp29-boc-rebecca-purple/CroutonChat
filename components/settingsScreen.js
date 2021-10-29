@@ -1,14 +1,10 @@
 import React, {useState} from 'react';
 import {
-  Avatar,
   Title,
-  Caption,
-  TouchableRipple
 } from 'react-native-paper';
 import {
   StyleSheet,
   Text,
-  Button,
   View,
   SafeAreaView,
   ImageBackground,
@@ -56,7 +52,7 @@ const SettingsScreen = (props) => {
           </TouchableOpacity>
         </View>
         <View style={styles.settingsButtonsWrap}>
-          <TouchableOpacity onPress={()=>{alert('Change password?')}}>
+          <TouchableOpacity onPress={()=>props.changePassModalToggle()}>
             <Text style={styles.settingsButtons}>Change Password?</Text>
           </TouchableOpacity>
         </View>

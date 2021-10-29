@@ -13,7 +13,8 @@ import Profile from './components/profileScreen.js'
 import Settings from './components/settingsScreen.js'
 import useToggle from "./HelperFuncs/UseToggle.js";
 import EditProfile from "./components/editProfileScreen.js";
-import LogoutModal from "./components/logoutModal.js";
+import LogoutScreen from "./components/logoutScreen.js";
+import ChangePasswordScreen from "./components/changePasswordScreen.js";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,6 +25,7 @@ export default function App() {
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
+  const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   // Functions that will nagivate to each componenet // acts like a router
 
   function FriendsScreen() {
@@ -62,17 +64,19 @@ export default function App() {
 
     let displaypage = null;
     if (profileSettingsOpen) {
-      if (!logoutModalOpen) {
-        displaypage = <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} logoutModalToggle={setLogoutModalOpen} />
-      } else {
-        displaypage = <LogoutModal logoutModalToggle={setLogoutModalOpen} toggleSettings={setProfileSettingsOpen} />
+      if (!logoutModalOpen && !changePassModalOpen) {
+        displaypage = <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} logoutModalToggle={setLogoutModalOpen} changePassModalToggle={setChangePassModalOpen} />
+      } else if (logoutModalOpen){
+        displaypage = <LogoutScreen logoutModalToggle={setLogoutModalOpen} toggleSettings={setProfileSettingsOpen} />
+      } else if (changePassModalOpen) {
+        displaypage = <ChangePasswordScreen changePassModalToggle={setChangePassModalOpen} toggleSettings={setProfileSettingsOpen} />
       }
     } else {
       if (editProfile) {
         displaypage = <EditProfile editProfile={setEditProfile} />
       }
       else {
-        if (profileSettingsOpen === false) {
+        if (!profileSettingsOpen) {
           displaypage = <Profile name={name} toggleSettings={setProfileSettingsOpen} editProfile={setEditProfile}  state={profileSettingsOpen} />;
         }
       }

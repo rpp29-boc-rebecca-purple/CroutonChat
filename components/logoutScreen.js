@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const LogoutModal = (props) => {
+const LogoutScreen = (props) => {
   return (
     <SafeAreaView>
       <View style={styles.textWrap}>
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LogoutModal;
+export default LogoutScreen;

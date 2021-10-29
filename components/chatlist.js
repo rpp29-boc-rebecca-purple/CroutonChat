@@ -21,6 +21,7 @@ function ChatList() {
     })
   }
 
+
   return (
     <ScrollView>
       <SearchBarMessages searchMessages={searchMessages} userData={userData}/>

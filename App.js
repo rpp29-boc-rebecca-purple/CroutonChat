@@ -12,6 +12,7 @@ import CameraComponent from './components/camera.js'
 import Profile from './components/profileScreen.js'
 import Settings from './components/settingsScreen.js'
 import useToggle from "./HelperFuncs/UseToggle.js";
+import EditProfile from "./components/editProfileScreen.js";
 
 
 const Tab = createBottomTabNavigator();
@@ -21,6 +22,7 @@ export default function App() {
   // Add State that will be shared globally here
   const [name, setName] = useState('Woofy GoldBerg');
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(true);
+  const [editProfile, setEditProfile] = useToggle(true);
   // Functions that will nagivate to each componenet // acts like a router
 
   function FriendsScreen() {
@@ -57,13 +59,26 @@ export default function App() {
   function ProfileScreen( {navigation, route} ) {
     const { dogname } = route.params || 'testname';
 
-    const settingsOpen = profileSettingsOpen ?
-    <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} /> :
-    <Profile name={name} toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} />;
+    // const settingsOpen = profileSettingsOpen ?
+    // <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} /> :
+    // <Profile name={name} toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} />;
+    let displaypage = null;
+    if (profileSettingsOpen) {
+      displaypage = <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} />
+    } else {
+      if (editProfile) {
+        displaypage = <EditProfile editProfile={setEditProfile} />
+      }
+      else {
+        if (profileSettingsOpen === false) {
+          displaypage = <Profile name={name} toggleSettings={setProfileSettingsOpen} editProfile={setEditProfile}  state={profileSettingsOpen} />;
+        }
+      }
+    }
 
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {settingsOpen}
+        {displaypage}
       </View>
     );
   }

@@ -3,7 +3,8 @@ import {
   Avatar,
   Title,
   Caption,
-  TouchableRipple
+  TouchableRipple,
+  TextInput
 } from 'react-native-paper';
 import {
   StyleSheet,
@@ -16,7 +17,7 @@ import {
 
 
 
-const Profile = (props) => {
+const EditProfile = (props) => {
     return (
       <SafeAreaView style={styles.container}>
         {/* profile pic, name, and snack tag */}
@@ -32,7 +33,7 @@ const Profile = (props) => {
                 size={100}
               />
               <View style={{alignItems: 'center'}}>
-                <Title style={styles.title}>Ladypants</Title>
+                <Title style={styles.title}>EDIT</Title>
                 <Caption style={styles.caption}>Loves snacking on roast turkey sandwhiches</Caption>
               </View>
             </View>
@@ -42,36 +43,43 @@ const Profile = (props) => {
         {/* user info section */}
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
-            <Text>Name: Ladypants</Text>
+            <Text>Name:                 </Text>
+            <TextInput
+            placeholder='Ladypants'
+            style={styles.input}
+            />
           </View>
           <View style={styles.row}>
-            <Text>Age: 3</Text>
+            <Text>Age:                    </Text>
+            <TextInput
+            style={{marginRight:0}}
+            placeholder='3'
+            style={styles.input}
+            />
           </View>
           <View style={styles.row}>
-            <Text>Species: Dog</Text>
+            <Text>Species:             </Text>
+            <TextInput
+            placeholder='Dog'
+            style={styles.input}
+            />
           </View>
           <View style={styles.row}>
-            <Text>Favorite Snack: Roast Turkey Sandwhiches</Text>
+            <Text>Favorite Snack: </Text>
+            <TextInput
+            placeholder='Roast Turkey Sandwhiches'
+            style={styles.input}
+            />
           </View>
         </View>
 
         {/* buttons for edit profile and navigate to settings */}
-        <View style={styles.profileButtonsWrapper}>
-            <View style={[styles.profileButton]}>
-          <TouchableRipple onPress={()=>{}}>
+        <TouchableRipple style={styles.profileButtonsWrapper} onPress={()=>{}}>
               <Button
-              title='Edit Profile'
+              style={styles.profileButton}
+              title='Save Changes'
               onPress={()=> props.editProfile()}></Button>
           </TouchableRipple>
-            </View>
-          <View style={styles.profileButton}>
-          <TouchableRipple>
-            <Button
-            title='Settings'
-            onPress={()=> props.toggleSettings()}></Button>
-          </TouchableRipple>
-          </View>
-        </View>
       </SafeAreaView>
     );
 
@@ -108,15 +116,25 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     flexDirection: 'row',
     height: 100,
-    marginTop: 'auto'
+    marginTop: 'auto',
+    marginLeft: 170
   },
   profileButton: {
     width: '50%',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+   input: {
+     borderWidth: 1,
+     borderColor: '#777',
+     padding: 8,
+     margin: 0,
+     width: 200,
+    height: 20,
+    marginTop: -5,
+   }
 });
 
 
 
-export default Profile;
+export default EditProfile;

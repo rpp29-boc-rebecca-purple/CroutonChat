@@ -4,8 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator} from '@react-navigation/stack'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
-import SearchBarMessages from './components/searchBarMessages.js'
-import SearchBarFriends from './components/searchBarFriends.js'
 import Friends from './components/friends.js'
 import ChatList from './components/chatlist.js'
 import CameraComponent from './components/camera.js'
@@ -22,17 +20,21 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   // Add State that will be shared globally here
   const [name, setName] = useState('Woofy GoldBerg');
+<<<<<<< HEAD
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   // Functions that will nagivate to each componenet // acts like a router
+=======
+   const [email] = useState('Woofy@gmail.com')
+
+>>>>>>> 5d8e831f83533adccbb856bfa9df99dc7023134d
 
   function FriendsScreen() {
     return (
       <ScrollView>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-        <SearchBarMessages />
         <Friends />
       </View>
       </ScrollView>
@@ -43,7 +45,6 @@ export default function App() {
     return (
     <ScrollView>
     <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-      <SearchBarMessages />
       <ChatList />
     </View>
     </ScrollView>
@@ -54,7 +55,7 @@ export default function App() {
   function CameraScreen() {
     return (
       <View style={{ flex: 1}}>
-      <CameraComponent />
+      <CameraComponent email={email}/>
       </View>
     );
   }
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
       resizeMode: 'contain'
     },
     backbutton: {
-      top: -310,
+      top: -300,
       left: -150
     }
   })

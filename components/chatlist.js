@@ -1,36 +1,33 @@
-
 import React, {useState} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-native";
 import data from '../data/data.js'
+import SearchBarMessages from './searchBarMessages'
 import { useNavigation } from '@react-navigation/native';
 //import { globalStyles } from '../styles/global.js'
 
 function ChatList() {
 
-
   const [userData, setUserData] = useState(data);
+
   const navigation = useNavigation();
 
-
-  // **********************
-  //       TASK TO DO    //
-  // **********************
-  // fetch((endpoint of our API))
-  //  -> expect to get name, unread count, email, profile pic
-  // .then( set setUserData)
-  // line 27-28 .then() change up the map function below to run
-  //  through the updated data structure
-
-  // Line 30-31 send nagivator to chat component (passing down user by email after   ....fetching api data and setting state first)
-   // ********************
+ const searchMessages = (name) => {
+  data.map(e => {
+      if (e.email.toLowerCase() === name.toLowerCase()) {
+      navigation.navigate('Profile', { email: e.email})
+      console.log(`you clicked on user:  ${e.email}`)
+      }
+    })
+  }
 
 
   return (
     <ScrollView>
+      <SearchBarMessages searchMessages={searchMessages} userData={userData}/>
           <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{userData.map((e) => {
             return <Text onPress={() => {
-              navigation.navigate('Profile', { dogname: e.name})
-              console.log(`you clicked on user:  ${e.name}`)
+              navigation.navigate('Profile', { email: e.email})
+              console.log(`you clicked on user:  ${e.email}`)
             }} key={e.key} style={styles.container}>
               <View>
               <Image style={styles.images} source={e.photo}/>
@@ -40,7 +37,7 @@ function ChatList() {
                   borderBottomWidth: 1,
                   }}>
               <Text style={styles.username}> {e.name}</Text>
-              <Text style={styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'}   </Text>
+              <Text style={styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'} {e.photomessages.length > 0 ?  ' 📸' : ''}  </Text>
               </View>
 
             </Text>
@@ -85,3 +82,4 @@ function ChatList() {
     });
 
 export default ChatList
+

@@ -3,7 +3,6 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View ,TouchableOpacity,Platform, Image, ImageBackground} from 'react-native';
 import { Camera } from 'expo-camera';
-import axios from 'axios'
 import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons';
 //import { globalStyles } from '../styles/global.js'
 
@@ -11,17 +10,7 @@ import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons
 import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
-
-
-
-  // **********************
-  //       TASK TO DO    //
-  // **********************
-
-  // post request to send the uploaded photo to the API database line 89-105
-  // Figure out URI and how to send that to database base64 data type
-
-   // ********************
+import { RNS3 } from 'react-native-aws3';
 
 
 export default class CameraComponent extends React.Component {
@@ -33,7 +22,8 @@ export default class CameraComponent extends React.Component {
       setpreview: false,
       imageuploaded: null,
       removed: '',
-      phototaken: ''
+      phototaken: '',
+      email: props.email
     }
   }
 
@@ -63,17 +53,15 @@ export default class CameraComponent extends React.Component {
     })
   }
 
-
    takePicture = async () => {
     if (this.camera) {
       const options = { quality: 0.5, base64: true, skipProcessing: true };
       const data = await this.camera.takePictureAsync(options);
-      //camera roll (saving picture)
 
+      //camera roll (saving picture)
       this.setState({
         phototaken: data
       })
-
       const photo = await MediaLibrary.createAssetAsync(data.uri);
       const source = photo.uri;
       if (source) {
@@ -83,47 +71,37 @@ export default class CameraComponent extends React.Component {
   };
 }
 
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  })
 
-    pickImage = async () => {
-      let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+  let localUri = result.uri;
+  let filename = localUri.split('/').pop();
+  let match = /\.(\w+)$/.exec(filename);
+  let type = match ? `image/${match[1]}` : `image`;
 
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-      let localUri = result.uri;
-      let filename = localUri.split('/').pop();
-      let match = /\.(\w+)$/.exec(filename);
-      let type = match ? `image/${match[1]}` : `image`;
+  let formData = new FormData();
+  formData.append('photo', { uri: localUri, name: filename, type: type, email: this.state.email });
 
-      let formData = new FormData();
-      formData.append('photo', {type:type, uri:localUri, name:filename});
-
-      console.log(formData, '🙂🙂🙂')
-
-    const handleSubmit = () => {
-      fetch('http://3.133.100.147:2550/addPhoto', {
-      method: 'POST',
-      headers: {
-      'Accept': 'application/json',
-      'Content-Type': `multipart/form-data`
-      },
-      body:formData
-      })
-      .then(function(data) {
-       console.log(data, 'image send successful')
-      // console.log(localUri, 'localUri')
+  console.log(formData)
+  return await fetch('http://3.133.100.147:2550/addPhoto', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      Accept: 'application/json',
+      'content-type': 'multipart/form-data',
+    },
+  })
+    .then((response) => {
+       console.log(response, 'image send successful')
       }).catch(function() {
-        console.log("fail");
-      });
-    }
-    handleSubmit()
-  }
+        console.log("image upload failed");
+      })
 }
-
 
   render(){
     const { hasPermission } = this.state
@@ -164,10 +142,6 @@ export default class CameraComponent extends React.Component {
                 </TouchableOpacity>
               </View>
             </Camera>
-
-        {/* this just shows the photo below camera to see what was added testing** */}
-            {/* <Image source={{ uri: this.state.imageuploaded }} style={{ width: 305, height: 159 }} /> */}
-
         </View>
       );
     }

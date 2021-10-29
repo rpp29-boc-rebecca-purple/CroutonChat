@@ -1,38 +1,52 @@
 
-  import React, {useState} from "react";
+  import React, {useState, useEffect} from "react";
   import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithoutFeedback, Keyboard} from "react-native";
   import { useNavigation } from '@react-navigation/native';
   import data from '../data/data.js'
+  import SearchBarFriends from './searchBarFriends.js'
   //import { globalStyles } from '../styles/global.js'
 
-  function ChatList( { route } ) {
+  function Friends( { props, route } ) {
 
-  const [userData, setUserData] = useState(data);
-  const navigation = useNavigation();
+    const [userData, setUserData] = useState(data);
+    const [friendSearch, setFriendSearch] = useState('')
+    // fetch to get all users that exist in database
+    const [allUsers, setAllUsers] = useState([{email: 'testuser1@gmail.com'}, {email: 'testuser2@gmail.com'}, {email: 'testuser3@gmail.com'}])
 
+    const navigation = useNavigation(false);
 
-   // **********************
-  //       TASK TO DO    //
-  // **********************
-  // fetch((endpoint of our API))
-  //  -> expect to get back name, friendscount, friendslist, profile pic
-  // .then( set setUserData)
-  // line 30-231 .then() change up the map function below to run
-  //  through the updated data structure
+    useEffect(() => {
+      fetchUserData()
+    })
 
-  // Line 32 send nagivator to profile component (passing down user by email after   ....fetching api data and setting state first)
-   // ********************
+    const fetchUserData = () => {
+      setUserData(data)
+        // fetch(/*http:<IP HERE>/searchFriends*/)
+        // .then((data) => {
+        //   setUserData(data)
+        // })
 
+      // setAllUsers() fnc to set all user that exist for friends search
+   }
 
+   const searchFriend = (searchedEmail) => {
+    allUsers.map(e => {
+      if (e.email.toLowerCase() === searchedEmail.toLowerCase()) {
+      setFriendSearch(e.email)
+      navigation.navigate('Profile', { email: e.email})
+      console.log(`you clicked on user:  ${e.email}`)
+      }
+    })
+  }
 
     return (
-
       <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
         <ScrollView>
-              <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{userData.map((e) => {
+        <SearchBarFriends searchFriend={searchFriend} userData={userData}/>
+              <View  style={styles.main}>{userData.map((e) => {
                 return <Text onPress={() => {
-                  navigation.navigate('Profile', { dogname: e.name})
-                  console.log(`you clicked on user:  ${e.name}`)
+                  navigation.navigate('Profile', { email: e.email})
+                  console.log(`you clicked on user:  ${e.email}`)
                 }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
                   <View >
                   <Image style={styles.images} source={e.photo}/>
@@ -63,6 +77,11 @@
             left: 15,
             top: 15
           },
+          main: {
+            flexDirection: 'column',
+            flex: 1,
+            alignItems: 'flex-start'
+          },
         username: {
           color: 'black',
           fontWeight: 'bold',
@@ -83,7 +102,13 @@
           fontSize: 14,
           left: 20,
           bottom: 16
+        },
+        show: {
+          color: 'green'
+        },
+        hide: {
+          color: 'red'
         }
       });
 
-  export default ChatList
+  export default Friends

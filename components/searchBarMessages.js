@@ -4,31 +4,18 @@ import { Searchbar } from 'react-native-paper';
 import { StyleSheet, View } from "react-native";
 //import { globalStyles } from '../styles/global.js'c
 
-function SearchBarMessages(prop) {
-
+function SearchBarMessages(props) {
   const [searchMessages, setSearchMessages] = useState('');
-
   const onChangeSearch = q => {
     setSearchMessages(q);
   }
-
-  // **********************
-  //       TASK TO DO    //
-  // **********************
-
-  // search the friends by email and when its clicked I will make a send user to the chat componenet with the name/email passed down to identiy and pull up that users chat only.
-
-  // search user ( search function will be in chatlist component and will do the lookup on the userData state, I will need to pass down search from chatList here so I can run the function on the search term here)
-
-  // click user sends you to chat with the user name passed down as props
-
-   // ********************
 
   return (
     <View style={styles.container}>
       <Searchbar style={styles.searchbar}
       placeholder="Search for messages"
       onChangeText={onChangeSearch}
+      onSubmitEditing = {() => props.searchMessages(searchMessages)}
       value={searchMessages}/>
     </View>
     )
@@ -51,3 +38,17 @@ const styles = StyleSheet.create({
 });
 
 export default SearchBarMessages
+
+
+
+  // **********************
+  //       TASK TO DO    //
+  // **********************
+
+  // search the friends by email and when its clicked I will make a send user to the chat componenet with the name/email passed down to identiy and pull up that users chat only.
+
+  // search user ( search function will be in chatlist component and will do the lookup on the userData state, I will need to pass down search from chatList here so I can run the function on the search term here)
+
+  // click user sends you to chat with the user name passed down as props
+
+   // ********************

@@ -25,6 +25,11 @@ const SettingsScreen = (props) => {
             source={require('../assets/BOC.profile.cloud.bg.webp')}
             style={{width: 400}}>
             <View style={styles.headerImage}></View>
+            <View style={styles.backButton}>
+            <TouchableOpacity onPress={()=> alert('Go back')}>
+              <Text style={{fontSize: 35}}>&#x2190;</Text>
+            </TouchableOpacity>
+            </View>
           </ImageBackground>
         </View>
         {/* LightMode/DarkMode Toggle */}
@@ -69,13 +74,21 @@ const SettingsScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
+  backButton: {
+    position: 'absolute',
+    top: 0,
+    left: 5,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
   headerContainer: {
     flex: 4,
   },
   headerImage: {
     marginTop: 200,
     justifyContent: 'flex-start'
-
   },
   modeToggleWrap: {
     flex: 5,

@@ -12,7 +12,7 @@ function ChatList() {
   const navigation = useNavigation();
 
  const searchMessages = (name) => {
-  return data.map((e) => {
+  data.map(e => {
       if (e.email.toLowerCase() === name.toLowerCase()) {
       navigation.navigate('Profile', { email: e.email})
       console.log(`you clicked on user:  ${e.email}`)

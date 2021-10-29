@@ -20,16 +20,13 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   // Add State that will be shared globally here
   const [name, setName] = useState('Woofy GoldBerg');
-<<<<<<< HEAD
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
-  // Functions that will nagivate to each componenet // acts like a router
-=======
-   const [email] = useState('Woofy@gmail.com')
+  const [email] = useState('Woofy@gmail.com')
 
->>>>>>> 5d8e831f83533adccbb856bfa9df99dc7023134d
+  // Functions that will nagivate to each componenet // acts like a router
 
   function FriendsScreen() {
     return (

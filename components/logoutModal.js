@@ -1,18 +1,12 @@
 import React from 'react';
-import {
-  Avatar,
-  Title,
-  Caption,
-  TouchableRipple
-} from 'react-native-paper';
+
 import {
   StyleSheet,
   Text,
-  Button,
   View,
   SafeAreaView,
-  ImageBackground,
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const LogoutModal = (props) => {
   return (
@@ -20,17 +14,16 @@ const LogoutModal = (props) => {
       <View style={styles.textWrap}>
         <Text style={styles.text}>Are you sure you want to log out?</Text>
       </View>
-      <View style={styles.profileButtonsWrapper}>
-            <View style={[styles.profileButton]}>
-
-          <TouchableRipple>
-            <Text onPress={()=> props.logoutModalToggle()}>Back</Text>
-          </TouchableRipple>
+      <View style={styles.logoutModalButtonsWrapper}>
+        <View style={[styles.logoutModalButtons]}>
+          <TouchableOpacity onPress={()=> props.logoutModalToggle()}>
+            <Text>Back</Text>
+          </TouchableOpacity>
             </View>
-          <View style={styles.profileButton}>
-          <TouchableRipple onPress={()=>{}}>
-              <Text onPress={()=> alert('logged out')}>Log Out</Text>
-          </TouchableRipple>
+          <View style={styles.logoutModalButtons}>
+          <TouchableOpacity onPress={()=> alert('logged out')}>
+              <Text>Log Out</Text>
+          </TouchableOpacity>
           </View>
         </View>
     </SafeAreaView>
@@ -49,15 +42,19 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginTop: 15
   },
-  profileButtonsWrapper: {
+  logoutModalButtonsWrapper: {
     flexDirection: 'row',
     height: 100,
     marginTop: 150
   },
-  profileButton: {
+  logoutModalButtons: {
     width: '50%',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: "#DDDDDD",
+    padding: 10,
+    fontSize: 20,
+    borderRightWidth: 1
   }
 });
 

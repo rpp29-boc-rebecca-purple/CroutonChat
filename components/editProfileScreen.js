@@ -127,7 +127,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#DDDDDD",
     padding: 10,
-    fontSize: 20
+    fontSize: 20,
+    minWidth: 200,
+    textAlign: 'center'
   },
   editProfileButtonsWrapper: {
     alignItems: 'center',

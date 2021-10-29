@@ -113,10 +113,12 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   settingsButtons: {
-    alignItems: "center",
+    alignItems: 'center',
     backgroundColor: "#DDDDDD",
     padding: 10,
-    fontSize: 20
+    fontSize: 20,
+    minWidth: 200,
+    textAlign: 'center'
   },
   aboutSection: {
     alignItems: 'center',

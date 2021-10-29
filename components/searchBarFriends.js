@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { Searchbar } from 'react-native-paper';
-import { StyleSheet, View , Text} from "react-native";
-// import SearchableDropdown from 'react-native-searchable-dropdown';
+import { StyleSheet, View} from "react-native";
 //import { globalStyles } from '../styles/global.js'
 
 function SearchBarFriends( props ) {

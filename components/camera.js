@@ -82,7 +82,7 @@ export default class CameraComponent extends React.Component {
   let formData = new FormData();
   formData.append('photo', { uri: localUri, name: filename, type: type, email: this.state.email });
 
-  return await fetch('http://3.133.100.147:2550/addPhoto', {
+   await fetch('http://3.133.100.147:2550/addPhoto', {
     method: 'POST',
     body: formData,
     headers: {

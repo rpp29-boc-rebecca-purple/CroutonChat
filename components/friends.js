@@ -10,7 +10,7 @@ function Friends( { props, route } ) {
   const [userData, setUserData] = useState(data);
   const [friendSearch, setFriendSearch] = useState('')
   // fetch to get all users that exist in database
-  const [allUsers, setAllUsers] = useState([{email: 'testuser1@gmail.com'}, {email: 'testuser2@gmail.com'}, {email: 'testuser3@gmail.com'}])
+  // const [allUsers, setAllUsers] = useState([{email: 'testuser1@gmail.com'}, {email: 'testuser2@gmail.com'}, {email: 'testuser3@gmail.com'}])
 
   const navigation = useNavigation(false);
 
@@ -29,7 +29,7 @@ function Friends( { props, route } ) {
  }
 
  const searchFriend = (searchedEmail) => {
-  allUsers.map(e => {
+  userData.map(e => {
     if (e.email.toLowerCase() === searchedEmail.toLowerCase()) {
     setFriendSearch(e.email)
     navigation.navigate('Profile', { email: e.email})

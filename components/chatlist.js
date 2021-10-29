@@ -8,7 +8,6 @@ import { useNavigation } from '@react-navigation/native';
 function ChatList() {
 
   const [userData, setUserData] = useState(data);
-  const [matched, setMatched] = useState(false)
 
   const navigation = useNavigation();
 

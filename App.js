@@ -4,8 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator} from '@react-navigation/stack'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
-import SearchBarMessages from './components/searchBarMessages.js'
-import SearchBarFriends from './components/searchBarFriends.js'
 import Friends from './components/friends.js'
 import ChatList from './components/chatlist.js'
 import CameraComponent from './components/camera.js'
@@ -19,7 +17,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   // Add State that will be shared globally here
   const [name, setName] = useState('Woofy GoldBerg');
-   const [email, setEmail] = useState('Woofy@gmail.com')
+   const [email] = useState('Woofy@gmail.com')
 
 
   function FriendsScreen() {
@@ -52,11 +50,8 @@ export default function App() {
   }
 
   function ProfileScreen( {navigation, route} ) {
-    const { dogname } = route.params || 'null';
+    setName(route.params || 'null');
     const settingsOpen = false ? <Profile name={name} /> : <Settings />
-    // <SafeAreaView style={styles.backbutton}>
-    // <Button title="Back" onPress={() => navigation.goBack()} />
-    // </SafeAreaView>
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       {settingsOpen}

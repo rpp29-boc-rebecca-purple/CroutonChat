@@ -1,16 +1,15 @@
-import { CurrentRenderContext } from '@react-navigation/core';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Avatar,
   Title,
   Caption,
+  TouchableRipple
 } from 'react-native-paper';
 import {
   StyleSheet,
   Text,
   Button,
   View,
-  Image,
   SafeAreaView,
   ImageBackground,
 } from 'react-native';
@@ -58,15 +57,19 @@ const Profile = (props) => {
 
         {/* buttons for edit profile and navigate to settings */}
         <View style={styles.profileButtonsWrapper}>
-          <View style={[styles.profileButton]}>
-            <Button
-            title='Edit Profile'
-            onPress={()=> alert('user editting profile')}></Button>
-          </View>
+            <View style={[styles.profileButton]}>
+          <TouchableRipple onPress={()=>{}}>
+              <Button
+              title='Edit Profile'
+              onPress={()=> alert('user editting profile')}></Button>
+          </TouchableRipple>
+            </View>
           <View style={styles.profileButton}>
+          <TouchableRipple onPress={()=>{}}>
             <Button
             title='Settings'
             onPress={()=> alert('user entering settings')}></Button>
+          </TouchableRipple>
           </View>
         </View>
       </SafeAreaView>

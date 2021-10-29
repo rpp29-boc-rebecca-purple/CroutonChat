@@ -10,6 +10,8 @@ import Friends from './components/friends.js'
 import ChatList from './components/chatlist.js'
 import CameraComponent from './components/camera.js'
 import Profile from './components/profileScreen.js'
+import Settings from './components/settingsScreen.js'
+
 
 const Tab = createBottomTabNavigator();
 
@@ -52,9 +54,10 @@ export default function App() {
 
   function ProfileScreen( {navigation, route} ) {
     const { dogname } = route.params || 'testname';
+    const settingsOpen = false ? <Profile name={name} /> : <Settings />
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Profile name={name} />
+      {settingsOpen}
     </View>
 
   );

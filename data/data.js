@@ -7,42 +7,55 @@ const data = [{
   photo:require("../assets/data/pet1.jpeg"),
   key: 1,
   messages: ['1','2'],
-  friends: 62
+  friends: 62,
+  email: 'woofy@gmail.com',
+  photomessages: ['photo','photo','photo']
 },
 {
   name: 'Sam',
   photo:require("../assets/data/pet2.jpeg"),
   key: 2,
   messages: ['1','2','1','2'],
-  friends: 4
+  friends: 4,
+  email: 'Sam@gmail.com',
+  photomessages: ['photo','photo','photo','photo','photo']
 },
 {
   name: 'Barky',
   photo:require("../assets/data/pet3.jpeg"),
   key: 3,
   messages: ['1'],
-  friends: 1
+  friends: 1,
+  email: 'Barky@gmail.com',
+  photomessages: ['photo']
 },
 {
   name: 'Snowy',
   photo:require("../assets/data/pet4.jpeg"),
   key: 4,
   messages: [],
-  friends: 0
+  friends: 0,
+  email: 'Snowy@gmail.com',
+  photomessages: []
+
 },
 {
   name: 'Bork',
   photo:require("../assets/data/pet5.jpeg"),
   key: 5,
   messages: ['1','2','1','2','1','2'],
-  friends: 11
+  friends: 11,
+  email: 'Bork@gmail.com',
+  photomessages: ['photo','photo']
 },
 {
   name: 'Ruffalot',
   photo:require("../assets/data/pet6.png"),
   key: 6,
   messages: ['1'],
-  friends: 4
+  friends: 4,
+  email: 'Ruffalot@gmail.com',
+  photomessages: []
 }]
 
 export default data;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Avatar,
   Title,
@@ -19,6 +19,7 @@ import {
 const Profile = (props) => {
     return (
       <SafeAreaView style={styles.container}>
+
         {/* profile pic, name, and snack tag */}
         <View style={styles.userInfoSection}>
           <ImageBackground
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    marginBottom: 5,
+    marginBottom: 23,
     marginLeft: 20
   },
   profileButtons: {
@@ -116,7 +117,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   }
 });
-
-
 
 export default Profile;

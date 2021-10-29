@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Avatar,
   Title,
@@ -9,7 +9,6 @@ import {
 import {
   StyleSheet,
   Text,
-  Button,
   View,
   SafeAreaView,
   ImageBackground,
@@ -17,15 +16,16 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-
 const EditProfile = (props) => {
     return (
       <SafeAreaView style={styles.container}>
+
         {/* profile pic, name, and snack tag */}
         <View style={styles.userInfoSection}>
           <ImageBackground
           source={require('../assets/BOC.profile.cloud.bg.webp')}
           style={{width: 400}}>
+
             {/* back button */}
             <View style={styles.backButton}>
               <TouchableOpacity onPress={()=> props.editProfile()}>
@@ -41,14 +41,14 @@ const EditProfile = (props) => {
                 size={100}
               />
               <View style={{alignItems: 'center'}}>
-                <Title style={styles.title}>EDIT</Title>
+                <Title style={styles.title}>Ladypants</Title>
                 <Caption style={styles.caption}>Loves snacking on roast turkey sandwhiches</Caption>
               </View>
             </View>
             </ImageBackground>
         </View>
 
-        {/* user info section */}
+        {/* user info textinput section */}
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
             <Text>Name:                 </Text>

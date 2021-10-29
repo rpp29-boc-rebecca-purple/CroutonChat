@@ -25,7 +25,7 @@ const SettingsScreen = (props) => {
         <View style={styles.headerContainer}>
           <ImageBackground
             source={require('../assets/BOC.profile.cloud.bg.webp')}
-            style={{width: 400}}>
+            style={{width: 400, minHeight:226}}>
             <View style={styles.headerImage}></View>
             <View style={styles.backButton}>
               <TouchableOpacity onPress={()=> props.toggleSettings()}>

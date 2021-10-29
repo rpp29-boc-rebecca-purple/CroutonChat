@@ -19,13 +19,13 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   // Add State that will be shared globally here
   const [name, setName] = useState('Woofy GoldBerg');
-  // Functions that will nagivate to each componenet // acts like a router
+   const [email, setEmail] = useState('Woofy@gmail.com')
+
 
   function FriendsScreen() {
     return (
       <ScrollView>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-        <SearchBarMessages />
         <Friends />
       </View>
       </ScrollView>
@@ -36,7 +36,6 @@ export default function App() {
     return (
     <ScrollView>
     <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-      <SearchBarMessages />
       <ChatList />
     </View>
     </ScrollView>
@@ -47,14 +46,17 @@ export default function App() {
   function CameraScreen() {
     return (
       <View style={{ flex: 1}}>
-      <CameraComponent />
+      <CameraComponent email={email}/>
       </View>
     );
   }
 
   function ProfileScreen( {navigation, route} ) {
-    const { dogname } = route.params || 'testname';
+    const { dogname } = route.params || 'null';
     const settingsOpen = false ? <Profile name={name} /> : <Settings />
+    // <SafeAreaView style={styles.backbutton}>
+    // <Button title="Back" onPress={() => navigation.goBack()} />
+    // </SafeAreaView>
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       {settingsOpen}
@@ -122,7 +124,7 @@ const styles = StyleSheet.create({
       resizeMode: 'contain'
     },
     backbutton: {
-      top: -310,
+      top: -300,
       left: -150
     }
   })

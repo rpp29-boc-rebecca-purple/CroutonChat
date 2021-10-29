@@ -14,6 +14,7 @@ import {
   SafeAreaView,
   ImageBackground,
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
@@ -25,6 +26,13 @@ const EditProfile = (props) => {
           <ImageBackground
           source={require('../assets/BOC.profile.cloud.bg.webp')}
           style={{width: 400}}>
+            {/* back button */}
+            <View style={styles.backButton}>
+              <TouchableOpacity onPress={()=> props.editProfile()}>
+                <Text style={{fontSize: 35}}
+                >&#x2190;</Text>
+              </TouchableOpacity>
+            </View>
             <View style={{alignItems: 'center', marginTop: 75}}>
               <Avatar.Image
                 source={{
@@ -73,12 +81,11 @@ const EditProfile = (props) => {
           </View>
         </View>
 
-        {/* buttons for edit profile and navigate to settings */}
-        <TouchableRipple style={styles.profileButtonsWrapper} onPress={()=>{}}>
-              <Button
-              style={styles.profileButton}
-              title='Save Changes'
-              onPress={()=> props.editProfile()}></Button>
+        {/* save changes button */}
+        <TouchableRipple style={styles.editProfileButtonsWrapper} onPress={()=>{}}>
+              <Text
+              style={styles.editProfileButton}
+              onPress={()=> props.editProfile()}>Save changes?</Text>
           </TouchableRipple>
       </SafeAreaView>
     );
@@ -88,6 +95,15 @@ const EditProfile = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 0,
+    left: 15,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   userInfoSection: {
     paddingHorizontal: 30,
@@ -107,29 +123,24 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginLeft: 20
   },
-  profileButtons: {
-    display: 'flex',
-    flexDirection: 'row'
+  editProfileButton: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10,
+    fontSize: 20
   },
-  profileButtonsWrapper: {
-    borderTopColor: '#dddddd',
-    borderTopWidth: 1,
-    flexDirection: 'row',
-    height: 100,
-    marginTop: 'auto',
-    marginLeft: 170
-  },
-  profileButton: {
-    width: '50%',
+  editProfileButtonsWrapper: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    marginBottom: 15,
+    marginTop: 20
   },
    input: {
      borderWidth: 1,
      borderColor: '#777',
      padding: 8,
      margin: 0,
-     width: 200,
+     width: 250,
     height: 20,
     marginTop: -5,
    }

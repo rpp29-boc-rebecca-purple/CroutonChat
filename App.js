@@ -13,7 +13,7 @@ import Profile from './components/profileScreen.js'
 import Settings from './components/settingsScreen.js'
 import useToggle from "./HelperFuncs/UseToggle.js";
 import EditProfile from "./components/editProfileScreen.js";
-
+import LogoutModal from "./components/logoutModal.js";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,8 +21,9 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   // Add State that will be shared globally here
   const [name, setName] = useState('Woofy GoldBerg');
-  const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(true);
-  const [editProfile, setEditProfile] = useToggle(true);
+  const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
+  const [editProfile, setEditProfile] = useToggle(false);
+  const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   // Functions that will nagivate to each componenet // acts like a router
 
   function FriendsScreen() {
@@ -59,12 +60,13 @@ export default function App() {
   function ProfileScreen( {navigation, route} ) {
     const { dogname } = route.params || 'testname';
 
-    // const settingsOpen = profileSettingsOpen ?
-    // <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} /> :
-    // <Profile name={name} toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} />;
     let displaypage = null;
     if (profileSettingsOpen) {
-      displaypage = <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} />
+      if (!logoutModalOpen) {
+        displaypage = <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} logoutModalToggle={setLogoutModalOpen} />
+      } else {
+        displaypage = <LogoutModal logoutModalToggle={setLogoutModalOpen} toggleSettings={setProfileSettingsOpen} />
+      }
     } else {
       if (editProfile) {
         displaypage = <EditProfile editProfile={setEditProfile} />

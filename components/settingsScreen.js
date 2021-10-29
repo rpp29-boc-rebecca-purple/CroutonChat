@@ -51,7 +51,7 @@ const SettingsScreen = (props) => {
 
         {/* Change Password and Logout Buttons */}
         <View style={styles.settingsButtonsWrap}>
-          <TouchableOpacity onPress={()=>{alert('Logging out')}}>
+          <TouchableOpacity onPress={()=> props.logoutModalToggle()}>
             <Text style={styles.settingsButtons}>Logout?</Text>
           </TouchableOpacity>
         </View>

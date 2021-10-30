@@ -3,12 +3,10 @@ import {
   Avatar,
   Title,
   Caption,
-  TouchableRipple
 } from 'react-native-paper';
 import {
   StyleSheet,
   Text,
-  Button,
   View,
   SafeAreaView,
   ImageBackground,

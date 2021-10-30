@@ -14,30 +14,12 @@ const convertUser = (user) => (
 
 const photoAdditionInterface = () => {
   return (
-    <View  style={{height: 15, display: 'flex', flexDirection: 'row'}}>
-      <Image onPress={() => {alert('this will eventually prompt a photo selection')}} source={require('../assets/icons/camera.png')} style={{height: 25, width: 25}}/>
-      <Text>Send a photo</Text>
-    </View>
+    <Image onPress={() => {alert('this will eventually prompt a photo selection')}} source={require('../assets/icons/camera.png')} style={{height: 32, width: 32, top: -8, marginLeft: 3}}/>
   )
 };
 
 const Conversation = ({ userId = 5 }) => {
   const [messages, setMessages] = useState([]);
-
-  // useEffect(() => {
-  //   setMessages([
-  //     {
-  //       _id: 1,
-  //       text: 'Hello developer',
-  //       createdAt: new Date(),
-  //       user: {
-  //         _id: 2,
-  //         name: 'React Native',
-  //         avatar: 'https://placeimg.com/140/140/any',
-  //       },
-  //     },
-  //   ])
-  // }, [])
 
   useEffect(() => {
     setMessages(messageData
@@ -47,6 +29,7 @@ const Conversation = ({ userId = 5 }) => {
         formattedMessage.text = message.body;
         formattedMessage.createdAt = message.date;
         formattedMessage.user = convertUser(data[message.uid]);
+        formattedMessage.image = message.photo ? message.photoid : undefined;
         return formattedMessage;
       })
       .sort((a, b) => (a.createdAt < b.createdAt))
@@ -57,10 +40,20 @@ const Conversation = ({ userId = 5 }) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   }, [])
 
+  const unseenPhotoIndicator = ({currentMessage}) => {
+    console.log('\n\n\narguments recieved by unseenPhotoIndicator:\n', currentMessage);
+    return (
+      <View style={{backgroundColor: '#a1dc91', height: 200, width: 200, display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: 10}}>
+        <Text style={{color: '#24303a', textAlign: 'center'}}>Click here to view new photo from {data[userId].name}</Text>
+      </View>
+    )
+  };
+
   return (
     <GiftedChat
       messages={messages}
-      renderAccessory={photoAdditionInterface}
+      renderActions={photoAdditionInterface}
+      renderMessageImage={unseenPhotoIndicator}
       onSend={messages => onSend(messages)}
       user={{
         _id: userId,

@@ -13,18 +13,6 @@ const data = [{
 
 {
   uid: 1,
-  name: 'Bork',
-  photo:require("../assets/data/pet5.jpeg")
-},
-
-{
-  uid: 2,
-  name: 'Bork',
-  photo:require("../assets/data/pet5.jpeg")
-},
-
-{
-  uid: 3,
   name: 'Sam',
   photo:require("../assets/data/pet2.jpeg"),
   key: 2,
@@ -33,7 +21,7 @@ const data = [{
 },
 
 {
-  uid: 4,
+  uid: 2,
   name: 'Barky',
   photo:require("../assets/data/pet3.jpeg"),
   key: 3,
@@ -42,7 +30,7 @@ const data = [{
 },
 
 {
-  uid: 5,
+  uid: 3,
   name: 'Snowy',
   photo:require("../assets/data/pet4.jpeg"),
   key: 4,
@@ -59,7 +47,7 @@ const data = [{
 },
 
 {
-  uid: 10,
+  uid: 5,
   name: 'Ruffalot',
   photo:require("../assets/data/pet6.png"),
   key: 6,

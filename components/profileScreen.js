@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Avatar,
   Title,
@@ -13,12 +13,14 @@ import {
   SafeAreaView,
   ImageBackground,
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
 const Profile = (props) => {
     return (
       <SafeAreaView style={styles.container}>
+
         {/* profile pic, name, and snack tag */}
         <View style={styles.userInfoSection}>
           <ImageBackground
@@ -57,19 +59,15 @@ const Profile = (props) => {
 
         {/* buttons for edit profile and navigate to settings */}
         <View style={styles.profileButtonsWrapper}>
-            <View style={[styles.profileButton]}>
-          <TouchableRipple onPress={()=>{}}>
-              <Button
-              title='Edit Profile'
-              onPress={()=> alert('user editting profile')}></Button>
-          </TouchableRipple>
+            <View style={styles.profileButton}>
+          <TouchableOpacity onPress={()=> props.editProfile()}>
+              <Text>Edit Profile</Text>
+          </TouchableOpacity>
             </View>
           <View style={styles.profileButton}>
-          <TouchableRipple onPress={()=>{}}>
-            <Button
-            title='Settings'
-            onPress={()=> alert('user entering settings')}></Button>
-          </TouchableRipple>
+          <TouchableOpacity onPress={()=> props.toggleSettings()}>
+            <Text >Settings</Text>
+          </TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>
@@ -96,27 +94,25 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    marginBottom: 5,
+    marginBottom: 23,
     marginLeft: 20
   },
-  profileButtons: {
-    display: 'flex',
-    flexDirection: 'row'
-  },
+
   profileButtonsWrapper: {
     borderTopColor: '#dddddd',
     borderTopWidth: 1,
     flexDirection: 'row',
     height: 100,
-    marginTop: 'auto'
+    marginTop: 'auto',
+    backgroundColor: "#DDDDDD",
+    padding: 10,
   },
   profileButton: {
     width: '50%',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRightWidth: 1,
   }
 });
-
-
 
 export default Profile;

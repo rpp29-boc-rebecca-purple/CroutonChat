@@ -9,7 +9,10 @@ import ChatList from './components/chatlist.js'
 import CameraComponent from './components/camera.js'
 import Profile from './components/profileScreen.js'
 import Settings from './components/settingsScreen.js'
-
+import useToggle from "./HelperFuncs/UseToggle.js";
+import EditProfile from "./components/editProfileScreen.js";
+import LogoutScreen from "./components/logoutScreen.js";
+import ChangePasswordScreen from "./components/changePasswordScreen.js";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,8 +20,13 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   // Add State that will be shared globally here
   const [name, setName] = useState('Woofy GoldBerg');
-   const [email] = useState('Woofy@gmail.com')
+  const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
+  const [editProfile, setEditProfile] = useToggle(false);
+  const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
+  const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
+  const [email] = useState('Woofy@gmail.com')
 
+  // Functions that will nagivate to each componenet // acts like a router
 
   function FriendsScreen() {
     return (
@@ -50,14 +58,33 @@ export default function App() {
   }
 
   function ProfileScreen( {navigation, route} ) {
-    setName(route.params || 'null');
-    const settingsOpen = false ? <Profile name={name} /> : <Settings />
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {settingsOpen}
-    </View>
+    const { dogname } = route.params || 'testname';
 
-  );
+    let displaypage = null;
+    if (profileSettingsOpen) {
+      if (!logoutModalOpen && !changePassModalOpen) {
+        displaypage = <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} logoutModalToggle={setLogoutModalOpen} changePassModalToggle={setChangePassModalOpen} />
+      } else if (logoutModalOpen){
+        displaypage = <LogoutScreen logoutModalToggle={setLogoutModalOpen} toggleSettings={setProfileSettingsOpen} />
+      } else if (changePassModalOpen) {
+        displaypage = <ChangePasswordScreen changePassModalToggle={setChangePassModalOpen} toggleSettings={setProfileSettingsOpen} />
+      }
+    } else {
+      if (editProfile) {
+        displaypage = <EditProfile editProfile={setEditProfile} />
+      }
+      else {
+        if (!profileSettingsOpen) {
+          displaypage = <Profile name={name} toggleSettings={setProfileSettingsOpen} editProfile={setEditProfile}  state={profileSettingsOpen} />;
+        }
+      }
+    }
+
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        {displaypage}
+      </View>
+    );
   }
 
   return (

@@ -1,6 +1,9 @@
 # CrutonChat
 Front end for CrutonChat built using React Native
 
+### CircleCI Build and Test
+
+[![CircleCI](https://circleci.com/gh/rpp29-boc-rebecca-purple/CrutonChat/tree/main.svg?style=svg)](https://circleci.com/gh/rpp29-boc-rebecca-purple/CrutonChat/tree/main)
 
 ### Sonar Cloud
 

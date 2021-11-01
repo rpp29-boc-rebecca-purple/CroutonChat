@@ -1,61 +1,62 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions, Pressable } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import messageData from '../../data/conversationMockData.js';
-import data from '../../data/data.js';
-
-const convertUser = (user) => (
-  {
-    _id: user.uid,
-    name: user.name,
-    avatar: user.photo
-  }
-);
+import { ProgressBar } from 'react-native-paper';
+const api = require('./apiHelpers.js');
 
 const photoAdditionInterface = () => {
   return (
-    <Image onPress={() => {alert('this will eventually prompt a photo selection')}} source={require('../../assets/icons/camera.png')} style={{height: 32, width: 32, top: -8, marginLeft: 3}}/>
+    <Pressable onPress={() => {alert('This will eventually prompt a photo selection.')}}>
+      <Image source={require('../../assets/icons/camera.png')} style={{height: 32, width: 32, top: -8, marginLeft: 3}}/>
+    </Pressable>
   )
 };
 
-const Conversation = ({ userId = 5 }) => {
+const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
   let [messages, setMessages] = useState([]);
-  let [spotlightPic, setSpotlightPic] = useState('https://cdn.pixabay.com/photo/2014/04/21/18/31/dog-329280__480.jpg');
+  let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
+  let [progressBarFill, setProgressBarFill] = useState(1);
 
   useEffect(() => {
-    setMessages(messageData
-      .map((message) => {
-        let formattedMessage = {};
-        formattedMessage._id = message.messageid;
-        formattedMessage.text = message.body;
-        formattedMessage.createdAt = message.date;
-        formattedMessage.user = convertUser(data[message.uid]);
-        formattedMessage.image = message.photo ? message.photoid : undefined;
-        return formattedMessage;
-      })
-      .reverse()
-    )
-  }, [])
+    setMessages(api.fetchMessages())
+  }, []);
 
   const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-  }, [])
+    console.log('messages recieved at onSend:\n', )
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
+    api.sendMessage
+  }, []);
+
+  const handleImageViewing = (imgUrl, messageId) => {
+    api.deleteImage(chatId, messageId);
+    setSpotlightPic(imgUrl);
+    setPicDisplay(true);
+    setProgressBarFill(1);
+    let viewingStartTime = Date.now();
+    let incrementProgressBar = setInterval(() => { setProgressBarFill(1 - ((Date.now() - viewingStartTime) / 10000)); }, 50);
+    setTimeout(() => {
+      setMessages(api.fetchMessages());
+      setPicDisplay(false);
+      clearInterval(incrementProgressBar);
+    }, 10000);
+  };
 
   const unopenedImage = ({currentMessage}) => {
-    console.log('\n\n\narguments recieved by unseenPhotoIndicator:\n', currentMessage);
     return (
-      <Pressable onPress={() => { setSpotlightPic(currentMessage.image); setPicDisplay(true); }} style={{backgroundColor: '#a1dc91', height: 200, width: 200, display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: 10}}>
-        <Text style={{color: '#24303a', textAlign: 'center'}}>Click here to view new photo from {data[userId].name}</Text>
+      <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={{backgroundColor: '#a1dc91', height: 200, width: 200, display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: 10}}>
+        <Text style={{color: '#24303a', textAlign: 'center'}}>Click here to view new photo from {api.fetchUserData(friendId).name}</Text>
       </Pressable>
     );
   };
 
   return picDisplay ?
     (
-    <View>
-      <Text onPress={() => {setPicDisplay(false)}}>pic now shows</Text>
-      <Image source={{uri: spotlightPic}} style = {{height: Dimensions.get('window').height / 1.5, width: Dimensions.get('window').width, resizeMode: 'contain'}}/>
+    <View style={{justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#24303a'}}>
+      <View>
+        <Image source={{uri: spotlightPic}} style={{height: Dimensions.get('window').height / 1.5, width: Dimensions.get('window').width, resizeMode: 'contain'}}/>
+        <ProgressBar progress={progressBarFill} color={'#a1dc91'}/>
+      </View>
     </View>
     )
     :
@@ -74,21 +75,3 @@ const Conversation = ({ userId = 5 }) => {
 };
 
 export default Conversation;
-
-
-
-// const Conversation = () => {
-//   return (
-//     <ScrollView>
-//       {
-//         data.map((message) => {
-//           return (
-//           <Text>
-//             {message.body}
-//           </Text>
-//           )
-//         })
-//       }
-//     </ScrollView>
-//   );
-// };

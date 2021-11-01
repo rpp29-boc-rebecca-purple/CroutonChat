@@ -39,6 +39,7 @@ const data = [{
 },
 
 {
+  uid: 4,
   name: 'Bork',
   photo:require("../assets/data/pet5.jpeg"),
   key: 5,

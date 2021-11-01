@@ -1,0 +1,51 @@
+import conversationMockData from '../../data/conversationMockData.js';
+import data from '../../data/data.js';
+
+let messageData = conversationMockData;
+
+// input: chatId: INTEGER (the chatId of the current conversation)
+// output: an array of messages in GiftedChat format
+const fetchMessages = (chatId) => {
+  //will eventually query API for messages
+  return formatMessages(messageData);
+};
+
+// converts messages into GiftedChat format
+// NOTE: this is currently configured for test data and will be changed once connected to the API
+const formatMessages = (messages) => {
+  return messages
+    .map((message) => {
+      let formattedMessage = {};
+      formattedMessage._id = message.messageid;
+      formattedMessage.text = message.body;
+      formattedMessage.createdAt = message.date;
+      formattedMessage.user = convertUser(fetchUserData(message.uid));
+      formattedMessage.image = message.photo ? message.photoid : undefined;
+      return formattedMessage;
+    })
+    .reverse();
+};
+
+const convertUser = (user) => (
+  {
+    _id: user.uid,
+    name: user.name,
+    avatar: user.photo
+  }
+);
+
+const fetchUserData = (userId) => {
+  //will eventually fetch userData from API
+  return data[userId];
+};
+
+const deleteImage = (chatId, messageId) => {
+  //will eventually send an API call to delete the viewed image
+  messageData = messageData.filter((x) => x.messageid !== messageId);
+};
+
+module.exports = {
+  fetchMessages,
+  fetchUserData,
+  deleteImage
+}

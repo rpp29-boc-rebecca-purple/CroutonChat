@@ -3,6 +3,7 @@
 
 
 const data = [{
+  uid: 0,
   name: 'Woofy',
   photo:require("../assets/data/pet1.jpeg"),
   key: 1,
@@ -11,7 +12,9 @@ const data = [{
   email: 'woofy@gmail.com',
   photomessages: ['photo','photo','photo']
 },
+
 {
+  uid: 1,
   name: 'Sam',
   photo:require("../assets/data/pet2.jpeg"),
   key: 2,
@@ -20,7 +23,9 @@ const data = [{
   email: 'Sam@gmail.com',
   photomessages: ['photo','photo','photo','photo','photo']
 },
+
 {
+  uid: 2,
   name: 'Barky',
   photo:require("../assets/data/pet3.jpeg"),
   key: 3,
@@ -29,7 +34,9 @@ const data = [{
   email: 'Barky@gmail.com',
   photomessages: ['photo']
 },
+
 {
+  uid: 3,
   name: 'Snowy',
   photo:require("../assets/data/pet4.jpeg"),
   key: 4,
@@ -39,7 +46,9 @@ const data = [{
   photomessages: []
 
 },
+
 {
+  uid: 4,
   name: 'Bork',
   photo:require("../assets/data/pet5.jpeg"),
   key: 5,
@@ -48,7 +57,9 @@ const data = [{
   email: 'Bork@gmail.com',
   photomessages: ['photo','photo']
 },
+
 {
+  uid: 5,
   name: 'Ruffalot',
   photo:require("../assets/data/pet6.png"),
   key: 6,

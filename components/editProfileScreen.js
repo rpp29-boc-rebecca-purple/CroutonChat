@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Avatar,
   Title,
@@ -14,9 +14,15 @@ import {
   ImageBackground,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { set } from 'react-native-reanimated';
 
 
 const EditProfile = (props) => {
+  const [name, setName] = useState('Ladypants');
+  const [age, setAge] = useState(3);
+  const [species, setSpecies] = useState('dog');
+  const [favoriteSnack, setFavoriteSnack] = useState('roast turkey sandwhiches');
+
     return (
       <SafeAreaView style={styles.container}>
 
@@ -41,8 +47,8 @@ const EditProfile = (props) => {
                 size={100}
               />
               <View style={{alignItems: 'center'}}>
-                <Title style={styles.title}>Ladypants</Title>
-                <Caption style={styles.caption}>Loves snacking on roast turkey sandwhiches</Caption>
+                <Title style={styles.title}>{name}</Title>
+                <Caption style={styles.caption}>Loves snacking on {favoriteSnack}</Caption>
               </View>
             </View>
             </ImageBackground>
@@ -54,6 +60,7 @@ const EditProfile = (props) => {
             <Text>Name:                 </Text>
             <TextInput
             placeholder='Ladypants'
+            onChangeText={(val)=> setName(val)}
             style={styles.input}
             />
           </View>
@@ -62,6 +69,7 @@ const EditProfile = (props) => {
             <TextInput
             style={{marginRight:0}}
             placeholder='3'
+            onChangeText={(val) => setAge(val)}
             style={styles.input}
             />
           </View>
@@ -69,6 +77,7 @@ const EditProfile = (props) => {
             <Text>Species:             </Text>
             <TextInput
             placeholder='Dog'
+            onChangeText={(val) => setSpecies(val)}
             style={styles.input}
             />
           </View>
@@ -76,6 +85,7 @@ const EditProfile = (props) => {
             <Text>Favorite Snack: </Text>
             <TextInput
             placeholder='Roast Turkey Sandwhiches'
+            onChangeText={(val) => setFavoriteSnack(val)}
             style={styles.input}
             />
           </View>

@@ -2,15 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions, Pressable } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
+import PhotoAdditionIcon from './photoAdditionIcon.js';
 const api = require('./apiHelpers.js');
-
-const photoAdditionInterface = () => {
-  return (
-    <Pressable onPress={() => {alert('This will eventually prompt a photo selection.')}}>
-      <Image source={require('../../assets/icons/camera.png')} style={{height: 32, width: 32, top: -8, marginLeft: 3}}/>
-    </Pressable>
-  )
-};
 
 const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
   let [messages, setMessages] = useState([]);
@@ -23,18 +16,17 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
   }, []);
 
   const onSend = useCallback((messages = []) => {
-    console.log('messages recieved at onSend:\n', )
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
-    api.sendMessage
+    api.sendMessage(messages);
   }, []);
 
   const handleImageViewing = (imgUrl, messageId) => {
     api.deleteImage(chatId, messageId);
     setSpotlightPic(imgUrl);
-    setPicDisplay(true);
     setProgressBarFill(1);
+    setPicDisplay(true);
     let viewingStartTime = Date.now();
-    let incrementProgressBar = setInterval(() => { setProgressBarFill(1 - ((Date.now() - viewingStartTime) / 10000)); }, 50);
+    let incrementProgressBar = setInterval(() => { setProgressBarFill(1 - ((Date.now() - viewingStartTime) / 10000)); }, 40);
     setTimeout(() => {
       setMessages(api.fetchMessages());
       setPicDisplay(false);
@@ -44,34 +36,68 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
 
   const unopenedImage = ({currentMessage}) => {
     return (
-      <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={{backgroundColor: '#a1dc91', height: 200, width: 200, display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: 10}}>
-        <Text style={{color: '#24303a', textAlign: 'center'}}>Click here to view new photo from {api.fetchUserData(friendId).name}</Text>
+      <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={styles.unopenedImageBody}>
+        <Image source={require('../../assets/icons/photoStack.jpeg')} style={styles.unopenedImageIcon}/>
+        <Text style={styles.unopenedImageText}>Tap here to view a new photo from {api.getFriendName(friendId)}!</Text>
       </Pressable>
     );
   };
 
   return picDisplay ?
     (
-    <View style={{justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#24303a'}}>
+    <View style={styles.lightbox}>
       <View>
-        <Image source={{uri: spotlightPic}} style={{height: Dimensions.get('window').height / 1.5, width: Dimensions.get('window').width, resizeMode: 'contain'}}/>
+        <Image source={{uri: spotlightPic}} style={styles.spotlight}/>
         <ProgressBar progress={progressBarFill} color={'#a1dc91'}/>
       </View>
     </View>
     )
     :
     (
-    <GiftedChat
-      messages={messages}
-      renderActions={photoAdditionInterface}
-      renderMessageImage={unopenedImage}
-      onSend={messages => onSend(messages)}
-      user={{
-        _id: userId,
-      }}
-    />
+      <GiftedChat
+        messages={messages}
+        renderActions={() => PhotoAdditionIcon(userId, chatId)}
+        renderMessageImage={unopenedImage}
+        onSend={messages => onSend(messages)}
+        user={{
+          _id: userId,
+        }}
+      />
     );
 
 };
+
+const styles = StyleSheet.create({
+  lightbox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    backgroundColor: '#24303a'
+  },
+  spotlight: {
+    height: Dimensions.get('window').height / 1.5,
+    width: Dimensions.get('window').width,
+    resizeMode: 'contain'
+  },
+  unopenedImageBody: {
+      backgroundColor: '#a1dc91',
+      height: 170,
+      width: 170,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      borderRadius: 15
+  },
+  unopenedImageIcon: {
+    height: 100,
+    width: 100,
+    resizeMode: 'contain',
+    alignSelf: 'center'
+  },
+  unopenedImageText: {
+    color: '#24303a',
+    textAlign: 'center'
+  }
+});
 
 export default Conversation;

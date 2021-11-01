@@ -39,13 +39,65 @@ const fetchUserData = (userId) => {
   return data[userId];
 };
 
+//variables for storing current friend info
+let currentFriendId = null;
+let friendName = null;
+let friendAvatar = null;
+
+const getFriendName = (friendId) => {
+  if (friendId === currentFriendId) {
+    return friendName;
+  } else {
+    let newFriendInfo = fetchUserData(friendId);
+    currentFriendId = friendId;
+    friendName = newFriendInfo.name;
+    friendAvatar = newFriendInfo.photo;
+    return friendName;
+  }
+};
+
+const getFriendAvatar = (friendId) => {
+  if (friendId === currentFriendId) {
+    return friendAvatar;
+  } else {
+    let newFriendInfo = fetchUserData(friendId);
+    currentFriendId = friendId;
+    friendName = newFriendInfo.name;
+    friendAvatar = newFriendInfo.photo;
+    return friendAvatar;
+  }
+};
+
+const sendMessage = () => {
+  //will eventually post text message to API
+};
+
+const sendPicture = () => {
+  //will eventually post picture message to API
+};
+
+const markAsRead = () => {
+  //will eventually send read receipts to API
+};
+
 const deleteImage = (chatId, messageId) => {
   //will eventually send an API call to delete the viewed image
   messageData = messageData.filter((x) => x.messageid !== messageId);
 };
 
+const exitConversation = () => {
+  currentFriendId = null;
+  friendName = null;
+  friendAvatar = null;
+};
+
 module.exports = {
   fetchMessages,
-  fetchUserData,
-  deleteImage
-}
+  getFriendName,
+  getFriendAvatar,
+  sendMessage,
+  sendPicture,
+  markAsRead,
+  deleteImage,
+  exitConversation
+};

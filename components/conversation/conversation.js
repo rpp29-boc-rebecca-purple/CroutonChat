@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
 import PhotoAdditionIcon from './photoAdditionIcon.js';
@@ -17,9 +17,9 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
   }, []);
 
   // handles text message send
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
-    api.sendMessage(messages);
+  const onSend = useCallback((newMessages = []) => {
+    setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
+    api.sendMessage(newMessages);
   }, []);
 
   // handles all tasks related to photo loading, displaying, & deleting
@@ -62,7 +62,7 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
         messages={messages}
         renderActions={() => PhotoAdditionIcon(userId, chatId)}
         renderMessageImage={unopenedImage}
-        onSend={messages => onSend(messages)}
+        onSend={outgoingMessages => onSend(outgoingMessages)}
         user={{
           _id: userId,
         }}

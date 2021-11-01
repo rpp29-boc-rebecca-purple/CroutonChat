@@ -68,6 +68,7 @@ const getFriendAvatar = (friendId) => {
   }
 };
 
+//input: an array of new messages
 const sendMessage = () => {
   //will eventually post text message to API
 };

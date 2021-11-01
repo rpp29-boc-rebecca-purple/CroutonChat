@@ -1,4 +1,4 @@
-const data = [
+const conversationMockData = [
   {
     chatid: 24,
     messageid: 0,
@@ -71,4 +71,4 @@ const data = [
   },
 ];
 
-export default data;
+export default conversationMockData;

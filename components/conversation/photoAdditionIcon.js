@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Image, Pressable } from 'react-native';
 const api = require('./apiHelpers.js');
 
+//this is the icon for sending photos that sits next to the text entry
 const PhotoAdditionIcon = (userId, chatId) => {
 
   const handlePhotoAdditionIconPress = () => {

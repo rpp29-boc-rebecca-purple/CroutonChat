@@ -11,15 +11,18 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
   let [picDisplay, setPicDisplay] = useState(false);
   let [progressBarFill, setProgressBarFill] = useState(1);
 
+  // updates messages upon render
   useEffect(() => {
     setMessages(api.fetchMessages())
   }, []);
 
+  // handles text message send
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
     api.sendMessage(messages);
   }, []);
 
+  // handles all tasks related to photo loading, displaying, & deleting
   const handleImageViewing = (imgUrl, messageId) => {
     api.deleteImage(chatId, messageId);
     setSpotlightPic(imgUrl);
@@ -34,6 +37,7 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
     }, 10000);
   };
 
+  // message that shows for unseen pictures
   const unopenedImage = ({currentMessage}) => {
     return (
       <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={styles.unopenedImageBody}>
@@ -45,12 +49,12 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
 
   return picDisplay ?
     (
-    <View style={styles.lightbox}>
-      <View>
-        <Image source={{uri: spotlightPic}} style={styles.spotlight}/>
-        <ProgressBar progress={progressBarFill} color={'#a1dc91'}/>
+      <View style={styles.lightbox}>
+        <View>
+          <Image source={{uri: spotlightPic}} style={styles.spotlight}/>
+          <ProgressBar progress={progressBarFill} color={'#a1dc91'}/>
+        </View>
       </View>
-    </View>
     )
     :
     (

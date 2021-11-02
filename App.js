@@ -6,12 +6,12 @@ import { Ionicons } from '@expo/vector-icons';
 import Friends from './components/friends.js'
 import ChatList from './components/chatlist.js'
 import CameraComponent from './components/camera.js'
-import Profile from './components/profileScreen.js'
-import Settings from './components/settingsScreen.js'
+import Profile from './components/profile/profileScreen.js'
+import Settings from './components/profile/settingsScreen.js'
 import useToggle from "./HelperFuncs/profileHelpers.js";
-import EditProfile from "./components/editProfileScreen.js";
-import LogoutScreen from "./components/logoutScreen.js";
-import ChangePasswordScreen from "./components/changePasswordScreen.js";
+import EditProfile from "./components/profile/editProfileScreen.js";
+import LogoutScreen from "./components/profile/logoutScreen.js";
+import ChangePasswordScreen from "./components/profile/changePasswordScreen.js";
 import fakeUser from "./data/profileData.js";
 const Tab = createBottomTabNavigator();
 

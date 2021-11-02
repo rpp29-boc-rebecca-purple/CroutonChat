@@ -14,7 +14,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import editProfileInfo from '../HelperFuncs/profileApi';
+import editProfileInfo from '../../HelperFuncs/profileApi';
 
 
 const EditProfile = ({fakeUser, editProfile}) => {
@@ -40,7 +40,7 @@ const EditProfile = ({fakeUser, editProfile}) => {
         {/* profile pic, name, and snack tag */}
         <View style={styles.userInfoSection}>
           <ImageBackground
-          source={require('../assets/BOC.profile.cloud.bg.webp')}
+          source={require('../../assets/BOC.profile.cloud.bg.webp')}
           style={{width: 400}}>
 
             {/* back button */}

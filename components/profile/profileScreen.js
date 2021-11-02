@@ -20,7 +20,7 @@ const Profile = ({fakeUser, editProfile, toggleSettings}) => {
         {/* profile pic, name, and snack tag */}
         <View style={styles.userInfoSection}>
           <ImageBackground
-          source={require('../assets/BOC.profile.cloud.bg.webp')}
+          source={require('../../assets/BOC.profile.cloud.bg.webp')}
           style={{width: 400}}>
             <View style={{alignItems: 'center', marginTop: 75}}>
               <Avatar.Image

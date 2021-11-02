@@ -3,16 +3,23 @@ import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-nati
 import data from '../data/data.js'
 import SearchBarMessages from './searchBarMessages'
 import { useNavigation } from '@react-navigation/native';
+import Conversation from './conversation/conversation.js';
 //import { globalStyles } from '../styles/global.js'
 
-function ChatList() {
-
+function ChatList({ currentUser }) {
+  const userId = currentUser;
+  const [friendId, setFriendId] = useState(5);
+  const [chatId, setChatId] = useState(0);
   const [userData, setUserData] = useState(data);
+  const [conversation, setConversation] = useState(false);
+  const [clickedUser, setClickedUser] = useState(0);
 
   const navigation = useNavigation();
 
- const searchMessages = (name) => {
-  data.map(e => {
+
+
+  const searchMessages = (name) => {
+    data.map(e => {
       if (e.email.toLowerCase() === name.toLowerCase()) {
       navigation.navigate('Profile', { email: e.email})
       console.log(`you clicked on user:  ${e.email}`)
@@ -20,30 +27,44 @@ function ChatList() {
     })
   }
 
+  const backButtonHandler = () => {
+    setConversation(false);
+  };
 
-  return (
-    <ScrollView>
-      <SearchBarMessages searchMessages={searchMessages} userData={userData}/>
-          <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{userData.map((e) => {
-            return <Text onPress={() => {
-              navigation.navigate('Profile', { email: e.email})
-              console.log(`you clicked on user:  ${e.email}`)
-            }} key={e.key} style={styles.container}>
-              <View>
-              <Image style={styles.images} source={e.photo}/>
-              </View>
-              <View style={{
-                  borderBottomColor: 'black',
-                  borderBottomWidth: 1,
-                  }}>
-              <Text style={styles.username}> {e.name}</Text>
-              <Text style={styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'} {e.photomessages.length > 0 ?  ' 📸' : ''}  </Text>
-              </View>
+  return conversation ?
+        (
+          <Conversation userId={5} friendId={4} chatId={0} handleBackButtonPress={backButtonHandler} style={{flex: 1, height: Dimensions.get('window').height, width: Dimensions.get('window').width}} />
+        )
+        :
+        (
+          <ScrollView>
+            <SearchBarMessages searchMessages={searchMessages} userData={userData}/>
+                <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{userData.map((e) => {
 
-            </Text>
-          })}
-        </View>
-    </ScrollView>
+                  return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
+                    // setClickedUser(e.email)
+                    // setFriendId(event.target.chatLsitEntryUserId);
+                    // setChatId(event.target.chatId);
+                    setConversation(true);
+                    // console.log('\n\n\n\nevent recieved on chat list entry click:\n', JSON.stringify(event));
+                  }}
+
+                  key={e.key} style={styles.container}>
+                    <View>
+                    <Image style={styles.images} source={e.photo}/>
+                    </View>
+                    <View style={{
+                        borderBottomColor: 'black',
+                        borderBottomWidth: 1,
+                        }}>
+                    <Text style={styles.username}> {e.name}</Text>
+                    <Text style={styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'} {e.photomessages.length > 0 ?  ' 📸' : ''}  </Text>
+                    </View>
+
+                  </Text>
+                })}
+              </View>
+          </ScrollView>
         )
       }
 

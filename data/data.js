@@ -52,7 +52,7 @@ const data = [{
   name: 'Bork',
   photo:require("../assets/data/pet5.jpeg"),
   key: 5,
-  messages: ['1','2','1','2','1','2'],
+  messages: ['1','2'],
   friends: 11,
   email: 'Bork@gmail.com',
   photomessages: ['photo','photo']

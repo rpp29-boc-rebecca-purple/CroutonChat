@@ -13,6 +13,7 @@ import useToggle from "./HelperFuncs/UseToggle.js";
 import EditProfile from "./components/editProfileScreen.js";
 import LogoutScreen from "./components/logoutScreen.js";
 import ChangePasswordScreen from "./components/changePasswordScreen.js";
+import Conversation from './components/conversation/conversation.js';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [email] = useState('Woofy@gmail.com')
+  const [currentUser, setCurrentUser] = useState(5);
 
   // Functions that will nagivate to each componenet // acts like a router
 
@@ -39,13 +41,14 @@ export default function App() {
   }
 
   function ChatScreen() {
-    return (
-    <ScrollView>
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-      <ChatList />
-    </View>
-    </ScrollView>
-  );
+  //   return (
+  //   <ScrollView>
+  //   <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
+  //     <ChatList />
+  //   </View>
+  //   </ScrollView>
+  // );
+    return (<ChatList currentUser={currentUser} />);
   }
 
   //  Camera function

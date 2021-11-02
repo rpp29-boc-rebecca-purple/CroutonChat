@@ -1,6 +1,15 @@
 import React, {useState} from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme
+   } from "@react-navigation/native";
+import {
+  Provider as PaperProvider,
+  DarkTheme as PaperDarkTheme,
+  DefaultTheme as PaperDefaultTheme
+ } from 'react-native-paper';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import Friends from './components/friends.js'
@@ -23,7 +32,31 @@ export default function App() {
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
-  const [email] = useState(fakeUser.email)
+  const [isDarkTheme, setIsDarkTheme] = useToggle(false);
+
+  const [email] = useState(fakeUser.email);
+
+  // Setting default and dark custom themes
+  const customDefaultTheme = {
+    ...NavigationDefaultTheme,
+    ...PaperDefaultTheme,
+    colors: {
+      ...NavigationDefaultTheme.colors,
+      ...PaperDefaultTheme.colors,
+      primary: '87CEEB'
+    }
+  };
+
+  const customDarkTheme = {
+    ...NavigationDarkTheme,
+    ...PaperDarkTheme,
+    colors: {
+      ...NavigationDarkTheme.colors,
+      ...PaperDarkTheme.colors
+    }
+  };
+
+  const theme = isDarkTheme ? customDarkTheme : customDefaultTheme;
 
   // Functions that will nagivate to each componenet // acts like a router
 
@@ -64,7 +97,8 @@ export default function App() {
         toggleSettings={setProfileSettingsOpen}
         state={profileSettingsOpen}
         logoutModalToggle={setLogoutModalOpen}
-        changePassModalToggle={setChangePassModalOpen} />
+        changePassModalToggle={setChangePassModalOpen}
+        darkThemeToggle={setIsDarkTheme} />
       } else if (logoutModalOpen){
         displaypage = <LogoutScreen
         logoutModalToggle={setLogoutModalOpen}
@@ -100,7 +134,8 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
+    <PaperProvider theme={theme}>
+    <NavigationContainer theme={theme}>
       <Tab.Navigator>
         <Tab.Screen
           name="Friends"
@@ -145,6 +180,7 @@ export default function App() {
           }}/>
       </Tab.Navigator>
     </NavigationContainer>
+    </PaperProvider>
   );
 }
 

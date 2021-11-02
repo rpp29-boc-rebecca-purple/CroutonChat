@@ -12,7 +12,7 @@ import {
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggle}) => {
+const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggle, darkThemeToggle}) => {
 
   return (
     <SafeAreaView>
@@ -37,10 +37,10 @@ const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggl
         <View style={styles.modeToggleWrap}>
           <Text style={{fontSize: 20}}>Theme:</Text>
           <View style={styles.modeToggleButtons}>
-            <TouchableOpacity onPress={()=> alert('Light mode selected')}>
+            <TouchableOpacity onPress={()=> darkThemeToggle()}>
               <Text style={{paddingRight: 25, fontWeight: 'bold', fontSize: 20}}>Light</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{alert('Dark mode selected')}}>
+            <TouchableOpacity onPress={()=> darkThemeToggle()}>
               <Text style={{fontSize: 20}}>Dark</Text>
             </TouchableOpacity>
           </View>

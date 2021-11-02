@@ -9,7 +9,7 @@ import ChatList from './components/chatlist.js'
 import CameraComponent from './components/camera.js'
 import Profile from './components/profileScreen.js'
 import Settings from './components/settingsScreen.js'
-import useToggle from "./HelperFuncs/UseToggle.js";
+import useToggle from "./HelperFuncs/profileHelpers.js";
 import EditProfile from "./components/editProfileScreen.js";
 import LogoutScreen from "./components/logoutScreen.js";
 import ChangePasswordScreen from "./components/changePasswordScreen.js";

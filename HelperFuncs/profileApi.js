@@ -1,9 +1,13 @@
-const axios = import('axios');
+import axios from 'axios';
 
-const editProfilechanges = (changes) => {
+const editProfileInfo = (changes) => {
   // axios.PUT('routeurl', changes)
   // .then(res => console.log(res))
-  console.log(changes)
+  console.log(`${changes} in api helper`)
 }
 
-module.exports = editProfilechanges;
+const editPass = (newPass) => {
+  console.log(`${newPass} in api helper`)
+}
+
+module.exports = editProfileInfo, editPass;

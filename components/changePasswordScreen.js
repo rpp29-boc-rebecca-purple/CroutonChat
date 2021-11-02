@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,8 +7,23 @@ import {
   TextInput
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import validatePassword from '../HelperFuncs/profileHelpers.js';
+import editPass from '../HelperFuncs/profileApi.js';
 
 const ChangePassword = (props) => {
+  const [newPass, setNewPass] = useState('');
+  const [newPassConf, setNewPassConf] = useState('');
+  const validatePword = (p1, p2) => {
+    if (JSON.stringify(p1) === JSON.stringify(p2)) {
+      editPass(p2);
+      props.changePassModalToggle();
+    } else {
+      alert('password confirmation did not match')
+    }
+  }
+
+
+
   return (
     <SafeAreaView>
       {/* Prompt and new password inputs */}
@@ -21,6 +35,7 @@ const ChangePassword = (props) => {
             <Text style={styles.inputPrompt}>Enter New Password: </Text>
             <TextInput
             placeholder='new password'
+            onChangeText={(val)=> setNewPass(val)}
             style={styles.input}
             />
           </View>
@@ -29,6 +44,7 @@ const ChangePassword = (props) => {
             <TextInput
             style={{marginRight:0}}
             placeholder='new password'
+            onChangeText={(val)=> setNewPassConf(val)}
             style={styles.input}
             />
           </View>
@@ -41,7 +57,7 @@ const ChangePassword = (props) => {
           </TouchableOpacity>
             </View>
           <View style={styles.changePasswordButtons}>
-          <TouchableOpacity onPress={()=> alert('password changed')}>
+          <TouchableOpacity onPress={()=> validatePword(newPass, newPassConf)}>
               <Text>Confirm</Text>
           </TouchableOpacity>
           </View>
@@ -86,7 +102,7 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 0,
     width: 250,
-   height: 20,
+   height: 30,
    marginTop: 5,
    textAlign: 'center'
   },

@@ -14,7 +14,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import editProfilechanges from '../HelperFuncs/profileApi';
+import editProfileInfo from '../HelperFuncs/profileApi';
 
 
 const EditProfile = (props) => {
@@ -29,7 +29,7 @@ const EditProfile = (props) => {
       'species': species,
       'favoriteSnack': favoriteSnack,
     }
-    editProfilechanges(curState);
+    editProfileInfo(curState);
   }
 
     return (

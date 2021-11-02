@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,12 +12,28 @@ import CameraComponent from './components/camera.js';
 import LoginPage from './components/loginPage';
 import SignupPage from './components/signupPage';
 
+=======
+import React, {useState, useEffect} from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Button} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator} from '@react-navigation/stack'
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from '@expo/vector-icons';
+import Friends from './components/friends.js'
+import ChatList from './components/chatlist.js'
+import CameraComponent from './components/camera.js'
+import Profile from './components/profileScreen.js'
+import Settings from './components/settingsScreen.js'
+import useToggle from "./HelperFuncs/UseToggle.js";
+import EditProfile from "./components/editProfileScreen.js";
+import LogoutScreen from "./components/logoutScreen.js";
+import ChangePasswordScreen from "./components/changePasswordScreen.js";import data from './data/data'
+>>>>>>> b670e1ee16ba10f7214124c40ebd5ec28edd23f5
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  // Add State that will be shared globally here
-  const [name, setName] = useState('Woofy GoldBerg');
 
+<<<<<<< HEAD
   // Functions that will nagivate to each componenet // acts like a router
   function HomeScreen() {
     return (
@@ -25,48 +42,91 @@ export default function App() {
       </View>
     );
   }
+=======
+  const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
+  const [editProfile, setEditProfile] = useToggle(false);
+  const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
+  const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
 
-  function FriendsScreen() {
+  const [email] = useState('Woofy@gmail.com')
+  const [userData, setUserData] = useState(data);
+
+>>>>>>> b670e1ee16ba10f7214124c40ebd5ec28edd23f5
+
+  useEffect(() => {
+    fetchUserData()
+  })
+
+  const fetchUserData = () => {
+    setUserData( data.sort((a,b)=> (a.name > b.name ? 1 : -1)) )
+      // fetch(/*http:<IP HERE>/searchFriends*/)
+      // .then((data) => {
+      //   setUserData(data)
+      // })
+    // setAllUsers() fnc to set all user that exist for friends search
+ }
+
+  const FriendsScreen = () => {
     return (
       <ScrollView>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <SearchBar />
-          <Friends />
-        </View>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
+        <Friends data={userData}/>
+      </View>
       </ScrollView>
     );
   }
 
-  function ChatScreen() {
+  const ChatScreen = ( {route} ) => {
     return (
-      <ScrollView>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <SearchBar />
-          <ChatList />
-        </View>
-      </ScrollView>
-    );
+    <ScrollView>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
+      <ChatList data={userData}/>
+    </View>
+    </ScrollView>
+  )
+
   }
 
-  //  Camera function
-  function CameraScreen() {
+  const CameraScreen = () => {
     return (
-      <View style={{ flex: 1 }}>
-        <CameraComponent />
+      <View style={{ flex: 1}}>
+      <CameraComponent email={email}/>
       </View>
     );
   }
 
-  function ProfileScreen() {
+
+  const ProfileScreen = ( {navigation, route} ) => {
+    let displaypage = null;
+    if (profileSettingsOpen) {
+      if (!logoutModalOpen && !changePassModalOpen) {
+        displaypage = <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} logoutModalToggle={setLogoutModalOpen} changePassModalToggle={setChangePassModalOpen} />
+      } else if (logoutModalOpen){
+        displaypage = <LogoutScreen logoutModalToggle={setLogoutModalOpen} toggleSettings={setProfileSettingsOpen} />
+      } else if (changePassModalOpen) {
+        displaypage = <ChangePasswordScreen changePassModalToggle={setChangePassModalOpen} toggleSettings={setProfileSettingsOpen} />
+      }
+    } else {
+      if (editProfile) {
+        displaypage = <EditProfile editProfile={setEditProfile} />
+      }
+      else {
+        if (!profileSettingsOpen) {
+          displaypage = <Profile name={name} toggleSettings={setProfileSettingsOpen} editProfile={setEditProfile}  state={profileSettingsOpen} />;
+        }
+      }
+    }
+
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text> Put Profile Component Here</Text>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        {displaypage}
       </View>
     );
   }
 
   return (
     <NavigationContainer>
+<<<<<<< HEAD
       <Tab.Navigator>
       <Tab.Screen
           name="Login"
@@ -92,13 +152,23 @@ export default function App() {
             tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
           }}
         />
+=======
+      <Tab.Navigator >
+>>>>>>> b670e1ee16ba10f7214124c40ebd5ec28edd23f5
 
         <Tab.Screen
           name="Friends"
           component={FriendsScreen}
           options={{
             tabBarLabel: 'Friends',
+<<<<<<< HEAD
             tabBarIcon: ({ color, size }) => <Ionicons name="paw-outline" color={color} size={size} />,
+=======
+
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="paw-outline" color={color} size={size} />
+            ),
+>>>>>>> b670e1ee16ba10f7214124c40ebd5ec28edd23f5
           }}
         />
 
@@ -125,14 +195,23 @@ export default function App() {
           component={ProfileScreen}
           options={{
             tabBarLabel: 'Profile',
+<<<<<<< HEAD
             tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" color={color} size={size} />,
           }}
         />
+=======
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="person-circle-outline" color={color} size={size} />
+            ),
+          }}/>
+
+>>>>>>> b670e1ee16ba10f7214124c40ebd5ec28edd23f5
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
 
+<<<<<<< HEAD
 const styles = StyleSheet.create({
   cameraicon: {
     width: 60,
@@ -142,3 +221,19 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 });
+=======
+
+const styles = StyleSheet.create({
+  cameraicon: {
+      width: 60,
+      height: 60,
+      borderRadius: 45,
+      borderWidth: 1,
+      resizeMode: 'contain'
+    },
+    backbutton: {
+      top: -300,
+      left: -150
+    }
+  })
+>>>>>>> b670e1ee16ba10f7214124c40ebd5ec28edd23f5

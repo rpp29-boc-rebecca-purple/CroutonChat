@@ -1,23 +1,29 @@
-
 import React, {useState} from "react";
 import { Searchbar } from 'react-native-paper';
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View} from "react-native";
+//import { globalStyles } from '../styles/global.js'
 
-function SearchBar(prop) {
+function SearchBarFriends( props ) {
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const onChangeSearch = q => {
-    setSearchTerm(q);
+  const [searchEmail, setSearchEmail] = useState('');
+
+
+  const onChangeSearch = (q) => {
+    setSearchEmail(q);
   }
+
   return (
     <View style={styles.container}>
       <Searchbar style={styles.searchbar}
       placeholder="Search for friends"
       onChangeText={onChangeSearch}
-      value={searchTerm}/>
-    </View>
+      onSubmitEditing = {() => props.searchFriend(searchEmail)}
+      multiline={false}
+      value={searchEmail}/>
+   </View>
     )
   }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -35,4 +41,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SearchBar
+export default SearchBarFriends

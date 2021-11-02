@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   logo: {
+    borderRadius: 75,
     width: 75,
     maxHeight: 75,
     flex: 1,

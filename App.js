@@ -1,7 +1,6 @@
 import React, {useState} from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Button} from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator} from '@react-navigation/stack'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import Friends from './components/friends.js'
@@ -13,18 +12,18 @@ import useToggle from "./HelperFuncs/profileHelpers.js";
 import EditProfile from "./components/editProfileScreen.js";
 import LogoutScreen from "./components/logoutScreen.js";
 import ChangePasswordScreen from "./components/changePasswordScreen.js";
-
+import fakeUser from "./data/profileData.js";
 const Tab = createBottomTabNavigator();
 
 
 export default function App() {
   // Add State that will be shared globally here
-  const [name, setName] = useState('Woofy GoldBerg');
+  const [name, setName] = useState(fakeUser.first_name);
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
-  const [email] = useState('Woofy@gmail.com')
+  const [email] = useState(fakeUser.email)
 
   // Functions that will nagivate to each componenet // acts like a router
 
@@ -57,9 +56,7 @@ export default function App() {
     );
   }
 
-  function ProfileScreen( {navigation, route} ) {
-    const { dogname } = route.params || 'testname';
-
+  function ProfileScreen() {
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {
@@ -81,16 +78,16 @@ export default function App() {
       if (editProfile) {
         displaypage = <EditProfile
         editProfile={setEditProfile}
-        name={name}
+        fakeUser={fakeUser}
          />
       }
       else {
         if (!profileSettingsOpen) {
           displaypage = <Profile
-          name={name}
           toggleSettings={setProfileSettingsOpen}
           editProfile={setEditProfile}
-          state={profileSettingsOpen} />;
+          fakeUser={fakeUser}
+           />;
         }
       }
     }

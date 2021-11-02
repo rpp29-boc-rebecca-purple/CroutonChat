@@ -17,17 +17,19 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import editProfileInfo from '../HelperFuncs/profileApi';
 
 
-const EditProfile = (props) => {
-  const [name, setName] = useState(props.name);
-  const [age, setAge] = useState(3);
+const EditProfile = ({fakeUser, editProfile}) => {
+  const [name, setName] = useState(fakeUser.first_name);
+  const [lastName, setLastName] = useState(fakeUser.last_name);
+  const [age, setAge] = useState(fakeUser.age);
   const [species, setSpecies] = useState('dog');
-  const [favoriteSnack, setFavoriteSnack] = useState('roast turkey sandwhiches');
+  const [favoriteSnack, setFavoriteSnack] = useState(fakeUser.snack);
   const sendChanges = () => {
     let curState = {
-      'name': name,
+      'first_name': name,
+      'last_name': lastName,
       'age': age,
       'species': species,
-      'favoriteSnack': favoriteSnack,
+      'snack': favoriteSnack,
     }
     editProfileInfo(curState);
   }
@@ -43,7 +45,7 @@ const EditProfile = (props) => {
 
             {/* back button */}
             <View style={styles.backButton}>
-              <TouchableOpacity onPress={()=> props.editProfile()}>
+              <TouchableOpacity onPress={()=> editProfile()}>
                 <Text style={{fontSize: 35}}
                 >&#x2190;</Text>
               </TouchableOpacity>
@@ -66,10 +68,18 @@ const EditProfile = (props) => {
         {/* user info textinput section */}
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
-            <Text style={{fontWeight: 'bold'}}>Name:                   </Text>
+            <Text style={{fontWeight: 'bold'}}>First Name:          </Text>
             <TextInput
-            placeholder={props.name}
+            placeholder={fakeUser.first_name}
             onChangeText={(val)=> setName(val)}
+            style={styles.input}
+            />
+          </View>
+          <View style={styles.row}>
+            <Text style={{fontWeight: 'bold'}}>Last Name:          </Text>
+            <TextInput
+            placeholder={fakeUser.last_name}
+            onChangeText={(val)=> setLastName(val)}
             style={styles.input}
             />
           </View>
@@ -104,7 +114,7 @@ const EditProfile = (props) => {
         <TouchableRipple style={styles.editProfileButtonsWrapper}>
               <Text
               style={styles.editProfileButton}
-              onPress={()=> {props.editProfile(); sendChanges();}}>Save changes?</Text>
+              onPress={()=> {editProfile(); sendChanges();}}>Save changes?</Text>
           </TouchableRipple>
       </SafeAreaView>
     );

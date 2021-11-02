@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Title,
 } from 'react-native-paper';
@@ -12,10 +12,11 @@ import {
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const SettingsScreen = (props) => {
+const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggle}) => {
 
   return (
     <SafeAreaView>
+
       {/* Header Image  and Back Button*/}
       <ScrollView>
         <View style={styles.headerContainer}>
@@ -24,7 +25,7 @@ const SettingsScreen = (props) => {
             style={{width: 400, minHeight:226}}>
             <View style={styles.headerImage}></View>
             <View style={styles.backButton}>
-              <TouchableOpacity onPress={()=> props.toggleSettings()}>
+              <TouchableOpacity onPress={()=> toggleSettings()}>
                 <Text style={{fontSize: 35}}
                 >&#x2190;</Text>
               </TouchableOpacity>
@@ -47,12 +48,12 @@ const SettingsScreen = (props) => {
 
         {/* Change Password and Logout Buttons */}
         <View style={styles.settingsButtonsWrap}>
-          <TouchableOpacity onPress={()=> props.logoutModalToggle()}>
+          <TouchableOpacity onPress={()=> logoutModalToggle()}>
             <Text style={styles.settingsButtons}>Logout?</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.settingsButtonsWrap}>
-          <TouchableOpacity onPress={()=>props.changePassModalToggle()}>
+          <TouchableOpacity onPress={()=> changePassModalToggle()}>
             <Text style={styles.settingsButtons}>Change Password?</Text>
           </TouchableOpacity>
         </View>

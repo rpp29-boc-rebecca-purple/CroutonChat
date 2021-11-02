@@ -13,9 +13,7 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-
-
-const Profile = (props) => {
+const Profile = ({fakeUser, editProfile, toggleSettings}) => {
     return (
       <SafeAreaView style={styles.container}>
 
@@ -27,13 +25,13 @@ const Profile = (props) => {
             <View style={{alignItems: 'center', marginTop: 75}}>
               <Avatar.Image
                 source={{
-                  uri: 'https://i.imgur.com/ckCX9Xc.jpg'
+                  uri: fakeUser.thumbnail
                 }}
                 size={100}
               />
               <View style={{alignItems: 'center'}}>
-                <Title style={styles.title}>{props.name}</Title>
-                <Caption style={styles.caption}>Loves snacking on roast turkey sandwhiches</Caption>
+                <Title style={styles.title}>{fakeUser.first_name}</Title>
+                <Caption style={styles.caption}>Loves snacking on {fakeUser.snack}</Caption>
               </View>
             </View>
             </ImageBackground>
@@ -42,12 +40,16 @@ const Profile = (props) => {
         {/* user info section */}
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
-            <Text style={{fontWeight: 'bold'}}>Name: </Text>
-            <Text>{props.name}</Text>
+            <Text style={{fontWeight: 'bold'}}>First Name: </Text>
+            <Text>{fakeUser.first_name}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={{fontWeight: 'bold'}}>Last Name: </Text>
+            <Text>{fakeUser.last_name}</Text>
           </View>
           <View style={styles.row}>
             <Text style={{fontWeight: 'bold'}}>Age: </Text>
-            <Text>3</Text>
+            <Text>{fakeUser.age}</Text>
           </View>
           <View style={styles.row}>
             <Text style={{fontWeight: 'bold'}}>Species: </Text>
@@ -55,19 +57,19 @@ const Profile = (props) => {
           </View>
           <View style={styles.row}>
             <Text style={{fontWeight: 'bold'}}>Favorite Snack: </Text>
-            <Text>Roast Tureky Sandwhiches</Text>
+            <Text>{fakeUser.snack}</Text>
           </View>
         </View>
 
         {/* buttons for edit profile and navigate to settings */}
         <View style={styles.profileButtonsWrapper}>
             <View style={styles.profileButton}>
-          <TouchableOpacity onPress={()=> props.editProfile()}>
+          <TouchableOpacity onPress={()=> editProfile()}>
               <Text>Edit Profile</Text>
           </TouchableOpacity>
             </View>
           <View style={styles.profileButton}>
-          <TouchableOpacity onPress={()=> props.toggleSettings()}>
+          <TouchableOpacity onPress={()=> toggleSettings()}>
             <Text >Settings</Text>
           </TouchableOpacity>
           </View>

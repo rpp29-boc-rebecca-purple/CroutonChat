@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Button} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator} from '@react-navigation/stack'
-import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import Friends from './components/friends.js'
 import ChatList from './components/chatlist.js'
@@ -13,17 +13,14 @@ import useToggle from "./HelperFuncs/UseToggle.js";
 import EditProfile from "./components/editProfileScreen.js";
 import LogoutScreen from "./components/logoutScreen.js";
 import ChangePasswordScreen from "./components/changePasswordScreen.js";import data from './data/data'
-import Conversation from "./components/conversation/conversation.js"
-
-
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
-  const [chatClicked, setChatClicked] = useState(false)
 
   const [email] = useState('Woofy@gmail.com')
   const [userData, setUserData] = useState(data);
@@ -34,8 +31,7 @@ export default function App() {
   })
 
   const fetchUserData = () => {
-    let sorted = data.sort((a,b)=> (a.name > b.name ? 1 : -1))
-    setUserData(sorted)
+    setUserData( data.sort((a,b)=> (a.name > b.name ? 1 : -1)) )
       // fetch(/*http:<IP HERE>/searchFriends*/)
       // .then((data) => {
       //   setUserData(data)
@@ -74,8 +70,6 @@ export default function App() {
 
 
   const ProfileScreen = ( {navigation, route} ) => {
-    const { dogname } = route.params || 'null';
-
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {

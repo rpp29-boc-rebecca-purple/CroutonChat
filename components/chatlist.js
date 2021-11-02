@@ -11,7 +11,7 @@ function ChatList( { data }) {
 
   const navigation = useNavigation();
   const [userData, setUserData] = useState(data);
-  const [conversations, setConversations] = useState(conversationMockData)
+  const [conversations] = useState(conversationMockData)
 
   const [userClicked, setUserClicked] = useState('')
   const [messenger, setMessender] = useState(false)

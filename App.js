@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Button} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator} from '@react-navigation/stack'
@@ -12,10 +12,9 @@ import Settings from './components/settingsScreen.js'
 import useToggle from "./HelperFuncs/UseToggle.js";
 import EditProfile from "./components/editProfileScreen.js";
 import LogoutScreen from "./components/logoutScreen.js";
-import ChangePasswordScreen from "./components/changePasswordScreen.js";
+import ChangePasswordScreen from "./components/changePasswordScreen.js";import data from './data/data'
 
 const Tab = createBottomTabNavigator();
-
 
 export default function App() {
   // Add State that will be shared globally here
@@ -26,13 +25,30 @@ export default function App() {
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [email] = useState('Woofy@gmail.com')
 
-  // Functions that will nagivate to each componenet // acts like a router
+  const [userData, setUserData] = useState(data);
+  const [friendSearch, setFriendSearch] = useState('')
 
+  useEffect(() => {
+    fetchUserData()
+  })
+
+  const fetchUserData = () => {
+    let sorted = data.sort((a,b)=> (a.name > b.name ? 1 : -1))
+    setUserData(sorted)
+      // fetch(/*http:<IP HERE>/searchFriends*/)
+      // .then((data) => {
+      //   setUserData(data)
+      // })
+    // setAllUsers() fnc to set all user that exist for friends search
+ }
+
+
+  // Functions that will nagivate to each componenet // acts like a router
   function FriendsScreen() {
     return (
       <ScrollView>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-        <Friends />
+        <Friends data={userData}/>
       </View>
       </ScrollView>
     );
@@ -42,7 +58,7 @@ export default function App() {
     return (
     <ScrollView>
     <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-      <ChatList />
+      <ChatList data={userData}/>
     </View>
     </ScrollView>
   );

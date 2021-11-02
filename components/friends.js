@@ -1,39 +1,24 @@
 import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import data from '../data/data.js'
 import SearchBarFriends from './searchBarFriends.js'
 //import { globalStyles } from '../styles/global.js'
 
-function Friends( { props, route } ) {
+function Friends( { props, route, data } ) {
 
   const [userData, setUserData] = useState(data);
-  const [friendSearch, setFriendSearch] = useState('')
+
   // fetch to get all users that exist in database
   // const [allUsers, setAllUsers] = useState([{email: 'testuser1@gmail.com'}, {email: 'testuser2@gmail.com'}, {email: 'testuser3@gmail.com'}])
 
   const navigation = useNavigation(false);
-
-  useEffect(() => {
-    fetchUserData()
-  })
-
-  const fetchUserData = () => {
-    setUserData(data)
-      // fetch(/*http:<IP HERE>/searchFriends*/)
-      // .then((data) => {
-      //   setUserData(data)
-      // })
-
-    // setAllUsers() fnc to set all user that exist for friends search
- }
 
  const searchFriend = (searchedEmail) => {
   userData.map(e => {
     if (e.email.toLowerCase() === searchedEmail.toLowerCase()) {
     setFriendSearch(e.email)
     navigation.navigate('Profile', { email: e.email})
-    console.log(`you clicked on user:  ${e.email}`)
+    console.log(`you searched user:  ${e.email}`)
     }
   })
 }

@@ -27,7 +27,7 @@ function LoginPage(props) {
         <Text style={styles.horizontalRule}>-------------------------------------</Text><Text>   OR   </Text><Text style={styles.horizontalRule}>-------------------------------------</Text>
       </View>
 
-      <OAuth />
+      <OAuth setLoggedIn={props.setLoggedIn}/>
 
       <TouchableOpacity
         onPress={() => {

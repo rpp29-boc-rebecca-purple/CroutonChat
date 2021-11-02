@@ -6,6 +6,10 @@ import axios from 'axios';
 
 WebBrowser.maybeCompleteAuthSession();
 
+const changeScreen = () => {
+
+}
+
 function OAuth(props) {
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: '1058454216082-014k0icvvopm51k53kplsj2gv50iop4c.apps.googleusercontent.com',
@@ -24,10 +28,11 @@ function OAuth(props) {
       axios
         .post('http://18.191.220.233/oauth/connect', { accessToken: response.accessToken })
         .then(() => {
-          // Go to home page
+          props.setLoggedIn(true)
         })
         .catch(err => {
-          alert(err);
+          //console.log(err)
+          //alert(err);
         });
     }
   }, [response]);
@@ -37,6 +42,9 @@ function OAuth(props) {
       disabled={!request}
       onPress={() => {
         promptAsync();
+        setTimeout(() => {
+          props.setLoggedIn(true)
+        }, 2000);
       }}
       style={styles.button}
     >

@@ -32,7 +32,7 @@ const Profile = (props) => {
                 size={100}
               />
               <View style={{alignItems: 'center'}}>
-                <Title style={styles.title}>Ladypants</Title>
+                <Title style={styles.title}>{props.name}</Title>
                 <Caption style={styles.caption}>Loves snacking on roast turkey sandwhiches</Caption>
               </View>
             </View>
@@ -42,16 +42,20 @@ const Profile = (props) => {
         {/* user info section */}
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
-            <Text>Name: {props.name}</Text>
+            <Text style={{fontWeight: 'bold'}}>Name: </Text>
+            <Text>{props.name}</Text>
           </View>
           <View style={styles.row}>
-            <Text>Age: 3</Text>
+            <Text style={{fontWeight: 'bold'}}>Age: </Text>
+            <Text>3</Text>
           </View>
           <View style={styles.row}>
-            <Text>Species: Dog</Text>
+            <Text style={{fontWeight: 'bold'}}>Species: </Text>
+            <Text>Dog</Text>
           </View>
           <View style={styles.row}>
-            <Text>Favorite Snack: Roast Turkey Sandwhiches</Text>
+            <Text style={{fontWeight: 'bold'}}>Favorite Snack: </Text>
+            <Text>Roast Tureky Sandwhiches</Text>
           </View>
         </View>
 

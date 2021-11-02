@@ -14,7 +14,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import editProfilechanges from '../HelperFuncs/profileApi';
 
 
 const EditProfile = (props) => {
@@ -23,7 +23,13 @@ const EditProfile = (props) => {
   const [species, setSpecies] = useState('dog');
   const [favoriteSnack, setFavoriteSnack] = useState('roast turkey sandwhiches');
   const sendChanges = () => {
-    console.log(`sending changes: ${name}, ${age}, ${species}, ${favoriteSnack} `)
+    let curState = {
+      'name': name,
+      'age': age,
+      'species': species,
+      'favoriteSnack': favoriteSnack,
+    }
+    editProfilechanges(curState);
   }
 
     return (
@@ -60,7 +66,7 @@ const EditProfile = (props) => {
         {/* user info textinput section */}
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
-            <Text>Name:                 </Text>
+            <Text style={{fontWeight: 'bold'}}>Name:                   </Text>
             <TextInput
             placeholder={props.name}
             onChangeText={(val)=> setName(val)}
@@ -68,7 +74,7 @@ const EditProfile = (props) => {
             />
           </View>
           <View style={styles.row}>
-            <Text>Age:                    </Text>
+            <Text style={{fontWeight: 'bold'}}>Age:                       </Text>
             <TextInput
             style={{marginRight:0}}
             placeholder='3'
@@ -77,7 +83,7 @@ const EditProfile = (props) => {
             />
           </View>
           <View style={styles.row}>
-            <Text>Species:             </Text>
+            <Text style={{fontWeight: 'bold'}}>Species:               </Text>
             <TextInput
             placeholder='Dog'
             onChangeText={(val) => setSpecies(val)}
@@ -85,7 +91,7 @@ const EditProfile = (props) => {
             />
           </View>
           <View style={styles.row}>
-            <Text>Favorite Snack: </Text>
+            <Text style={{fontWeight: 'bold'}}>Favorite Snack:  </Text>
             <TextInput
             placeholder='Roast Turkey Sandwhiches'
             onChangeText={(val) => setFavoriteSnack(val)}

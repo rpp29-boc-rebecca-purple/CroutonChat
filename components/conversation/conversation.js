@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView} from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
 import PhotoAdditionIcon from './photoAdditionIcon.js';
 const api = require('./apiHelpers.js');
 
-const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
+const Conversation = ({ userId = 5, friendId = 4, chatId = 0, email, convodata}) => {
   let [messages, setMessages] = useState([]);
   let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
@@ -47,8 +47,7 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
     );
   };
 
-  return picDisplay ?
-    (
+  return picDisplay ? (
       <View style={styles.lightbox}>
         <View>
           <Image source={{uri: spotlightPic}} style={styles.spotlight}/>
@@ -58,6 +57,8 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
     )
     :
     (
+
+      <View style={{ flex: 1 }}>
       <GiftedChat
         messages={messages}
         renderActions={() => PhotoAdditionIcon(userId, chatId)}
@@ -67,6 +68,8 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0 }) => {
           _id: userId,
         }}
       />
+      <Text> test</Text>
+      </View>
     );
 
 };

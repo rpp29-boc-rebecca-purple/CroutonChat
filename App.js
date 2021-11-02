@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Button} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator} from '@react-navigation/stack'
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import Friends from './components/friends.js'
 import ChatList from './components/chatlist.js'
@@ -13,20 +13,21 @@ import useToggle from "./HelperFuncs/UseToggle.js";
 import EditProfile from "./components/editProfileScreen.js";
 import LogoutScreen from "./components/logoutScreen.js";
 import ChangePasswordScreen from "./components/changePasswordScreen.js";import data from './data/data'
+import Conversation from "./components/conversation/conversation.js"
+
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  // Add State that will be shared globally here
-  const [name, setName] = useState('Woofy GoldBerg');
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
-  const [email] = useState('Woofy@gmail.com')
+  const [chatClicked, setChatClicked] = useState(false)
 
+  const [email] = useState('Woofy@gmail.com')
   const [userData, setUserData] = useState(data);
-  const [friendSearch, setFriendSearch] = useState('')
+
 
   useEffect(() => {
     fetchUserData()
@@ -42,9 +43,7 @@ export default function App() {
     // setAllUsers() fnc to set all user that exist for friends search
  }
 
-
-  // Functions that will nagivate to each componenet // acts like a router
-  function FriendsScreen() {
+  const FriendsScreen = () => {
     return (
       <ScrollView>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
@@ -54,18 +53,18 @@ export default function App() {
     );
   }
 
-  function ChatScreen() {
+  const ChatScreen = ( {route} ) => {
     return (
     <ScrollView>
     <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
       <ChatList data={userData}/>
     </View>
     </ScrollView>
-  );
+  )
+
   }
 
-  //  Camera function
-  function CameraScreen() {
+  const CameraScreen = () => {
     return (
       <View style={{ flex: 1}}>
       <CameraComponent email={email}/>
@@ -73,8 +72,9 @@ export default function App() {
     );
   }
 
-  function ProfileScreen( {navigation, route} ) {
-    const { dogname } = route.params || 'testname';
+
+  const ProfileScreen = ( {navigation, route} ) => {
+    const { dogname } = route.params || 'null';
 
     let displaypage = null;
     if (profileSettingsOpen) {
@@ -103,14 +103,17 @@ export default function App() {
     );
   }
 
+
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator >
+
         <Tab.Screen
           name="Friends"
           component={FriendsScreen}
           options={{
             tabBarLabel: 'Friends',
+
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="paw-outline" color={color} size={size} />
             ),
@@ -147,6 +150,7 @@ export default function App() {
               <Ionicons name="person-circle-outline" color={color} size={size} />
             ),
           }}/>
+
       </Tab.Navigator>
     </NavigationContainer>
   );

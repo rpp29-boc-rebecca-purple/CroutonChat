@@ -4,13 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
 //import { globalStyles } from '../styles/global.js'
 
-function Friends( { props, route, data } ) {
+function Friends( { route, data } ) {
 
   const [userData, setUserData] = useState(data);
-
-  // fetch to get all users that exist in database
-  // const [allUsers, setAllUsers] = useState([{email: 'testuser1@gmail.com'}, {email: 'testuser2@gmail.com'}, {email: 'testuser3@gmail.com'}])
-
+  const [friendSearch, setFriendSearch] = useState('')
   const navigation = useNavigation(false);
 
  const searchFriend = (searchedEmail) => {

@@ -95,7 +95,7 @@ const EditProfile = (props) => {
         </View>
 
         {/* save changes button */}
-        <TouchableRipple style={styles.editProfileButtonsWrapper} onPress={()=>{}}>
+        <TouchableRipple style={styles.editProfileButtonsWrapper}>
               <Text
               style={styles.editProfileButton}
               onPress={()=> {props.editProfile(); sendChanges();}}>Save changes?</Text>

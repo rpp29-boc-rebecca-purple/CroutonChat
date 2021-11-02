@@ -63,19 +63,34 @@ export default function App() {
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {
-        displaypage = <Settings toggleSettings={setProfileSettingsOpen} state={profileSettingsOpen} logoutModalToggle={setLogoutModalOpen} changePassModalToggle={setChangePassModalOpen} />
+        displaypage = <Settings
+        toggleSettings={setProfileSettingsOpen}
+        state={profileSettingsOpen}
+        logoutModalToggle={setLogoutModalOpen}
+        changePassModalToggle={setChangePassModalOpen} />
       } else if (logoutModalOpen){
-        displaypage = <LogoutScreen logoutModalToggle={setLogoutModalOpen} toggleSettings={setProfileSettingsOpen} />
+        displaypage = <LogoutScreen
+        logoutModalToggle={setLogoutModalOpen}
+        toggleSettings={setProfileSettingsOpen} />
       } else if (changePassModalOpen) {
-        displaypage = <ChangePasswordScreen changePassModalToggle={setChangePassModalOpen} toggleSettings={setProfileSettingsOpen} />
+        displaypage = <ChangePasswordScreen
+        changePassModalToggle={setChangePassModalOpen}
+        toggleSettings={setProfileSettingsOpen} />
       }
     } else {
       if (editProfile) {
-        displaypage = <EditProfile editProfile={setEditProfile} />
+        displaypage = <EditProfile
+        editProfile={setEditProfile}
+        name={name}
+         />
       }
       else {
         if (!profileSettingsOpen) {
-          displaypage = <Profile name={name} toggleSettings={setProfileSettingsOpen} editProfile={setEditProfile}  state={profileSettingsOpen} />;
+          displaypage = <Profile
+          name={name}
+          toggleSettings={setProfileSettingsOpen}
+          editProfile={setEditProfile}
+          state={profileSettingsOpen} />;
         }
       }
     }

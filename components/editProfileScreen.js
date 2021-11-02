@@ -14,14 +14,17 @@ import {
   ImageBackground,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { set } from 'react-native-reanimated';
+
 
 
 const EditProfile = (props) => {
-  const [name, setName] = useState('Ladypants');
+  const [name, setName] = useState(props.name);
   const [age, setAge] = useState(3);
   const [species, setSpecies] = useState('dog');
   const [favoriteSnack, setFavoriteSnack] = useState('roast turkey sandwhiches');
+  const sendChanges = () => {
+    console.log(`sending changes: ${name}, ${age}, ${species}, ${favoriteSnack} `)
+  }
 
     return (
       <SafeAreaView style={styles.container}>
@@ -59,7 +62,7 @@ const EditProfile = (props) => {
           <View style={styles.row}>
             <Text>Name:                 </Text>
             <TextInput
-            placeholder='Ladypants'
+            placeholder={props.name}
             onChangeText={(val)=> setName(val)}
             style={styles.input}
             />
@@ -95,7 +98,7 @@ const EditProfile = (props) => {
         <TouchableRipple style={styles.editProfileButtonsWrapper} onPress={()=>{}}>
               <Text
               style={styles.editProfileButton}
-              onPress={()=> props.editProfile()}>Save changes?</Text>
+              onPress={()=> {props.editProfile(); sendChanges();}}>Save changes?</Text>
           </TouchableRipple>
       </SafeAreaView>
     );

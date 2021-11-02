@@ -3,12 +3,10 @@ import {
   Avatar,
   Title,
   Caption,
-  TouchableRipple
 } from 'react-native-paper';
 import {
   StyleSheet,
   Text,
-  Button,
   View,
   SafeAreaView,
   ImageBackground,
@@ -44,7 +42,7 @@ const Profile = (props) => {
         {/* user info section */}
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
-            <Text>Name: Ladypants</Text>
+            <Text>Name: {props.name}</Text>
           </View>
           <View style={styles.row}>
             <Text>Age: 3</Text>

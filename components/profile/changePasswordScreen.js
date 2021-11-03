@@ -7,7 +7,7 @@ import {
   TextInput
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import editPass from '../../HelperFuncs/profileApi.js';
+import {editPass }from '../../HelperFuncs/profileApi.js';
 
 const ChangePassword = ({changePassModalToggle}) => {
   const [newPass, setNewPass] = useState('');

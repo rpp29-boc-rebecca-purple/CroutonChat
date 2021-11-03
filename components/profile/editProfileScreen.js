@@ -14,7 +14,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import editProfileInfo from '../../HelperFuncs/profileApi';
+import { editProfileInfo } from '../../HelperFuncs/profileApi';
 
 
 const EditProfile = ({fakeUser, editProfile}) => {

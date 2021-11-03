@@ -146,7 +146,7 @@ export default function App() {
     }
 
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{displaypage}</View>;
-  };
+  }
 
   if (!isLoggedIn) {
     return <LoginPage setLoggedIn={setLoggedIn}/>;

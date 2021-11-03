@@ -6,11 +6,10 @@ import Conversation from './conversation/conversation.js';
 
 function ChatList({ currentUser, data }) {
   const userId = currentUser;
-  const [friendId, setFriendId] = useState(5);
+  const [friendId, setFriendId] = useState(4);
   const [chatId, setChatId] = useState(0);
   const [userData, setUserData] = useState(data);
   const [conversation, setConversation] = useState(false);
-  const [clickedUser, setClickedUser] = useState(0);
   const navigation = useNavigation();
 
   const searchMessages = (name) => {
@@ -37,11 +36,9 @@ function ChatList({ currentUser, data }) {
                 <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{userData.map((e) => {
 
                   return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
-                    // setClickedUser(e.email)
-                    // setFriendId(event.target.chatLsitEntryUserId);
-                    // setChatId(event.target.chatId);
+                    // set friendId
+                    // set chatId
                     setConversation(true);
-                    // console.log('\n\n\n\nevent recieved on chat list entry click:\n', JSON.stringify(event));
                   }}
 
                   key={e.key} style={styles.container}>

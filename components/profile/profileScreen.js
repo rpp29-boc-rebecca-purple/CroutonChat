@@ -53,7 +53,7 @@ const Profile = ({fakeUser, editProfile, toggleSettings}) => {
           </View>
           <View style={styles.row}>
             <Text style={{fontWeight: 'bold'}}>Species: </Text>
-            <Text>Dog</Text>
+            <Text>{fakeUser.animal_type}</Text>
           </View>
           <View style={styles.row}>
             <Text style={{fontWeight: 'bold'}}>Favorite Snack: </Text>

@@ -21,15 +21,16 @@ const EditProfile = ({fakeUser, editProfile}) => {
   const [name, setName] = useState(fakeUser.first_name);
   const [lastName, setLastName] = useState(fakeUser.last_name);
   const [age, setAge] = useState(fakeUser.age);
-  const [species, setSpecies] = useState('dog');
   const [favoriteSnack, setFavoriteSnack] = useState(fakeUser.snack);
+  const [animalType, setAnimalType] = useState(fakeUser.animal_type);
+
   const sendChanges = () => {
     let curState = {
       'first_name': name,
       'last_name': lastName,
       'age': age,
-      'species': species,
       'snack': favoriteSnack,
+      'animal_type': animalType
     }
     editProfileInfo(curState);
   }
@@ -87,7 +88,7 @@ const EditProfile = ({fakeUser, editProfile}) => {
             <Text style={{fontWeight: 'bold'}}>Age:                       </Text>
             <TextInput
             style={{marginRight:0}}
-            placeholder='3'
+            placeholder={fakeUser.age}
             onChangeText={(val) => setAge(val)}
             style={styles.input}
             />
@@ -95,15 +96,15 @@ const EditProfile = ({fakeUser, editProfile}) => {
           <View style={styles.row}>
             <Text style={{fontWeight: 'bold'}}>Species:               </Text>
             <TextInput
-            placeholder='Dog'
-            onChangeText={(val) => setSpecies(val)}
+            placeholder={fakeUser.animal_type}
+            onChangeText={(val) => setAnimalType(val)}
             style={styles.input}
             />
           </View>
           <View style={styles.row}>
             <Text style={{fontWeight: 'bold'}}>Favorite Snack:  </Text>
             <TextInput
-            placeholder='Roast Turkey Sandwhiches'
+            placeholder={fakeUser.snack}
             onChangeText={(val) => setFavoriteSnack(val)}
             style={styles.input}
             />

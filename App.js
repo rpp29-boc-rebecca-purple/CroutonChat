@@ -106,19 +106,11 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen
-            name="Home"
-            component={HomeScreen}
+            name="Chat"
+            component={ChatScreen}
             options={{
-              tabBarLabel: 'Home',
-              tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
-            }}
-          />
-          <Tab.Screen
-            name="Friends"
-            component={FriendsScreen}
-            options={{
-              tabBarLabel: 'Friends',
-              tabBarIcon: ({ color, size }) => <Ionicons name="paw-outline" color={color} size={size} />,
+              tabBarLabel: 'Chat',
+              tabBarIcon: ({ color, size }) => <Ionicons name="chatbubbles-outline" color={color} size={size} />,
             }}
           />
 
@@ -132,13 +124,14 @@ export default function App() {
           />
 
           <Tab.Screen
-            name="Chat"
-            component={ChatScreen}
+            name="Friends"
+            component={FriendsScreen}
             options={{
-              tabBarLabel: 'Chat',
-              tabBarIcon: ({ color, size }) => <Ionicons name="chatbubbles-outline" color={color} size={size} />,
+              tabBarLabel: 'Friends',
+              tabBarIcon: ({ color, size }) => <Ionicons name="paw-outline" color={color} size={size} />,
             }}
           />
+
 
           <Tab.Screen
             name="Profile"

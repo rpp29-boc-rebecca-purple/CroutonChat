@@ -45,7 +45,7 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
           style={{width: 400, height: 250}}>
 
             {/* back button */}
-            <View style={styles.backButton}>
+            <View>
               <TouchableOpacity onPress={()=> editProfile()}>
                 <Text style={isDarkTheme ? styles.backButtonDark : styles.backButton}
                 >  &#x2190;</Text>
@@ -125,15 +125,6 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  backButton: {
-    position: 'absolute',
-    top: 0,
-    left: 15,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
   },
   userInfoSection: {
     paddingHorizontal: 30,

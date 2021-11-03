@@ -2,62 +2,61 @@ import React, {useState} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-native";
 import SearchBarMessages from './searchBarMessages'
 import { useNavigation } from '@react-navigation/native';
-import conversationMockData from '../data/conversationMockData'
-import GiftChat from "./conversation/conversation.js"
-//import { globalStyles } from '../styles/global.js'
+import Conversation from './conversation/conversation.js';
 
-
-function ChatList( { data }) {
-
-  const navigation = useNavigation();
+function ChatList({ currentUser, data }) {
+  const userId = currentUser;
+  const [friendId, setFriendId] = useState(4);
+  const [chatId, setChatId] = useState(0);
   const [userData, setUserData] = useState(data);
-  const [conversations] = useState(conversationMockData)
+  const [conversation, setConversation] = useState(false);
+  const navigation = useNavigation();
 
-  const [userClicked, setUserClicked] = useState('')
-  const [messenger, setMessender] = useState(false)
-
- const searchMessages = (name) => {
-  data.map(e => {
+  const searchMessages = (name) => {
+    data.map(e => {
       if (e.email.toLowerCase() === name.toLowerCase()) {
       navigation.navigate('Profile', { email: e.email})
       console.log(`you clicked on user:  ${e.email}`)
       }
     })
-  }
+  };
 
-  return messenger ?
+  const backButtonHandler = () => {
+    setConversation(false);
+  };
+
+  return conversation ?
         (
-          <ScrollView>
-            <GiftChat email={userClicked} convodata={conversations}/>
-          </ScrollView>
+          <Conversation userId={5} friendId={4} chatId={0} handleBackButtonPress={backButtonHandler} style={{flex: 1, height: Dimensions.get('window').height, width: Dimensions.get('window').width}} />
         )
         :
         (
           <ScrollView>
-          <SearchBarMessages searchMessages={searchMessages} conversations= {conversations} userData={userData}/>
-              <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{userData.map((e) => {
-                return <Text onPress={() => {
-                  setUserClicked(e.email)
-                  setMessender(true)
-                  console.log(`you clicked on user:  ${userClicked}, chat data ${conversations}`)
-                }}
+            <SearchBarMessages searchMessages={searchMessages} userData={userData}/>
+                <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{userData.map((e) => {
 
-                key={e.key} style={styles.container}>
-                  <View>
-                  <Image style={styles.images} source={e.photo}/>
-                  </View>
-                  <View style={{
-                      borderBottomColor: 'black',
-                      borderBottomWidth: 1,
-                      }}>
-                  <Text style={styles.username}> {e.name}</Text>
-                  <Text style={styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'} {e.photomessages.length > 0 ?  ' 📸' : ''}  </Text>
-                  </View>
+                  return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
+                    // set friendId
+                    // set chatId
+                    setConversation(true);
+                  }}
 
-                </Text>
-              })}
-            </View>
-        </ScrollView>
+                  key={e.key} style={styles.container}>
+                    <View>
+                    <Image style={styles.images} source={e.photo}/>
+                    </View>
+                    <View style={{
+                        borderBottomColor: 'black',
+                        borderBottomWidth: 1,
+                        }}>
+                    <Text style={styles.username}> {e.name}</Text>
+                    <Text style={styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'} {e.photomessages.length > 0 ?  ' 📸' : ''}  </Text>
+                    </View>
+
+                  </Text>
+                })}
+              </View>
+          </ScrollView>
         )
       }
 

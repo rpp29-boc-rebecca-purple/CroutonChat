@@ -26,17 +26,17 @@ const formatMessages = (messages) => {
     .reverse();
 };
 
-const convertUser = (user) => (
+const convertUser = (incomingUser) => (
   {
-    _id: user.uid,
-    name: user.name,
-    avatar: user.photo
+    _id: incomingUser.uid,
+    name: incomingUser.name,
+    avatar: incomingUser.photo
   }
 );
 
 const fetchUserData = (userId) => {
   //will eventually fetch userData from API
-  return data[userId];
+  return data.filter(x => x.uid === userId)[0];
 };
 
 //variables for storing current friend info

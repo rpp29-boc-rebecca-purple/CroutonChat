@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Title,
 } from 'react-native-paper';
@@ -12,19 +12,20 @@ import {
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const SettingsScreen = (props) => {
+const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggle, darkThemeToggle}) => {
 
   return (
     <SafeAreaView>
+
       {/* Header Image  and Back Button*/}
       <ScrollView>
         <View style={styles.headerContainer}>
           <ImageBackground
-            source={require('../assets/BOC.profile.cloud.bg.webp')}
+            source={require('../../assets/BOC.profile.cloud.bg.webp')}
             style={{width: 400, minHeight:226}}>
             <View style={styles.headerImage}></View>
             <View style={styles.backButton}>
-              <TouchableOpacity onPress={()=> props.toggleSettings()}>
+              <TouchableOpacity onPress={()=> toggleSettings()}>
                 <Text style={{fontSize: 35}}
                 >&#x2190;</Text>
               </TouchableOpacity>
@@ -36,10 +37,10 @@ const SettingsScreen = (props) => {
         <View style={styles.modeToggleWrap}>
           <Text style={{fontSize: 20}}>Theme:</Text>
           <View style={styles.modeToggleButtons}>
-            <TouchableOpacity onPress={()=> alert('Light mode selected')}>
+            <TouchableOpacity onPress={()=> darkThemeToggle()}>
               <Text style={{paddingRight: 25, fontWeight: 'bold', fontSize: 20}}>Light</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{alert('Dark mode selected')}}>
+            <TouchableOpacity onPress={()=> darkThemeToggle()}>
               <Text style={{fontSize: 20}}>Dark</Text>
             </TouchableOpacity>
           </View>
@@ -47,12 +48,12 @@ const SettingsScreen = (props) => {
 
         {/* Change Password and Logout Buttons */}
         <View style={styles.settingsButtonsWrap}>
-          <TouchableOpacity onPress={()=> props.logoutModalToggle()}>
+          <TouchableOpacity onPress={()=> logoutModalToggle()}>
             <Text style={styles.settingsButtons}>Logout?</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.settingsButtonsWrap}>
-          <TouchableOpacity onPress={()=>props.changePassModalToggle()}>
+          <TouchableOpacity onPress={()=> changePassModalToggle()}>
             <Text style={styles.settingsButtons}>Change Password?</Text>
           </TouchableOpacity>
         </View>

@@ -122,11 +122,13 @@ export default function App() {
       } else if (logoutModalOpen){
         displaypage = <LogoutScreen
         logoutModalToggle={setLogoutModalOpen}
-        toggleSettings={setProfileSettingsOpen} />
+        toggleSettings={setProfileSettingsOpen}
+        isDarkTheme={isDarkTheme} />
       } else if (changePassModalOpen) {
         displaypage = <ChangePasswordScreen
         changePassModalToggle={setChangePassModalOpen}
-        toggleSettings={setProfileSettingsOpen} />
+        toggleSettings={setProfileSettingsOpen}
+        isDarkTheme={isDarkTheme} />
       }
     } else {
       if (editProfile) {

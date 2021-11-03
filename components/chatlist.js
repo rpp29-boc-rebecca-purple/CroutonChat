@@ -1,22 +1,17 @@
 import React, {useState} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-native";
-import data from '../data/data.js'
 import SearchBarMessages from './searchBarMessages'
 import { useNavigation } from '@react-navigation/native';
 import Conversation from './conversation/conversation.js';
-//import { globalStyles } from '../styles/global.js'
 
-function ChatList({ currentUser }) {
+function ChatList({ currentUser, data }) {
   const userId = currentUser;
   const [friendId, setFriendId] = useState(5);
   const [chatId, setChatId] = useState(0);
   const [userData, setUserData] = useState(data);
   const [conversation, setConversation] = useState(false);
   const [clickedUser, setClickedUser] = useState(0);
-
   const navigation = useNavigation();
-
-
 
   const searchMessages = (name) => {
     data.map(e => {
@@ -25,7 +20,7 @@ function ChatList({ currentUser }) {
       console.log(`you clicked on user:  ${e.email}`)
       }
     })
-  }
+  };
 
   const backButtonHandler = () => {
     setConversation(false);

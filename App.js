@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Button} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator} from '@react-navigation/stack'
@@ -14,45 +14,51 @@ import EditProfile from "./components/editProfileScreen.js";
 import LogoutScreen from "./components/logoutScreen.js";
 import ChangePasswordScreen from "./components/changePasswordScreen.js";
 import Conversation from './components/conversation/conversation.js';
+import data from './data/data.js';
 
 const Tab = createBottomTabNavigator();
 
-
 export default function App() {
-  // Add State that will be shared globally here
-  const [name, setName] = useState('Woofy GoldBerg');
+
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [email] = useState('Woofy@gmail.com')
   const [currentUser, setCurrentUser] = useState(5);
+  const [userData, setUserData] = useState(data);
 
-  // Functions that will nagivate to each componenet // acts like a router
 
-  function FriendsScreen() {
+  useEffect(() => {
+    fetchUserData()
+  })
+
+  const fetchUserData = () => {
+    setUserData( data.sort((a,b)=> (a.name > b.name ? 1 : -1)) )
+      // fetch(/*http:<IP HERE>/searchFriends*/)
+      // .then((data) => {
+      //   setUserData(data)
+      // })
+    // setAllUsers() fnc to set all user that exist for friends search
+ }
+
+  const FriendsScreen = () => {
     return (
       <ScrollView>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-        <Friends />
+        <Friends data={userData}/>
       </View>
       </ScrollView>
     );
   }
 
-  function ChatScreen() {
-  //   return (
-  //   <ScrollView>
-  //   <View style={{ flex: 1, justifyContent: "center", alignItems: "left" }}>
-  //     <ChatList />
-  //   </View>
-  //   </ScrollView>
-  // );
-    return (<ChatList currentUser={currentUser} />);
+  const ChatScreen = ( {route} ) => {
+    return (
+      <ChatList data={userData} currentUser={currentUser}/>
+    )
   }
 
-  //  Camera function
-  function CameraScreen() {
+  const CameraScreen = () => {
     return (
       <View style={{ flex: 1}}>
       <CameraComponent email={email}/>
@@ -60,9 +66,8 @@ export default function App() {
     );
   }
 
-  function ProfileScreen( {navigation, route} ) {
-    const { dogname } = route.params || 'testname';
 
+  const ProfileScreen = ( {navigation, route} ) => {
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {
@@ -90,14 +95,17 @@ export default function App() {
     );
   }
 
+
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator >
+
         <Tab.Screen
           name="Friends"
           component={FriendsScreen}
           options={{
             tabBarLabel: 'Friends',
+
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="paw-outline" color={color} size={size} />
             ),
@@ -134,6 +142,7 @@ export default function App() {
               <Ionicons name="person-circle-outline" color={color} size={size} />
             ),
           }}/>
+
       </Tab.Navigator>
     </NavigationContainer>
   );

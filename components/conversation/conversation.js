@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView} from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
 import PhotoAdditionIcon from './photoAdditionIcon.js';
@@ -47,8 +47,7 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0, handleBackButtonPr
     );
   };
 
-  return picDisplay ?
-    (
+  return picDisplay ? (
       <View style={styles.lightbox}>
         <View>
           <Image source={{uri: spotlightPic}} style={styles.spotlight}/>
@@ -59,24 +58,23 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0, handleBackButtonPr
     :
     (
       <View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, flex: 1, justifyContent: 'flex-start'}}>
-            <View style={{width: Dimensions.get('window').width, flex: .08, backgroundColor: 'transparent', zIndex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
-              <Pressable onPress={handleBackButtonPress}>
-                <Image source={require('../../assets/icons/backArrow.png')} style={{height: 40, width: 40, left: 7, top: 3}}/>
-              </Pressable>
-            </View>
-            <GiftedChat
-              style={{zIndex: 0}}
-              messages={messages}
-              renderActions={() => PhotoAdditionIcon(userId, chatId)}
-              renderMessageImage={unopenedImage}
-              onSend={outgoingMessages => onSend(outgoingMessages)}
-              user={{
-                _id: userId,
-              }}
-            />
-          </View>
+        <View style={{width: Dimensions.get('window').width, flex: .08, backgroundColor: 'transparent', zIndex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
+          <Pressable onPress={handleBackButtonPress}>
+            <Image source={require('../../assets/icons/backArrow.png')} style={{height: 40, width: 40, left: 7, top: 3}}/>
+          </Pressable>
+        </View>
+        <GiftedChat
+          messages={messages}
+          renderActions={() => PhotoAdditionIcon(userId, chatId)}
+          renderMessageImage={unopenedImage}
+          onSend={outgoingMessages => onSend(outgoingMessages)}
+          user={{
+            _id: userId,
+          }}
+        />
+      </View>
     );
-  // return <Text>CONVERSATION COMPONENT HERE</Text>
+
 };
 
 const styles = StyleSheet.create({

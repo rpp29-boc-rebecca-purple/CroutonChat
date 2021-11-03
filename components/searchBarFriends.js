@@ -7,6 +7,7 @@ function SearchBarFriends( props ) {
 
   const [searchEmail, setSearchEmail] = useState('');
 
+
   const onChangeSearch = (q) => {
     setSearchEmail(q);
   }

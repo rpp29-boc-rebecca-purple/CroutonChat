@@ -24,7 +24,7 @@ const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggl
             source={isDarkTheme ? require('../../assets/BOC.nightskymoon.jpeg') : require('../../assets/BOC.profile.cloud.bg.webp')}
             style={{width: 400, height:250}}>
             <View style={styles.headerImage}></View>
-            <View style={styles.backButton}>
+            <View style={{position: 'absolute'}} >
               <TouchableOpacity onPress={()=> toggleSettings()}>
                 <Text style={isDarkTheme ? styles.backButtonDark : styles.backButton}
                 >&#x2190;</Text>
@@ -141,7 +141,6 @@ const styles = StyleSheet.create({
   },
   backButton: {
     fontSize: 35,
-    position: 'absolute',
     marginLeft: 5
 
   },

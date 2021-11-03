@@ -9,7 +9,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {editPass }from '../../HelperFuncs/profileApi.js';
 
-const ChangePassword = ({changePassModalToggle}) => {
+const ChangePassword = ({changePassModalToggle, isDarkTheme}) => {
   const [newPass, setNewPass] = useState('');
   const [newPassConf, setNewPassConf] = useState('');
   const validatePword = (p1, p2) => {
@@ -28,38 +28,38 @@ const ChangePassword = ({changePassModalToggle}) => {
 
       {/* Prompt and new password inputs */}
       <View style={styles.textWrap}>
-        <Text style={styles.text}>Please enter new password below:</Text>
+        <Text style={isDarkTheme ? styles.textDark : styles.text}>Please enter new password below:</Text>
       </View>
       <View style={styles.userInfoSection}>
           <View style={styles.row}>
-            <Text style={styles.inputPrompt}>Enter New Password: </Text>
+            <Text style={isDarkTheme ? styles.inputPromptDark : styles.inputPrompt}>Enter New Password: </Text>
             <TextInput
             placeholder='new password'
             onChangeText={(val)=> setNewPass(val)}
-            style={styles.input}
+            style={isDarkTheme ? styles.inputDark : styles.input}
             />
           </View>
           <View style={styles.row}>
-            <Text style={styles.inputPrompt}>Confirm New Password:</Text>
+            <Text style={isDarkTheme ? styles.inputPromptDark : styles.inputPrompt}>Confirm New Password:</Text>
             <TextInput
             style={{marginRight:0}}
             placeholder='new password'
             onChangeText={(val)=> setNewPassConf(val)}
-            style={styles.input}
+            style={isDarkTheme ? styles.inputDark : styles.input}
             />
           </View>
         </View>
 
       {/* back button and confirm button */}
       <View style={styles.changePasswordButtonsWrapper}>
-        <View style={styles.changePasswordButtons}>
+        <View style={isDarkTheme ? styles.changePasswordButtonsDark : styles.changePasswordButtons}>
           <TouchableOpacity onPress={()=> changePassModalToggle()}>
-            <Text>Back</Text>
+            <Text style={isDarkTheme ? styles.buttonTextDark : null}>Back</Text>
           </TouchableOpacity>
             </View>
-          <View style={styles.changePasswordButtons}>
+          <View style={isDarkTheme ? styles.changePasswordButtonsDark : styles.changePasswordButtons}>
           <TouchableOpacity onPress={()=> {validatePword(newPass, newPassConf); alert('password changed')}}>
-              <Text>Confirm</Text>
+              <Text style={isDarkTheme ? styles.buttonTextDark : null}>Confirm</Text>
           </TouchableOpacity>
           </View>
         </View>
@@ -72,6 +72,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 10,
     fontSize: 20
+  },
+  textDark: {
+    marginHorizontal: 10,
+    marginTop: 10,
+    fontSize: 20,
+    color: 'white'
   },
   textWrap: {
     alignItems: 'center',
@@ -89,7 +95,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#DDDDDD",
     padding: 10,
     fontSize: 20,
-    borderRightWidth: 1
+    borderRightWidth: 1,
+  },
+  changePasswordButtonsDark: {
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: "#DDDDDD",
+    padding: 10,
+    fontSize: 20,
+    borderRightWidth: 1,
+    backgroundColor: 'black'
   },
   row: {
     flexDirection: 'column',
@@ -103,13 +119,32 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 0,
     width: 250,
-   height: 30,
-   marginTop: 5,
-   textAlign: 'center'
+    height: 30,
+    marginTop: 5,
+    textAlign: 'center',
+  },
+  inputDark: {
+    borderWidth: 1,
+    borderColor: '#777',
+    padding: 8,
+    margin: 0,
+    width: 250,
+    height: 30,
+    marginTop: 5,
+    textAlign: 'center',
+    color: 'white'
   },
   inputPrompt: {
     textAlign: 'center',
     marginTop: 10
+  },
+  inputPromptDark: {
+    textAlign: 'center',
+    marginTop: 10,
+    color: 'white'
+  },
+  buttonTextDark: {
+    color: 'white'
   }
 });
 

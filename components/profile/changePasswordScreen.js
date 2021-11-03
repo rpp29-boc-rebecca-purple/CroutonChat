@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,10 +7,25 @@ import {
   TextInput
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import {editPass }from '../../HelperFuncs/profileApi.js';
 
-const ChangePassword = (props) => {
+const ChangePassword = ({changePassModalToggle}) => {
+  const [newPass, setNewPass] = useState('');
+  const [newPassConf, setNewPassConf] = useState('');
+  const validatePword = (p1, p2) => {
+    if (JSON.stringify(p1) === JSON.stringify(p2)) {
+      editPass(p2);
+      changePassModalToggle();
+    } else {
+      alert('password confirmation did not match')
+    }
+  }
+
+
+
   return (
     <SafeAreaView>
+
       {/* Prompt and new password inputs */}
       <View style={styles.textWrap}>
         <Text style={styles.text}>Please enter new password below:</Text>
@@ -21,6 +35,7 @@ const ChangePassword = (props) => {
             <Text style={styles.inputPrompt}>Enter New Password: </Text>
             <TextInput
             placeholder='new password'
+            onChangeText={(val)=> setNewPass(val)}
             style={styles.input}
             />
           </View>
@@ -29,19 +44,21 @@ const ChangePassword = (props) => {
             <TextInput
             style={{marginRight:0}}
             placeholder='new password'
+            onChangeText={(val)=> setNewPassConf(val)}
             style={styles.input}
             />
           </View>
         </View>
+
       {/* back button and confirm button */}
       <View style={styles.changePasswordButtonsWrapper}>
         <View style={styles.changePasswordButtons}>
-          <TouchableOpacity onPress={()=> props.changePassModalToggle()}>
+          <TouchableOpacity onPress={()=> changePassModalToggle()}>
             <Text>Back</Text>
           </TouchableOpacity>
             </View>
           <View style={styles.changePasswordButtons}>
-          <TouchableOpacity onPress={()=> alert('password changed')}>
+          <TouchableOpacity onPress={()=> {validatePword(newPass, newPassConf); alert('password changed')}}>
               <Text>Confirm</Text>
           </TouchableOpacity>
           </View>
@@ -86,7 +103,7 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 0,
     width: 250,
-   height: 20,
+   height: 30,
    marginTop: 5,
    textAlign: 'center'
   },

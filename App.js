@@ -117,7 +117,8 @@ export default function App() {
         state={profileSettingsOpen}
         logoutModalToggle={setLogoutModalOpen}
         changePassModalToggle={setChangePassModalOpen}
-        darkThemeToggle={setIsDarkTheme} />
+        darkThemeToggle={setIsDarkTheme}
+        isDarkTheme={isDarkTheme}/>
       } else if (logoutModalOpen){
         displaypage = <LogoutScreen
         logoutModalToggle={setLogoutModalOpen}
@@ -132,6 +133,7 @@ export default function App() {
         displaypage = <EditProfile
         editProfile={setEditProfile}
         fakeUser={fakeUser}
+        isDarkTheme={isDarkTheme}
          />
       }
       else {
@@ -140,6 +142,7 @@ export default function App() {
           toggleSettings={setProfileSettingsOpen}
           editProfile={setEditProfile}
           fakeUser={fakeUser}
+          isDarkTheme={isDarkTheme}
            />;
         }
       }

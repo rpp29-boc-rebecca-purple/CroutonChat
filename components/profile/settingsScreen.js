@@ -12,7 +12,7 @@ import {
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggle, darkThemeToggle}) => {
+const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggle, darkThemeToggle, isDarkTheme}) => {
 
   return (
     <SafeAreaView>
@@ -21,8 +21,8 @@ const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggl
       <ScrollView>
         <View style={styles.headerContainer}>
           <ImageBackground
-            source={require('../../assets/BOC.profile.cloud.bg.webp')}
-            style={{width: 400, minHeight:226}}>
+            source={isDarkTheme ? require('../../assets/BOC.nightskymoon.jpeg') : require('../../assets/BOC.profile.cloud.bg.webp')}
+            style={{width: 400, height:250}}>
             <View style={styles.headerImage}></View>
             <View style={styles.backButton}>
               <TouchableOpacity onPress={()=> toggleSettings()}>

@@ -13,15 +13,15 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Profile = ({fakeUser, editProfile, toggleSettings}) => {
+const Profile = ({fakeUser, editProfile, toggleSettings, isDarkTheme}) => {
     return (
       <SafeAreaView style={styles.container}>
 
         {/* profile pic, name, and snack tag */}
         <View style={styles.userInfoSection}>
           <ImageBackground
-          source={require('../../assets/BOC.profile.cloud.bg.webp')}
-          style={{width: 400}}>
+          source={isDarkTheme ? require('../../assets/BOC.nightskymoon.jpeg') : require('../../assets/BOC.profile.cloud.bg.webp')}
+          style={{width: 400, height: 250}}>
             <View style={{alignItems: 'center', marginTop: 75}}>
               <Avatar.Image
                 source={{
@@ -40,38 +40,38 @@ const Profile = ({fakeUser, editProfile, toggleSettings}) => {
         {/* user info section */}
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
-            <Text style={{fontWeight: 'bold'}}>First Name: </Text>
-            <Text>{fakeUser.first_name}</Text>
+            <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>First Name: </Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{fakeUser.first_name}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={{fontWeight: 'bold'}}>Last Name: </Text>
-            <Text>{fakeUser.last_name}</Text>
+            <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Last Name: </Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{fakeUser.last_name}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={{fontWeight: 'bold'}}>Age: </Text>
-            <Text>{fakeUser.age}</Text>
+            <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Age: </Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{fakeUser.age}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={{fontWeight: 'bold'}}>Species: </Text>
-            <Text>{fakeUser.animal_type}</Text>
+            <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Species: </Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{fakeUser.animal_type}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={{fontWeight: 'bold'}}>Favorite Snack: </Text>
-            <Text>{fakeUser.snack}</Text>
+            <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Favorite Snack: </Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{fakeUser.snack}</Text>
           </View>
         </View>
 
         {/* buttons for edit profile and navigate to settings */}
-        <View style={styles.profileButtonsWrapper}>
-            <View style={styles.profileButton}>
-          <TouchableOpacity onPress={()=> editProfile()}>
-              <Text>Edit Profile</Text>
-          </TouchableOpacity>
+        <View style={isDarkTheme ? styles.darkProfileButtonsWrapper : styles.profileButtonsWrapper}>
+            <View style={isDarkTheme ? styles.darkProfileButton : styles.profileButton}>
+              <TouchableOpacity onPress={()=> editProfile()}>
+                  <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Edit Profile</Text>
+              </TouchableOpacity>
             </View>
-          <View style={styles.profileButton}>
-          <TouchableOpacity onPress={()=> toggleSettings()}>
-            <Text >Settings</Text>
-          </TouchableOpacity>
+          <View style={isDarkTheme ? styles.darkProfileButton : styles.profileButton}>
+            <TouchableOpacity onPress={()=> toggleSettings()}>
+              <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Settings</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>
@@ -99,19 +99,49 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     marginBottom: 23,
-    marginLeft: 20
+    marginLeft: 20,
+  },
+  keyTextStyle: {
+    fontWeight: 'bold'
+  },
+  keyTextStyleDark: {
+    fontWeight: 'bold',
+    color: 'white'
+  },
+  valueTextStyle: {
+    color: 'black'
+  },
+  valueTextStyleDark: {
+    color: 'white'
   },
 
   profileButtonsWrapper: {
-    borderTopColor: '#dddddd',
+    borderTopColor: 'black',
     borderTopWidth: 1,
     flexDirection: 'row',
     height: 100,
     marginTop: 'auto',
     backgroundColor: "#DDDDDD",
     padding: 10,
+
+  },
+  darkProfileButtonsWrapper: {
+    borderTopColor: 'black',
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    height: 100,
+    marginTop: 'auto',
+    backgroundColor: "black",
+    padding: 10,
   },
   profileButton: {
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRightWidth: 1,
+
+  },
+  darkProfileButton: {
     width: '50%',
     alignItems: 'center',
     justifyContent: 'center',

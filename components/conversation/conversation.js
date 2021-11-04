@@ -5,7 +5,7 @@ import { ProgressBar } from 'react-native-paper';
 import PhotoAdditionIcon from './photoAdditionIcon.js';
 const api = require('./apiHelpers.js');
 
-const Conversation = ({ userId = 5, friendId = 4, chatId = 0, email, convodata}) => {
+const Conversation = ({ userId = 5, friendId = 4, chatId = 0, handleBackButtonPress }) => {
   let [messages, setMessages] = useState([]);
   let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
@@ -57,18 +57,21 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0, email, convodata})
     )
     :
     (
-
-      <View style={{ flex: 1 }}>
-      <GiftedChat
-        messages={messages}
-        renderActions={() => PhotoAdditionIcon(userId, chatId)}
-        renderMessageImage={unopenedImage}
-        onSend={outgoingMessages => onSend(outgoingMessages)}
-        user={{
-          _id: userId,
-        }}
-      />
-      <Text> test</Text>
+      <View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, flex: 1, justifyContent: 'flex-start'}}>
+        <View style={{width: Dimensions.get('window').width, flex: .08, backgroundColor: 'transparent', zIndex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
+          <Pressable onPress={handleBackButtonPress}>
+            <Image source={require('../../assets/icons/backArrow.png')} style={{height: 40, width: 40, left: 7, top: 3}}/>
+          </Pressable>
+        </View>
+        <GiftedChat
+          messages={messages}
+          renderActions={() => PhotoAdditionIcon(userId, chatId)}
+          renderMessageImage={unopenedImage}
+          onSend={outgoingMessages => onSend(outgoingMessages)}
+          user={{
+            _id: userId,
+          }}
+        />
       </View>
     );
 

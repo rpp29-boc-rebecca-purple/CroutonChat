@@ -38,6 +38,7 @@ export default function App() {
   const [isDarkTheme, setIsDarkTheme] = useToggle(false);
   const [isLoggedIn, setLoggedIn] = useToggle(true);
   const [email] = useState(fakeUser.email);
+  const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
 
 
@@ -92,13 +93,9 @@ export default function App() {
 
   const ChatScreen = ({ route }) => {
     return (
-      <ScrollView>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <ChatList data={userData} />
-        </View>
-      </ScrollView>
-    );
-  };
+      <ChatList data={userData} currentUser={currentUser}/>
+    )
+  }
 
   const CameraScreen = () => {
     return (
@@ -157,38 +154,35 @@ export default function App() {
     return <LoginPage setLoggedIn={setLoggedIn}/>;
   } else {
     return (
-      <PaperProvider theme={theme}>
-        <NavigationContainer theme={theme}>
-          <Tab.Navigator>
-            <Tab.Screen
-              name="Friends"
-              component={FriendsScreen}
-              options={{
-                tabBarLabel: 'Friends',
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="paw-outline" color={color} size={size} />
-                ),
-              }}/>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen
+            name="Chat"
+            component={ChatScreen}
+            options={{
+              tabBarLabel: 'Chat',
+              tabBarIcon: ({ color, size }) => <Ionicons name="chatbubbles-outline" color={color} size={size} />,
+            }}
+          />
 
-            <Tab.Screen
-              name="Camera"
-              component={CameraScreen}
-              options={{
-                tabBarLabel: 'Camera',
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="camera-outline" color={color} size={size} />
-                ),
-              }}/>
+          <Tab.Screen
+            name="Camera"
+            component={CameraScreen}
+            options={{
+              tabBarLabel: 'Camera',
+              tabBarIcon: ({ color, size }) => <Ionicons name="camera-outline" color={color} size={size} />,
+            }}
+          />
 
-            <Tab.Screen
-              name="Chat"
-              component={ChatScreen}
-              options={{
-                tabBarLabel: 'Chat',
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="chatbubbles-outline" color={color} size={size} />
-                ),
-              }}/>
+          <Tab.Screen
+            name="Friends"
+            component={FriendsScreen}
+            options={{
+              tabBarLabel: 'Friends',
+              tabBarIcon: ({ color, size }) => <Ionicons name="paw-outline" color={color} size={size} />,
+            }}
+          />
+
 
             <Tab.Screen
               name="Profile"
@@ -198,10 +192,9 @@ export default function App() {
                 tabBarIcon: ({ color, size }) => (
                   <Ionicons name="person-circle-outline" color={color} size={size} />
                 ),
-              }}/>
-          </Tab.Navigator>
-        </NavigationContainer>
-      </PaperProvider>
+            }}/>
+        </Tab.Navigator>
+      </NavigationContainer>
     );
   }
 }

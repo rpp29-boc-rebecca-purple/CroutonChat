@@ -5,10 +5,11 @@ import { ProgressBar } from 'react-native-paper';
 import PhotoAdditionIcon from './photoAdditionIcon.js';
 const api = require('./apiHelpers.js');
 
-const Conversation = ({ userId = 5, friendId = 4, chatId = 0, handleBackButtonPress }) => {
+const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonPress }) => {
   let [messages, setMessages] = useState([]);
   let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
+  let [cameraDisplay, setCameraDisplay] = useState(false);
   let [progressBarFill, setProgressBarFill] = useState(1);
 
   // updates messages upon render

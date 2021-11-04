@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet,  View,  ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Appearance } from 'react-native';
 import {
   NavigationContainer,
   DarkTheme as NavigationDarkTheme,
@@ -29,13 +33,20 @@ import data from './data/data';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  // Determine user has light/dark theme on phone
+  let phoneTheme = true;
+  const colorScheme = Appearance.getColorScheme();
+  if (colorScheme === 'dark') {
+    phoneTheme = false;
+}
+
   // Add State that will be shared globally here
   const [name, setName] = useState(fakeUser.first_name);
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
-  const [isDarkTheme, setIsDarkTheme] = useToggle(false);
+  const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
   const [isLoggedIn, setLoggedIn] = useToggle(true);
   const [email] = useState(fakeUser.email);
   const [userData, setUserData] = useState(data);

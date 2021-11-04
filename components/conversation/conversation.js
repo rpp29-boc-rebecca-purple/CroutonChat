@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView, TouchableOpacity} from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
 import CameraComponent from '../camera.js';
@@ -85,9 +85,9 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
     (
       <View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, flex: 1, justifyContent: 'flex-start'}}>
         <View style={{width: Dimensions.get('window').width, flex: .08, backgroundColor: 'transparent', zIndex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
-          <Pressable onPress={handleBackButtonPress}>
-            <Image source={require('../../assets/icons/backArrow.png')} style={{height: 40, width: 40, left: 7, top: 3}}/>
-          </Pressable>
+          <TouchableOpacity onPress={handleBackButtonPress}>
+            <Image source={require('../../assets/icons/backArrow.png')} style={{height: 50, width: 50, left: 15, top: 10}}/>
+          </TouchableOpacity>
         </View>
         <GiftedChat
           messages={messages}

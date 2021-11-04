@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View ,TouchableOpacity,Platform, Image, ImageBackground} from 'react-native';
+import { StyleSheet, Text, View , TouchableOpacity,Platform, Image, ImageBackground} from 'react-native';
 import { Camera } from 'expo-camera';
 import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons';
 //import { globalStyles } from '../styles/global.js'
@@ -123,9 +123,9 @@ export default class CameraComponent extends React.Component {
                 <TouchableOpacity
                   style={styles.backArrow}
                   onPress={()=>this.exitCamera()}>
-                  <Ionicons
-                      name="arrow-back-outline"
-                      style={{ color: "#fff", fontSize: 55, left: 10, top: 2}}
+                  <Image
+                      source={require('./../assets/icons/backArrowWhite.png')}
+                      style={{ height: 50, width: 50, left: 15, top: 10}}
                   />
                 </TouchableOpacity>
               )

@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView} from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
-import PhotoAdditionIcon from './photoAdditionIcon.js';
+import CameraComponent from '../camera.js';
 const api = require('./apiHelpers.js');
 
 const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonPress }) => {
@@ -40,12 +40,33 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
 
   // message that shows for unseen pictures
   const unopenedImage = ({currentMessage}) => {
-    return (
+    console.log(currentMessage);
+    return currentMessage.user._id !== userId ? (
       <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={styles.unopenedImageBody}>
         <Image source={require('../../assets/icons/photoStack.jpeg')} style={styles.unopenedImageIcon}/>
         <Text style={styles.unopenedImageText}>Tap here to view a new photo from {api.getFriendName(friendId)}!</Text>
       </Pressable>
+    )
+    :
+    (
+      <Image source={{uri: currentMessage.image}} style={styles.ownSentImage} />
     );
+  };
+
+  const handlePhotoAdditionIconPress = () => {
+    setCameraDisplay(true);
+  };
+
+  const photoAdditionIcon = () => {
+    return (
+      <Pressable onPress={handlePhotoAdditionIconPress}>
+        <Image source={require('../../assets/icons/camera.png')} style={styles.photoAdditionIcon}/>
+      </Pressable>
+    )
+  };
+
+  const exitCamera = () => {
+    setCameraDisplay(false);
   };
 
   return picDisplay ? (
@@ -55,6 +76,10 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
           <ProgressBar progress={progressBarFill} color={'#a1dc91'}/>
         </View>
       </View>
+    )
+    : cameraDisplay ?
+    (
+      <CameraComponent chatId={chatId} senderId={userId} exitCamera={exitCamera} />
     )
     :
     (
@@ -66,7 +91,7 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
         </View>
         <GiftedChat
           messages={messages}
-          renderActions={() => PhotoAdditionIcon(userId, chatId)}
+          renderActions={photoAdditionIcon}
           renderMessageImage={unopenedImage}
           onSend={outgoingMessages => onSend(outgoingMessages)}
           user={{
@@ -99,6 +124,18 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 15
   },
+  ownSentImage: {
+    height: 170,
+    width: 170,
+    bottom: 4,
+    top: 0,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 2,
+    // borderBottomLeftRadius: 15,
+    // borderBottomRightRadius: 15
+  },
   unopenedImageIcon: {
     height: 100,
     width: 100,
@@ -108,6 +145,12 @@ const styles = StyleSheet.create({
   unopenedImageText: {
     color: '#24303a',
     textAlign: 'center'
+  },
+  photoAdditionIcon: {
+    height: 30,
+    width: 30,
+    left: 7,
+    top: -8
   }
 });
 

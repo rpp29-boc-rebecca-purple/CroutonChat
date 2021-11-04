@@ -12,6 +12,7 @@ import * as ImagePicker from 'expo-image-picker';
 export default class CameraComponent extends React.Component {
   constructor(props) {
     super(props)
+    this.exitCamera = props.exitCamera;
     this.state = {
       chatId: props.chatId || 12,
       senderId: props.senderId || 1,
@@ -81,6 +82,8 @@ export default class CameraComponent extends React.Component {
   let match = /\.(\w+)$/.exec(filename);
   let type = match ? `image/${match[1]}` : `image`;
 
+  this.exitCamera();
+
   let formData = new FormData();
   formData.append('photo', { uri: localUri, name: filename, type: type, email: this.state.email});
   formData.append('chatId', this.state.chatId);
@@ -100,8 +103,8 @@ export default class CameraComponent extends React.Component {
       } else {
         console.log('image send failed', response);
       }
-    }).catch(function() {
-      console.log("failed to connect");
+    }).catch(function(err) {
+      console.log("failed to connect", err);
     })
   }
 
@@ -113,8 +116,20 @@ export default class CameraComponent extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor: 'purple' }}>
             <Camera style={{ flex: 1 }} type={this.state.cameraType}  ref={ref => {this.camera = ref}}>
+            {
+              this.exitCamera === undefined ? (<View/>) :(
+                <TouchableOpacity
+                  style={styles.backArrow}
+                  onPress={()=>this.exitCamera()}>
+                  <Ionicons
+                      name="arrow-back-outline"
+                      style={{ color: "#fff", fontSize: 55, left: 10, top: 2}}
+                  />
+                </TouchableOpacity>
+              )
+            }
             <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:30}}>
                 <TouchableOpacity
                   style={styles.center}
@@ -155,5 +170,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'transparent'
+  },
+  backArrow: {
+    alignSelf: 'flex-start'
   }
 });

@@ -53,7 +53,7 @@ export default function App() {
   const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
-  const [authPage, setAuthPage] = useState('login');
+  const [authPage, setAuthPage] = useState('singup');
 
   // Setting default and dark custom themes
   const customDefaultTheme = {
@@ -159,7 +159,7 @@ export default function App() {
   }
 
   if (!isLoggedIn && authPage === 'signup') {
-    return <SignupPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
+    return <SignupPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} isDarkTheme={isDarkTheme} />;
   } else if (!isLoggedIn) {
     return <LoginPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} theme ={theme} isDarkTheme={isDarkTheme} />;
   } else {

@@ -53,7 +53,7 @@ export default function App() {
   const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
-  const [authPage, setAuthPage] = useState('singup');
+  const [authPage, setAuthPage] = useState('login');
 
   // Setting default and dark custom themes
   const customDefaultTheme = {

@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View ,TouchableOpacity,Platform, Image, ImageBackground} from 'react-native';
+import { StyleSheet, Text, View , TouchableOpacity,Platform, Image, ImageBackground} from 'react-native';
 import { Camera } from 'expo-camera';
 import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons';
 //import { globalStyles } from '../styles/global.js'
@@ -12,7 +12,10 @@ import * as ImagePicker from 'expo-image-picker';
 export default class CameraComponent extends React.Component {
   constructor(props) {
     super(props)
+    this.exitCamera = props.exitCamera;
     this.state = {
+      chatId: props.chatId || 12,
+      senderId: props.senderId || 1,
       hasPermission: null,
       cameraType: Camera.Constants.Type.back,
       setpreview: false,
@@ -62,9 +65,9 @@ export default class CameraComponent extends React.Component {
       const source = photo.uri;
       if (source) {
          alert('photo added')
-    }
-  };
-}
+      }
+    };
+  }
 
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -79,23 +82,31 @@ export default class CameraComponent extends React.Component {
   let match = /\.(\w+)$/.exec(filename);
   let type = match ? `image/${match[1]}` : `image`;
 
-  let formData = new FormData();
-  formData.append('photo', { uri: localUri, name: filename, type: type, email: this.state.email });
+  this.exitCamera();
 
-   await fetch('http://3.133.100.147:2550/addPhoto', {
-    method: 'POST',
-    body: formData,
-    headers: {
-      Accept: 'application/json',
-      'content-type': 'multipart/form-data',
-    },
-  })
+  let formData = new FormData();
+  formData.append('photo', { uri: localUri, name: filename, type: type, email: this.state.email});
+  formData.append('chatId', this.state.chatId);
+  formData.append('senderId', this.state.senderId);
+
+   await fetch('http://3.133.100.147:2550/add-photo', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Accept: 'application/json',
+        'content-type': 'multipart/form-data',
+      },
+    })
     .then((response) => {
-       console.log('image send successful')
-      }).catch(function() {
-        console.log("image upload failed");
-      })
-}
+      if (response.status === 200) {
+        console.log('image send successful', response);
+      } else {
+        console.log('image send failed', response);
+      }
+    }).catch(function(err) {
+      console.log("failed to connect", err);
+    })
+  }
 
   render(){
     const { hasPermission } = this.state
@@ -105,14 +116,26 @@ export default class CameraComponent extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor: 'purple' }}>
             <Camera style={{ flex: 1 }} type={this.state.cameraType}  ref={ref => {this.camera = ref}}>
+            {
+              this.exitCamera === undefined ? (<View/>) :(
+                <TouchableOpacity
+                  style={styles.backArrow}
+                  onPress={()=>this.exitCamera()}>
+                  <Image
+                      source={require('./../assets/icons/backArrowWhite.png')}
+                      style={{ height: 50, width: 50, left: 15, top: 10}}
+                  />
+                </TouchableOpacity>
+              )
+            }
             <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:30}}>
                 <TouchableOpacity
                   style={styles.center}
                   onPress={()=>this.pickImage()}>
                   <Ionicons
-                      name="cloud-upload-outline"
+                      name="images-outline"
                       style={{ color: "#fff", fontSize: 40}}
                   />
                 </TouchableOpacity>
@@ -147,5 +170,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'transparent'
+  },
+  backArrow: {
+    alignSelf: 'flex-start'
   }
 });

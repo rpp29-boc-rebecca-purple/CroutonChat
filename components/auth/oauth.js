@@ -23,8 +23,9 @@ function OAuth(props) {
 
     if (response?.authentication) {
       axios
-        .post('http://localhost:8080/oauth/connect', { accessToken: response.authentication.accessToken })
+        .post('http://18.191.220.233/oauth/connect', { accessToken: response.authentication.accessToken })
         .then(() => {
+          console.log('OK')
           props.setLoggedIn(true);
         })
         .catch(err => {

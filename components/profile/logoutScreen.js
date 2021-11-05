@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   StyleSheet,
   Text,
@@ -8,7 +7,7 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const LogoutScreen = (props) => {
+const LogoutScreen = ({logoutModalToggle}) => {
   return (
     <SafeAreaView>
       <View style={styles.textWrap}>
@@ -16,7 +15,7 @@ const LogoutScreen = (props) => {
       </View>
       <View style={styles.logoutModalButtonsWrapper}>
         <View style={[styles.logoutModalButtons]}>
-          <TouchableOpacity onPress={()=> props.logoutModalToggle()}>
+          <TouchableOpacity onPress={()=> logoutModalToggle()}>
             <Text>Back</Text>
           </TouchableOpacity>
             </View>

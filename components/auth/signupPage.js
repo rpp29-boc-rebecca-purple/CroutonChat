@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, TouchableOpacity, Text, AsyncStorage } from 'react-native';
+import { StyleSheet, TextInput, View, TouchableOpacity, Text } from 'react-native';
 import OAuth from './oauth';
 import axios from 'axios';
 
 function LoginPage(props) {
+  let [firstName, setFirstName] = useState('');
+  let [lastName, setLastName] = useState('');
+  let [username, setUsername] = useState('');
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
   let [errorText, setErrorText] = useState('');
@@ -13,26 +16,41 @@ function LoginPage(props) {
       <View style={styles.logo}>
         <Text>LOGO</Text>
       </View>
-      <TextInput style={styles.textInput} placeholder="Email" onChangeText={text => setEmail(text)} />
-      <TextInput style={styles.textInput} placeholder="Password" onChangeText={text => setPassword(text)} />
+      <TextInput style={styles.textInput} placeholder="First Name" onChangeText={text => setFirstName(text)} autoCapitalize="none" autoCorrect={false} textContentType="givenName" />
+      <TextInput style={styles.textInput} placeholder="Last Name" onChangeText={text => setLastName(text)} autoCapitalize="none" autoCorrect={false} textContentType="familyName" />
+      <TextInput style={styles.textInput} placeholder="Username" onChangeText={text => setUsername(text)} autoCapitalize="none" autoCorrect={false} textContentType="username" />
+      <TextInput style={styles.textInput} placeholder="Email" onChangeText={text => setEmail(text)} autoCapitalize="none" autoCorrect={false} textContentType="emailAddress" />
+      <TextInput
+        style={styles.textInput}
+        placeholder="Password"
+        onChangeText={text => setPassword(text)}
+        autoCapitalize="none"
+        autoCorrect={false}
+        textContentType="newPassword"
+        secureTextEntry={true}
+      />
       <Text style={styles.error}>{errorText}</Text>
 
       <TouchableOpacity
         onPress={() => {
           axios
-            .post('http://localhost:8080/login', { email, password })
+            .post('http://18.191.220.233/register', { email, password, username, first_name: firstName, last_name: lastName })
             .then(async response => {
               setErrorText('');
-              await AsyncStorage.setItem('user', JSON.stringify(response.data));
               props.setLoggedIn(true);
+              AsyncStorage.setItem('user', JSON.stringify(response.data));
             })
             .catch(err => {
-              setErrorText(err.toString());
+              if (err.toString().indexOf('409') > 0) {
+                setErrorText('An account is already registered with this email.');
+              } else {
+                setErrorText(err.toString());
+              }
             });
         }}
         style={styles.mainButton}
       >
-        <Text style={styles.mainButtonText}>Log in</Text>
+        <Text style={styles.mainButtonText}>Sign up</Text>
       </TouchableOpacity>
 
       <View style={styles.horizontal}>
@@ -45,11 +63,11 @@ function LoginPage(props) {
 
       <TouchableOpacity
         onPress={() => {
-          props.setAuthPage('signup');
+          props.setAuthPage('login');
         }}
         style={styles.button}
       >
-        <Text style={styles.buttonText}>Don't have an account? Sign up!</Text>
+        <Text style={styles.buttonText}>Already have an account? Log in</Text>
       </TouchableOpacity>
     </View>
   );
@@ -102,6 +120,7 @@ const styles = StyleSheet.create({
     borderColor: 'lightgrey',
     padding: 10,
     margin: 8,
+    borderRadius: 5,
   },
   logo: {
     borderRadius: 75,

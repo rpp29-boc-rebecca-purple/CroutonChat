@@ -41,7 +41,7 @@ const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggl
               <Text style={{paddingRight: 25, fontWeight: 'bold', fontSize: 20, color: 'white'}}>Light</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> darkThemeToggle()}>
-              <Text style={{fontSize: 20, fontWeight: 'bold', fontSize: 20}}>Dark</Text>
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>Dark</Text>
             </TouchableOpacity>
           </View>
         </View>

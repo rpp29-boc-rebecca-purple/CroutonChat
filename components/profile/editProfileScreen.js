@@ -73,6 +73,8 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
             <TextInput
             placeholder={fakeUser.first_name}
             onChangeText={(val)=> setName(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
             style={styles.input}
             />
           </View>
@@ -81,6 +83,8 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
             <TextInput
             placeholder={fakeUser.last_name}
             onChangeText={(val)=> setLastName(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
             style={styles.input}
             />
           </View>
@@ -90,6 +94,8 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
             style={{marginRight:0}}
             placeholder={fakeUser.age}
             onChangeText={(val) => setAge(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
             style={styles.input}
             />
           </View>
@@ -98,6 +104,8 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
             <TextInput
             placeholder={fakeUser.animal_type}
             onChangeText={(val) => setAnimalType(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
             style={styles.input}
             />
           </View>
@@ -106,6 +114,8 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
             <TextInput
             placeholder={fakeUser.snack}
             onChangeText={(val) => setFavoriteSnack(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
             style={styles.input}
             />
           </View>
@@ -160,7 +170,6 @@ const styles = StyleSheet.create({
   },
   editProfileButtonDark: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
     padding: 10,
     fontSize: 20,
     minWidth: 200,

@@ -170,7 +170,6 @@ const styles = StyleSheet.create({
   },
   editProfileButtonDark: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
     padding: 10,
     fontSize: 20,
     minWidth: 200,

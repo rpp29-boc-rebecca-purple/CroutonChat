@@ -63,7 +63,7 @@ const Profile = ({fakeUser, editProfile, toggleSettings, isDarkTheme}) => {
 
         {/* buttons for edit profile and navigate to settings */}
         <View style={isDarkTheme ? styles.darkProfileButtonsWrapper : styles.profileButtonsWrapper}>
-            <View style={isDarkTheme ? styles.darkProfileButton : styles.profileButton}>
+            <View style={styles.profileButton}>
               <TouchableOpacity onPress={()=> editProfile()}>
                   <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Edit Profile</Text>
               </TouchableOpacity>
@@ -140,12 +140,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRightWidth: 1,
 
-  },
-  darkProfileButton: {
-    width: '50%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRightWidth: 1,
   }
 });
 

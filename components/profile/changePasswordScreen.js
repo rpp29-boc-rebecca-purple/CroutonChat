@@ -36,6 +36,8 @@ const ChangePassword = ({changePassModalToggle, isDarkTheme}) => {
             <TextInput
             placeholder='new password'
             onChangeText={(val)=> setNewPass(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
             style={isDarkTheme ? styles.inputDark : styles.input}
             />
           </View>
@@ -45,6 +47,8 @@ const ChangePassword = ({changePassModalToggle, isDarkTheme}) => {
             style={{marginRight:0}}
             placeholder='new password'
             onChangeText={(val)=> setNewPassConf(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
             style={isDarkTheme ? styles.inputDark : styles.input}
             />
           </View>
@@ -58,7 +62,7 @@ const ChangePassword = ({changePassModalToggle, isDarkTheme}) => {
           </TouchableOpacity>
             </View>
           <View style={isDarkTheme ? styles.changePasswordButtonsDark : styles.changePasswordButtons}>
-          <TouchableOpacity onPress={()=> {validatePword(newPass, newPassConf); alert('password changed')}}>
+          <TouchableOpacity onPress={()=> {alert('new password submitted'); validatePword(newPass, newPassConf)}}>
               <Text style={isDarkTheme ? styles.buttonTextDark : null}>Confirm</Text>
           </TouchableOpacity>
           </View>

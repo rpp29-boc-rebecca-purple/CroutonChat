@@ -1,22 +1,38 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TextInput, View, TouchableOpacity, Text, AsyncStorage } from 'react-native';
 import OAuth from './oauth';
+import axios from 'axios';
 
 function LoginPage(props) {
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
+  let [errorText, setErrorText] = useState('');
 
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
         <Text>LOGO</Text>
       </View>
-      <TextInput style={styles.textInput} placeholder="Email" onChangeText={text => setEmail(text)} />
-      <TextInput style={styles.textInput} placeholder="Password" onChangeText={text => setEmail(text)} />
+      <TextInput style={styles.textInput} placeholder="Email" onChangeText={text => setEmail(text)} autoCapitalize="none" autoCorrect={false} textContentType="emailAddress" />
+      <TextInput style={styles.textInput} placeholder="Password" onChangeText={text => setPassword(text)} autoCapitalize="none" autoCorrect={false} textContentType="password" secureTextEntry={true} />
+      <Text style={styles.error}>{errorText}</Text>
 
       <TouchableOpacity
         onPress={() => {
-          // go to sign up page
+          axios
+            .post('http://18.191.220.233/login', { email, password })
+            .then(async response => {
+              setErrorText('');
+              await AsyncStorage.setItem('user', JSON.stringify(response.data));
+              props.setLoggedIn(true);
+            })
+            .catch(err => {
+              if (err.toString().indexOf('401') > 0 || err.toString().indexOf('400') > 0) {
+                setErrorText('Invalid email or password.');
+              } else {
+                setErrorText(err.toString());
+              }
+            });
         }}
         style={styles.mainButton}
       >
@@ -24,14 +40,16 @@ function LoginPage(props) {
       </TouchableOpacity>
 
       <View style={styles.horizontal}>
-        <Text style={styles.horizontalRule}>-------------------------------------</Text><Text>   OR   </Text><Text style={styles.horizontalRule}>-------------------------------------</Text>
+        <Text style={styles.horizontalRule}>-------------------------------------</Text>
+        <Text> OR </Text>
+        <Text style={styles.horizontalRule}>-------------------------------------</Text>
       </View>
 
-      <OAuth setLoggedIn={props.setLoggedIn}/>
+      <OAuth setLoggedIn={props.setLoggedIn} />
 
       <TouchableOpacity
         onPress={() => {
-          // go to sign up page
+          props.setAuthPage('signup');
         }}
         style={styles.button}
       >
@@ -42,17 +60,21 @@ function LoginPage(props) {
 }
 
 const styles = StyleSheet.create({
+  error: {
+    color: 'red',
+    fontWeight: 'bold',
+  },
   horizontal: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 10,
-    maxHeight: 30
+    maxHeight: 30,
   },
   horizontalRule: {
     letterSpacing: -2,
     margin: 0,
-    padding: 0
+    padding: 0,
   },
   mainButton: {
     backgroundColor: 'grey',
@@ -84,6 +106,7 @@ const styles = StyleSheet.create({
     borderColor: 'lightgrey',
     padding: 10,
     margin: 8,
+    borderRadius: 5,
   },
   logo: {
     borderRadius: 75,

@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet,  View,  ScrollView } from 'react-native';
-import {
-  NavigationContainer,
-  DarkTheme as NavigationDarkTheme,
-  DefaultTheme as NavigationDefaultTheme
-   } from "@react-navigation/native";
-import {
-  Provider as PaperProvider,
-  DarkTheme as PaperDarkTheme,
-  DefaultTheme as PaperDefaultTheme
- } from 'react-native-paper';
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { NavigationContainer, DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
+import { Provider as PaperProvider, DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import Friends from './components/friends.js'
-import ChatList from './components/chatlist.js'
-import CameraComponent from './components/camera.js'
-import Profile from './components/profile/profileScreen.js'
-import Settings from './components/profile/settingsScreen.js'
-import useToggle from "./HelperFuncs/profileHelpers.js";
-import EditProfile from "./components/profile/editProfileScreen.js";
-import LogoutScreen from "./components/profile/logoutScreen.js";
-import ChangePasswordScreen from "./components/profile/changePasswordScreen.js";
-import LoginPage from './components/loginPage';
-import SignupPage from './components/signupPage';
+import Friends from './components/friends.js';
+import ChatList from './components/chatlist.js';
+import CameraComponent from './components/camera.js';
+import Profile from './components/profile/profileScreen.js';
+import Settings from './components/profile/settingsScreen.js';
+import useToggle from './HelperFuncs/profileHelpers.js';
+import EditProfile from './components/profile/editProfileScreen.js';
+import LogoutScreen from './components/profile/logoutScreen.js';
+import ChangePasswordScreen from './components/profile/changePasswordScreen.js';
+import LoginPage from './components/auth/loginPage';
+import SignupPage from './components/auth/signupPage';
 
-import fakeUser from "./data/profileData.js";
+import fakeUser from './data/profileData.js';
 import data from './data/data';
 const Tab = createBottomTabNavigator();
 
@@ -36,11 +28,11 @@ export default function App() {
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [isDarkTheme, setIsDarkTheme] = useToggle(false);
-  const [isLoggedIn, setLoggedIn] = useToggle(true);
+  const [isLoggedIn, setLoggedIn] = useToggle(false);
   const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
-
+  const [authPage, setAuthPage] = useState('login');
 
   // Setting default and dark custom themes
   const customDefaultTheme = {
@@ -48,8 +40,8 @@ export default function App() {
     ...PaperDefaultTheme,
     colors: {
       ...NavigationDefaultTheme.colors,
-      ...PaperDefaultTheme.colors
-    }
+      ...PaperDefaultTheme.colors,
+    },
   };
 
   const customDarkTheme = {
@@ -57,16 +49,13 @@ export default function App() {
     ...PaperDarkTheme,
     colors: {
       ...NavigationDarkTheme.colors,
-      ...PaperDarkTheme.colors
-    }
+      ...PaperDarkTheme.colors,
+    },
   };
 
   const theme = isDarkTheme ? customDarkTheme : customDefaultTheme;
 
-
-
   // Functions that will nagivate to each componenet // acts like a router
-
 
   useEffect(() => {
     fetchUserData();
@@ -92,10 +81,8 @@ export default function App() {
   };
 
   const ChatScreen = ({ route }) => {
-    return (
-      <ChatList data={userData} currentUser={currentUser}/>
-    )
-  }
+    return <ChatList data={userData} currentUser={currentUser} />;
+  };
 
   const CameraScreen = () => {
     return (
@@ -103,41 +90,32 @@ export default function App() {
         <CameraComponent email={email} />
       </View>
     );
-  }
+  };
 
   function ProfileScreen() {
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {
-        displaypage = <Settings
-        toggleSettings={setProfileSettingsOpen}
-        state={profileSettingsOpen}
-        logoutModalToggle={setLogoutModalOpen}
-        changePassModalToggle={setChangePassModalOpen}
-        darkThemeToggle={setIsDarkTheme} />
-      } else if (logoutModalOpen){
-        displaypage = <LogoutScreen
-        logoutModalToggle={setLogoutModalOpen}
-        toggleSettings={setProfileSettingsOpen} />
+        displaypage = (
+          <Settings
+            toggleSettings={setProfileSettingsOpen}
+            state={profileSettingsOpen}
+            logoutModalToggle={setLogoutModalOpen}
+            changePassModalToggle={setChangePassModalOpen}
+            darkThemeToggle={setIsDarkTheme}
+          />
+        );
+      } else if (logoutModalOpen) {
+        displaypage = <LogoutScreen logoutModalToggle={setLogoutModalOpen} toggleSettings={setProfileSettingsOpen} />;
       } else if (changePassModalOpen) {
-        displaypage = <ChangePasswordScreen
-        changePassModalToggle={setChangePassModalOpen}
-        toggleSettings={setProfileSettingsOpen} />
+        displaypage = <ChangePasswordScreen changePassModalToggle={setChangePassModalOpen} toggleSettings={setProfileSettingsOpen} />;
       }
     } else {
       if (editProfile) {
-        displaypage = <EditProfile
-        editProfile={setEditProfile}
-        fakeUser={fakeUser}
-         />
-      }
-      else {
+        displaypage = <EditProfile editProfile={setEditProfile} fakeUser={fakeUser} />;
+      } else {
         if (!profileSettingsOpen) {
-          displaypage = <Profile
-          toggleSettings={setProfileSettingsOpen}
-          editProfile={setEditProfile}
-          fakeUser={fakeUser}
-           />;
+          displaypage = <Profile toggleSettings={setProfileSettingsOpen} editProfile={setEditProfile} fakeUser={fakeUser} />;
         }
       }
     }
@@ -145,8 +123,10 @@ export default function App() {
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{displaypage}</View>;
   }
 
-  if (!isLoggedIn) {
-    return <LoginPage setLoggedIn={setLoggedIn}/>;
+  if (!isLoggedIn && authPage === 'signup') {
+    return <SignupPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
+  } else if (!isLoggedIn) {
+    return <LoginPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
   } else {
     return (
       <NavigationContainer>
@@ -178,16 +158,14 @@ export default function App() {
             }}
           />
 
-
-            <Tab.Screen
-              name="Profile"
-              component={ProfileScreen}
-              options={{
-                tabBarLabel: 'Profile',
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="person-circle-outline" color={color} size={size} />
-                ),
-            }}/>
+          <Tab.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{
+              tabBarLabel: 'Profile',
+              tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" color={color} size={size} />,
+            }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     );

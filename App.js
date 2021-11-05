@@ -48,7 +48,7 @@ export default function App() {
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
-  const [isDarkTheme, setIsDarkTheme] = useToggle(true);
+  const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
   const [isLoggedIn, setLoggedIn] = useToggle(false);
   const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);

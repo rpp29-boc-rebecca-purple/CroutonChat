@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
@@ -11,6 +10,7 @@ import {
   DefaultTheme as NavigationDefaultTheme
    } from "@react-navigation/native";
 import {
+  Provider as PaperProvider,
   DarkTheme as PaperDarkTheme,
   DefaultTheme as PaperDefaultTheme
  } from 'react-native-paper';
@@ -48,13 +48,8 @@ export default function App() {
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
-<<<<<<< HEAD
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
   const [isLoggedIn, setLoggedIn] = useToggle(true);
-=======
-  const [isDarkTheme, setIsDarkTheme] = useToggle(false);
-  const [isLoggedIn, setLoggedIn] = useToggle(false);
->>>>>>> 7a19a34587687fd9dfb0515753c2fdc0e83a7b42
   const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
@@ -169,7 +164,8 @@ export default function App() {
     return <LoginPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
   } else {
     return (
-      <NavigationContainer>
+      <PaperProvider theme={theme}>
+      <NavigationContainer theme={theme}>
         <Tab.Navigator>
           <Tab.Screen
             name="Chat"
@@ -178,7 +174,7 @@ export default function App() {
               tabBarLabel: 'Chat',
               tabBarIcon: ({ color, size }) => <Ionicons name="chatbubbles-outline" color={color} size={size} />,
             }}
-          />
+            />
 
           <Tab.Screen
             name="Camera"
@@ -187,7 +183,7 @@ export default function App() {
               tabBarLabel: 'Camera',
               tabBarIcon: ({ color, size }) => <Ionicons name="camera-outline" color={color} size={size} />,
             }}
-          />
+            />
 
           <Tab.Screen
             name="Friends"
@@ -196,7 +192,7 @@ export default function App() {
               tabBarLabel: 'Friends',
               tabBarIcon: ({ color, size }) => <Ionicons name="paw-outline" color={color} size={size} />,
             }}
-          />
+            />
 
           <Tab.Screen
             name="Profile"
@@ -205,9 +201,10 @@ export default function App() {
               tabBarLabel: 'Profile',
               tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" color={color} size={size} />,
             }}
-          />
+            />
         </Tab.Navigator>
       </NavigationContainer>
+      </PaperProvider>
     );
   }
 }

@@ -5,7 +5,7 @@ import { ProgressBar } from 'react-native-paper';
 import CameraComponent from '../camera.js';
 const api = require('./apiHelpers.js');
 
-const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonPress }) => {
+const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPress }) => {
   let [messages, setMessages] = useState([]);
   let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
@@ -14,8 +14,15 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
 
   // updates messages upon render
   useEffect(() => {
-    setMessages(api.fetchMessages())
-  }, []);
+    async function updateMessages() {
+      const incomingMessages = await api.fetchMessages(chatId);
+      console.log('\n\n\nmessages recieved in useEffect:\n', incomingMessages);
+      if (incomingMessages !== undefined) {
+        setMessages(incomingMessages);
+      }
+    }
+    updateMessages();
+  }, [chatId, picDisplay, cameraDisplay]);
 
   // handles text message send
   const onSend = useCallback((newMessages = []) => {
@@ -40,7 +47,6 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
 
   // message that shows for unseen pictures
   const unopenedImage = ({currentMessage}) => {
-    console.log(currentMessage);
     return currentMessage.user._id !== userId ? (
       <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={styles.unopenedImageBody}>
         <Image source={require('../../assets/icons/photoStack.jpeg')} style={styles.unopenedImageIcon}/>
@@ -127,14 +133,14 @@ const styles = StyleSheet.create({
   ownSentImage: {
     height: 170,
     width: 170,
-    bottom: 4,
     top: 0,
-    resizeMode: 'contain',
+    bottom: 10,
+    resizeMode: 'cover',
     alignSelf: 'center',
     borderTopLeftRadius: 15,
-    borderTopRightRadius: 2,
-    // borderBottomLeftRadius: 15,
-    // borderBottomRightRadius: 15
+    borderTopRightRadius: 3,
+    borderBottomLeftRadius: 3,
+    borderBottomRightRadius: 3
   },
   unopenedImageIcon: {
     height: 100,

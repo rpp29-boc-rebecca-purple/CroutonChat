@@ -1,13 +1,26 @@
 import conversationMockData from '../../data/conversationMockData.js';
 import data from '../../data/data.js';
+import axios from 'axios';
 
+const CHAT_API = 'http://3.133.100.147:2550';
 let messageData = conversationMockData;
 
 // input: chatId: INTEGER (the chatId of the current conversation)
 // output: an array of messages in GiftedChat format
 const fetchMessages = (chatId) => {
-  //will eventually query API for messages
-  return formatMessages(messageData);
+  return axios({
+    method: 'GET',
+    url: `${CHAT_API}/conversation?chatId=${chatId}`,
+  })
+  .then((res) => {
+    console.log('conversation retrieval successful\n', res.data);
+    let formattedData = formatMessages(res.data);
+    console.log('messages in GiftedChat format: ', JSON.stringify(formattedData));
+    return formattedData;
+  })
+  .catch((err) => {
+    console.log('conversation retrieval failed\n', err);
+  })
 };
 
 // converts messages into GiftedChat format
@@ -18,25 +31,38 @@ const formatMessages = (messages) => {
       let formattedMessage = {};
       formattedMessage._id = message.messageid;
       formattedMessage.text = message.body;
-      formattedMessage.createdAt = message.date;
-      formattedMessage.user = convertUser(fetchUserData(message.uid));
-      formattedMessage.image = message.photo ? message.photoid : undefined;
+      formattedMessage.createdAt = message.time;
+      formattedMessage.user = convertUser(fetchUserData(Number(message.senderid)));
+      formattedMessage.image = message.photourl !== null ? message.photourl : undefined;
       return formattedMessage;
     })
     .reverse();
 };
 
-const convertUser = (incomingUser) => (
-  {
+let chatId = undefined;
+let currentMessages = [{"_id":15,"text":null,"createdAt":"2021-11-05T01:44:04.630Z","user":{"_id":3,"name":"Snowy","avatar":22},"image":"https://croutonchat.s3.us-east-2.amazonaws.com/05D24C1B-77C6-4492-875A-BA365594C7F7.jpg"},{"_id":2,"text":"Language, please...","createdAt":"2021-11-05T01:39:17.539Z","user":{"_id":5,"name":"Ruffalot","avatar":24}},{"_id":1,"text":"barking meow, I just stubbed my paw","createdAt":"2021-11-05T01:39:17.539Z","user":{"_id":4,"name":"Bork","avatar":23}}];
+
+const getMessages = () => {
+  return currentMessages;
+};
+
+const convertUser = (incomingUser) => {
+  console.log('\n\n\nincoming user data to be converted:', incomingUser)
+  return {
     _id: incomingUser.uid,
     name: incomingUser.name,
     avatar: incomingUser.photo
   }
-);
+};
 
 const fetchUserData = (userId) => {
   //will eventually fetch userData from API
-  return data.filter(x => x.uid === userId)[0];
+  console.log('FETCH USER DATA ENTERED')
+  let dataCopy = data.sort((a,b) => a.uid < b.uid);
+  console.log('\n\n\nDATACOPY:', dataCopy);
+  let foundUser = dataCopy.filter(x => x.uid === userId)[0];
+  console.log('user found in fetchUserData:', foundUser);
+  return foundUser;
 };
 
 //variables for storing current friend info
@@ -92,8 +118,12 @@ const exitConversation = () => {
   friendAvatar = null;
 };
 
+// currentMessages = fetchMessages(12);
+// setInterval(() => {currentMessages = fetchMessages(12); console.log('current messages:', currentMessages)}, 5000);
+
 module.exports = {
   fetchMessages,
+  getMessages,
   getFriendName,
   getFriendAvatar,
   sendMessage,
@@ -102,3 +132,4 @@ module.exports = {
   deleteImage,
   exitConversation
 };
+

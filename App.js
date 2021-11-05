@@ -24,20 +24,19 @@ export default function App() {
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [isLoggedIn, setLoggedIn] = useToggle(false);
+  const [authPage, setAuthPage] = useState('login');
 
   const [email] = useState('Woofy@gmail.com');
   const [userData, setUserData] = useState(data);
-
 
   // Functions that will nagivate to each componenet // acts like a router
   function HomeScreen() {
     return (
       <View style={{ flex: 1 }}>
-        <ChatList data={userData}/>
+        <ChatList data={userData} />
       </View>
     );
   }
-
 
   useEffect(() => {
     fetchUserData();
@@ -103,8 +102,10 @@ export default function App() {
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{displaypage}</View>;
   };
 
-  if (!isLoggedIn) {
-    return <LoginPage setLoggedIn={setLoggedIn}/>;
+  if (!isLoggedIn && authPage === 'signup') {
+    return <SignupPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
+  } else if (!isLoggedIn) {
+    return <LoginPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
   } else {
     return (
       <NavigationContainer>

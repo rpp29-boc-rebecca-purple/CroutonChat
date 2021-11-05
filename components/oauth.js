@@ -6,9 +6,7 @@ import axios from 'axios';
 
 WebBrowser.maybeCompleteAuthSession();
 
-const changeScreen = () => {
-
-}
+const changeScreen = () => {};
 
 function OAuth(props) {
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -24,15 +22,14 @@ function OAuth(props) {
     }
 
     if (response?.authentication) {
-      console.log(response);
       axios
-        .post('http://18.191.220.233/oauth/connect', { accessToken: response.accessToken })
+        .post('http://localhost:8080/oauth/connect', { accessToken: response.authentication.accessToken })
         .then(() => {
-          props.setLoggedIn(true)
+          props.setLoggedIn(true);
         })
         .catch(err => {
-          //console.log(err)
-          //alert(err);
+          console.log(err);
+          alert(err);
         });
     }
   }, [response]);
@@ -42,9 +39,6 @@ function OAuth(props) {
       disabled={!request}
       onPress={() => {
         promptAsync();
-        setTimeout(() => {
-          props.setLoggedIn(true)
-        }, 2000);
       }}
       style={styles.button}
     >
@@ -59,7 +53,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 275,
     margin: 10,
-    borderRadius: 8
+    borderRadius: 8,
   },
   buttonText: {
     color: 'white',

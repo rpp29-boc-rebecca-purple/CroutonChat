@@ -25,6 +25,9 @@ function LoginPage(props) {
             .then(async response => {
               setErrorText('');
               await AsyncStorage.setItem('user', JSON.stringify(response.data));
+              props.setEmail(response.data.email);
+              props.setUserId(response.data.userId);
+              props.setToken(response.data.token);
               props.setLoggedIn(true);
             })
             .catch(err => {

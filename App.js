@@ -15,7 +15,7 @@ import {
   DefaultTheme as PaperDefaultTheme
  } from 'react-native-paper';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
+import axios from 'axios';
 
 import { Ionicons } from '@expo/vector-icons';
 import Friends from './components/friends.js';
@@ -43,16 +43,25 @@ export default function App() {
 }
 
   // Add State that will be shared globally here
+
   const [name, setName] = useState(fakeUser.first_name);
+  const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState(null);
+  const [fetchdata, setFetchData] = useState('')
+  const [token, setToken] = useState('');
+
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
-  const [isLoggedIn, setLoggedIn] = useToggle(false);
-  const [email] = useState(fakeUser.email);
+  const [isLoggedIn, setLoggedIn] = useToggle(true);
   const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
+  const [realUserData, setRealUserData] = useState({});
+  const [friendsList, setFriendsList] = useState('')
+
+
   const [authPage, setAuthPage] = useState('login');
 
   // Setting default and dark custom themes
@@ -79,17 +88,40 @@ export default function App() {
   // Functions that will nagivate to each componenet // acts like a router
 
   useEffect(() => {
-    fetchUserData();
-  });
+      fetchUserData();
+      fetchFriendsData();
+  }, [])
 
   const fetchUserData = () => {
-    setUserData(data.sort((a, b) => (a.name > b.name ? 1 : -1)));
-    // fetch(/*http:<IP HERE>/searchFriends*/)
-    // .then((data) => {
-    //   setUserData(data)
-    // })
-    // setAllUsers() fnc to set all user that exist for friends search
+  //   setUserData(data.sort((a, b) => (a.name > b.name ? 1 : -1)));
+    axios.get(`http://18.219.200.72:8080/user/?user_id=25`)
+    .then(function (response) {
+      console.log(response.data, 'got new data');
+      setFetchData(response.data)
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
   };
+
+  const fetchFriendsData = () => {
+    //   setUserData(data.sort((a, b) => (a.name > b.name ? 1 : -1)));
+      axios.get(`http://18.219.200.72:8080/user/friendsList?user_id=25`)
+      .then(function (response) {
+        console.log(response.data, 'friends data');
+
+        setFetchData(response.data)
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+    };
+
+
+
+
 
   const FriendsScreen = () => {
     return (
@@ -161,7 +193,14 @@ export default function App() {
   if (!isLoggedIn && authPage === 'signup') {
     return <SignupPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} isDarkTheme={isDarkTheme} />;
   } else if (!isLoggedIn) {
-    return <LoginPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} theme ={theme} isDarkTheme={isDarkTheme} />;
+    return <LoginPage setLoggedIn={setLoggedIn}
+    setAuthPage={setAuthPage}
+    theme ={theme}
+    isDarkTheme={isDarkTheme}
+    setEmail={setEmail}
+    setUserId={setUserId}
+    setToken={setToken}
+    />;
   } else {
     return (
       <PaperProvider theme={theme}>

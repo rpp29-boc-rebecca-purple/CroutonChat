@@ -40,7 +40,7 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
 
   // message that shows for unseen pictures
   const unopenedImage = ({currentMessage}) => {
-    console.log(currentMessage);
+    //console.log(currentMessage);
     return currentMessage.user._id !== userId ? (
       <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={styles.unopenedImageBody}>
         <Image source={require('../../assets/icons/photoStack.jpeg')} style={styles.unopenedImageIcon}/>

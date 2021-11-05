@@ -95,14 +95,14 @@ export default function App() {
     return (
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <Friends data={userData} />
+          <Friends data={userData} isDarkTheme={isDarkTheme} />
         </View>
       </ScrollView>
     );
   };
 
   const ChatScreen = ({ route }) => {
-    return <ChatList data={userData} currentUser={currentUser} />;
+    return <ChatList data={userData} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
   };
 
   const CameraScreen = () => {

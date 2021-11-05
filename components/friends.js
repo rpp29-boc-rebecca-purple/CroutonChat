@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
 //import { globalStyles } from '../styles/global.js'
 
-function Friends( { route, data } ) {
+function Friends( { route, data, isDarkTheme } ) {
 
   const [userData, setUserData] = useState(data);
   const [friendSearch, setFriendSearch] = useState('')
@@ -32,12 +32,9 @@ function Friends( { route, data } ) {
                 <View >
                 <Image style={styles.images} source={e.photo}/>
                 </View>
-                <View style={{
-                    borderBottomColor: 'black',
-                    borderBottomWidth: 1,
-                    }}>
-                <Text style={styles.username}> {e.name}</Text>
-                <Text style={styles.friendsonline}> {e.friends} friends online</Text>
+                <View style={isDarkTheme ? styles.borderDark : styles.border}>
+                <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.name}</Text>
+                <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}> {e.friends} friends online</Text>
                 </View>
               </Text>
             })}
@@ -72,6 +69,15 @@ function Friends( { route, data } ) {
         left: 15,
         width: 270,
       },
+      usernameDark: {
+        color: 'white',
+        fontWeight: 'bold',
+        marginTop: 38,
+        fontSize: 20,
+        flex: 1,
+        left: 15,
+        width: 270,
+      },
       images: {
         width: 75,
         height: 75,
@@ -84,11 +90,25 @@ function Friends( { route, data } ) {
         left: 20,
         bottom: 16
       },
+      friendsonlineDark: {
+        fontSize: 14,
+        left: 20,
+        bottom: 16,
+        color: 'white'
+      },
       show: {
         color: 'green'
       },
       hide: {
         color: 'red'
+      },
+      border: {
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+      },
+      borderDark: {
+        borderBottomColor: 'white',
+        borderBottomWidth: 1,
       }
     });
 

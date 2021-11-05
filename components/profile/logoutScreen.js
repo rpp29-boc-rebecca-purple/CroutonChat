@@ -7,21 +7,21 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const LogoutScreen = ({logoutModalToggle}) => {
+const LogoutScreen = ({logoutModalToggle, isDarkTheme}) => {
   return (
     <SafeAreaView>
       <View style={styles.textWrap}>
-        <Text style={styles.text}>Are you sure you want to log out?</Text>
+        <Text style={isDarkTheme ? styles.textDark : styles.text}>Are you sure you want to log out?</Text>
       </View>
       <View style={styles.logoutModalButtonsWrapper}>
-        <View style={[styles.logoutModalButtons]}>
+        <View style={isDarkTheme ? styles.logoutModalButtonsDark : styles.logoutModalButtons}>
           <TouchableOpacity onPress={()=> logoutModalToggle()}>
-            <Text>Back</Text>
+            <Text style={isDarkTheme ? styles.buttonTextDark : null}>Back</Text>
           </TouchableOpacity>
             </View>
-          <View style={styles.logoutModalButtons}>
+          <View style={isDarkTheme ? styles.logoutModalButtonsDark : styles.logoutModalButtons}>
           <TouchableOpacity onPress={()=> alert('logged out')}>
-              <Text>Log Out</Text>
+              <Text style={isDarkTheme ? styles.buttonTextDark : null}>Log Out</Text>
           </TouchableOpacity>
           </View>
         </View>
@@ -34,6 +34,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 10,
     fontSize: 20
+  },
+  textDark: {
+    marginHorizontal: 10,
+    marginTop: 10,
+    fontSize: 20,
+    color: 'white'
   },
   textWrap: {
     alignItems: 'center',
@@ -53,7 +59,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#DDDDDD",
     padding: 10,
     fontSize: 20,
-    borderRightWidth: 1
+    borderRightWidth: 1,
+  },
+  logoutModalButtonsDark: {
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    fontSize: 20,
+    borderRightWidth: 1,
+    backgroundColor: 'black',
+  },
+  buttonTextDark: {
+    color: 'white'
   }
 });
 

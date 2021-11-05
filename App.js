@@ -1,8 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
-import { NavigationContainer, DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
-import { Provider as PaperProvider, DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Appearance } from 'react-native';
+import {
+  NavigationContainer,
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme
+   } from "@react-navigation/native";
+import {
+  Provider as PaperProvider,
+  DarkTheme as PaperDarkTheme,
+  DefaultTheme as PaperDefaultTheme
+ } from 'react-native-paper';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+
 import { Ionicons } from '@expo/vector-icons';
 import Friends from './components/friends.js';
 import ChatList from './components/chatlist.js';
@@ -21,14 +35,21 @@ import data from './data/data';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  // Determine user has light/dark theme on phone
+  let phoneTheme = true;
+  const colorScheme = Appearance.getColorScheme();
+  if (colorScheme === 'dark') {
+    phoneTheme = false;
+}
+
   // Add State that will be shared globally here
   const [name, setName] = useState(fakeUser.first_name);
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
-  const [isDarkTheme, setIsDarkTheme] = useToggle(false);
-  const [isLoggedIn, setLoggedIn] = useToggle(false);
+  const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
+  const [isLoggedIn, setLoggedIn] = useToggle(true);
   const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
@@ -96,26 +117,40 @@ export default function App() {
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {
-        displaypage = (
-          <Settings
-            toggleSettings={setProfileSettingsOpen}
-            state={profileSettingsOpen}
-            logoutModalToggle={setLogoutModalOpen}
-            changePassModalToggle={setChangePassModalOpen}
-            darkThemeToggle={setIsDarkTheme}
-          />
-        );
-      } else if (logoutModalOpen) {
-        displaypage = <LogoutScreen logoutModalToggle={setLogoutModalOpen} toggleSettings={setProfileSettingsOpen} />;
+        displaypage = <Settings
+        toggleSettings={setProfileSettingsOpen}
+        state={profileSettingsOpen}
+        logoutModalToggle={setLogoutModalOpen}
+        changePassModalToggle={setChangePassModalOpen}
+        darkThemeToggle={setIsDarkTheme}
+        isDarkTheme={isDarkTheme}/>
+      } else if (logoutModalOpen){
+        displaypage = <LogoutScreen
+        logoutModalToggle={setLogoutModalOpen}
+        toggleSettings={setProfileSettingsOpen}
+        isDarkTheme={isDarkTheme} />
       } else if (changePassModalOpen) {
-        displaypage = <ChangePasswordScreen changePassModalToggle={setChangePassModalOpen} toggleSettings={setProfileSettingsOpen} />;
+        displaypage = <ChangePasswordScreen
+        changePassModalToggle={setChangePassModalOpen}
+        toggleSettings={setProfileSettingsOpen}
+        isDarkTheme={isDarkTheme} />
       }
     } else {
       if (editProfile) {
-        displaypage = <EditProfile editProfile={setEditProfile} fakeUser={fakeUser} />;
-      } else {
+        displaypage = <EditProfile
+        editProfile={setEditProfile}
+        fakeUser={fakeUser}
+        isDarkTheme={isDarkTheme}
+         />
+      }
+      else {
         if (!profileSettingsOpen) {
-          displaypage = <Profile toggleSettings={setProfileSettingsOpen} editProfile={setEditProfile} fakeUser={fakeUser} />;
+          displaypage = <Profile
+          toggleSettings={setProfileSettingsOpen}
+          editProfile={setEditProfile}
+          fakeUser={fakeUser}
+          isDarkTheme={isDarkTheme}
+           />;
         }
       }
     }
@@ -129,7 +164,8 @@ export default function App() {
     return <LoginPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
   } else {
     return (
-      <NavigationContainer>
+      <PaperProvider theme={theme}>
+      <NavigationContainer theme={theme}>
         <Tab.Navigator>
           <Tab.Screen
             name="Chat"
@@ -138,7 +174,7 @@ export default function App() {
               tabBarLabel: 'Chat',
               tabBarIcon: ({ color, size }) => <Ionicons name="chatbubbles-outline" color={color} size={size} />,
             }}
-          />
+            />
 
           <Tab.Screen
             name="Camera"
@@ -147,7 +183,7 @@ export default function App() {
               tabBarLabel: 'Camera',
               tabBarIcon: ({ color, size }) => <Ionicons name="camera-outline" color={color} size={size} />,
             }}
-          />
+            />
 
           <Tab.Screen
             name="Friends"
@@ -156,7 +192,7 @@ export default function App() {
               tabBarLabel: 'Friends',
               tabBarIcon: ({ color, size }) => <Ionicons name="paw-outline" color={color} size={size} />,
             }}
-          />
+            />
 
           <Tab.Screen
             name="Profile"
@@ -165,9 +201,10 @@ export default function App() {
               tabBarLabel: 'Profile',
               tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" color={color} size={size} />,
             }}
-          />
+            />
         </Tab.Navigator>
       </NavigationContainer>
+      </PaperProvider>
     );
   }
 }

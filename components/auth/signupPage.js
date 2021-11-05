@@ -12,16 +12,17 @@ function LoginPage(props) {
   let [errorText, setErrorText] = useState('');
 
   return (
-    <View style={styles.container}>
+    <View style={props.isDarkTheme ? styles.containerDark : styles.container}>
       <View style={styles.logo}>
         <Text>LOGO</Text>
       </View>
-      <TextInput style={styles.textInput} placeholder="First Name" onChangeText={text => setFirstName(text)} autoCapitalize="none" autoCorrect={false} textContentType="givenName" />
-      <TextInput style={styles.textInput} placeholder="Last Name" onChangeText={text => setLastName(text)} autoCapitalize="none" autoCorrect={false} textContentType="familyName" />
-      <TextInput style={styles.textInput} placeholder="Username" onChangeText={text => setUsername(text)} autoCapitalize="none" autoCorrect={false} textContentType="username" />
-      <TextInput style={styles.textInput} placeholder="Email" onChangeText={text => setEmail(text)} autoCapitalize="none" autoCorrect={false} textContentType="emailAddress" />
+      <TextInput style={props.isDarkTheme ? styles.textInputDark : styles.textInput} placeholderTextColor={props.isDarkTheme ? 'white' : null} placeholder="First Name" onChangeText={text => setFirstName(text)} autoCapitalize="none" autoCorrect={false} textContentType="givenName" />
+      <TextInput style={props.isDarkTheme ? styles.textInputDark : styles.textInput} placeholderTextColor={props.isDarkTheme ? 'white' : null} placeholder="Last Name" onChangeText={text => setLastName(text)} autoCapitalize="none" autoCorrect={false} textContentType="familyName" />
+      <TextInput style={props.isDarkTheme ? styles.textInputDark : styles.textInput} placeholderTextColor={props.isDarkTheme ? 'white' : null} placeholder="Username" onChangeText={text => setUsername(text)} autoCapitalize="none" autoCorrect={false} textContentType="username" />
+      <TextInput style={props.isDarkTheme ? styles.textInputDark : styles.textInput} placeholderTextColor={props.isDarkTheme ? 'white' : null} placeholder="Email" onChangeText={text => setEmail(text)} autoCapitalize="none" autoCorrect={false} textContentType="emailAddress" />
       <TextInput
-        style={styles.textInput}
+        style={props.isDarkTheme ? styles.textInputDark : styles.textInput}
+        placeholderTextColor={props.isDarkTheme ? 'white' : null}
         placeholder="Password"
         onChangeText={text => setPassword(text)}
         autoCapitalize="none"
@@ -54,9 +55,9 @@ function LoginPage(props) {
       </TouchableOpacity>
 
       <View style={styles.horizontal}>
-        <Text style={styles.horizontalRule}>-------------------------------------</Text>
-        <Text> OR </Text>
-        <Text style={styles.horizontalRule}>-------------------------------------</Text>
+        <Text style={props.isDarkTheme ? styles.horizontalRuleDark : styles.horizontalRule}>-------------------------------------</Text>
+        <Text style={props.isDarkTheme ? styles.textStyleDark : null}> OR </Text>
+        <Text style={props.isDarkTheme ? styles.horizontalRuleDark : styles.horizontalRule}>-------------------------------------</Text>
       </View>
 
       <OAuth setLoggedIn={props.setLoggedIn} />
@@ -67,7 +68,7 @@ function LoginPage(props) {
         }}
         style={styles.button}
       >
-        <Text style={styles.buttonText}>Already have an account? Log in</Text>
+        <Text style={props.isDarkTheme ? styles.buttonTextDark : styles.buttonText}>Already have an account? Log in</Text>
       </TouchableOpacity>
     </View>
   );
@@ -90,6 +91,12 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
   },
+  horizontalRuleDark: {
+    letterSpacing: -2,
+    margin: 0,
+    padding: 0,
+    color: 'white'
+  },
   mainButton: {
     backgroundColor: 'grey',
     padding: 10,
@@ -107,12 +114,24 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 12,
   },
+  buttonTextDark: {
+    fontSize: 12,
+    color: 'white'
+  },
   container: {
     paddingHorizontal: 25,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  containerDark: {
+    paddingHorizontal: 25,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black'
   },
   textInput: {
     width: '100%',
@@ -121,6 +140,15 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 8,
     borderRadius: 5,
+  },
+  textInputDark: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: 'lightgrey',
+    padding: 10,
+    margin: 8,
+    borderRadius: 5,
+    color: 'white'
   },
   logo: {
     borderRadius: 75,
@@ -132,6 +160,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgrey',
     margin: 50,
   },
+  textStyleDark: {
+    color: 'white'
+  }
 });
 
 export default LoginPage;

@@ -49,7 +49,7 @@ export default function App() {
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
-  const [isLoggedIn, setLoggedIn] = useToggle(true);
+  const [isLoggedIn, setLoggedIn] = useToggle(false);
   const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
@@ -95,14 +95,14 @@ export default function App() {
     return (
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <Friends data={userData} />
+          <Friends data={userData} isDarkTheme={isDarkTheme} />
         </View>
       </ScrollView>
     );
   };
 
   const ChatScreen = ({ route }) => {
-    return <ChatList data={userData} currentUser={currentUser} />;
+    return <ChatList data={userData} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
   };
 
   const CameraScreen = () => {
@@ -159,9 +159,9 @@ export default function App() {
   }
 
   if (!isLoggedIn && authPage === 'signup') {
-    return <SignupPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
+    return <SignupPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} isDarkTheme={isDarkTheme} />;
   } else if (!isLoggedIn) {
-    return <LoginPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
+    return <LoginPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} theme ={theme} isDarkTheme={isDarkTheme} />;
   } else {
     return (
       <PaperProvider theme={theme}>

@@ -12,7 +12,7 @@ import {
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggle, darkThemeToggle}) => {
+const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggle, darkThemeToggle, isDarkTheme}) => {
 
   return (
     <SafeAreaView>
@@ -21,12 +21,12 @@ const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggl
       <ScrollView>
         <View style={styles.headerContainer}>
           <ImageBackground
-            source={require('../../assets/BOC.profile.cloud.bg.webp')}
-            style={{width: 400, minHeight:226}}>
+            source={isDarkTheme ? require('../../assets/BOC.nightskymoon.jpeg') : require('../../assets/BOC.profile.cloud.bg.webp')}
+            style={{width: 400, height:250}}>
             <View style={styles.headerImage}></View>
-            <View style={styles.backButton}>
+            <View style={{position: 'absolute'}} >
               <TouchableOpacity onPress={()=> toggleSettings()}>
-                <Text style={{fontSize: 35}}
+                <Text style={isDarkTheme ? styles.backButtonDark : styles.backButton}
                 >&#x2190;</Text>
               </TouchableOpacity>
             </View>
@@ -35,13 +35,13 @@ const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggl
 
         {/* LightMode/DarkMode Toggle */}
         <View style={styles.modeToggleWrap}>
-          <Text style={{fontSize: 20}}>Theme:</Text>
+          <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Change Theme?</Text>
           <View style={styles.modeToggleButtons}>
             <TouchableOpacity onPress={()=> darkThemeToggle()}>
-              <Text style={{paddingRight: 25, fontWeight: 'bold', fontSize: 20}}>Light</Text>
+              <Text style={{paddingRight: 25, fontWeight: 'bold', fontSize: 20, color: 'white'}}>Light</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> darkThemeToggle()}>
-              <Text style={{fontSize: 20}}>Dark</Text>
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>Dark</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -49,19 +49,19 @@ const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggl
         {/* Change Password and Logout Buttons */}
         <View style={styles.settingsButtonsWrap}>
           <TouchableOpacity onPress={()=> logoutModalToggle()}>
-            <Text style={styles.settingsButtons}>Logout?</Text>
+            <Text style={isDarkTheme ? styles.settingsButtonsDark : styles.settingsButtons}>Logout?</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.settingsButtonsWrap}>
           <TouchableOpacity onPress={()=> changePassModalToggle()}>
-            <Text style={styles.settingsButtons}>Change Password?</Text>
+            <Text style={isDarkTheme ? styles.settingsButtonsDark : styles.settingsButtons}>Change Password?</Text>
           </TouchableOpacity>
         </View>
 
         {/* About CroutonChat */}
         <View style={styles.aboutSection}>
           <Title style={{textDecorationLine: 'underline'}}>About CroutonChat</Title>
-          <Text style={styles.aboutText}>Our team aims to create a native mobile application that allows
+          <Text style={isDarkTheme ? styles.aboutTextDark : styles.aboutText}>Our team aims to create a native mobile application that allows
             users to share pictures of their pets with their friends. Users will create a profile, add
             friends via email, and then message those friends via text or photo. We will provide secure
             login for users so that their personal data will be safe. The user can create and edit their
@@ -75,15 +75,6 @@ const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggl
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    position: 'absolute',
-    top: 0,
-    left: 5,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
   headerContainer: {
     flex: 4,
   },
@@ -117,6 +108,15 @@ const styles = StyleSheet.create({
     minWidth: 200,
     textAlign: 'center'
   },
+  settingsButtonsDark: {
+    alignItems: 'center',
+    backgroundColor: "black",
+    padding: 10,
+    fontSize: 20,
+    minWidth: 200,
+    textAlign: 'center',
+    color: 'white'
+  },
   aboutSection: {
     alignItems: 'center',
     marginLeft: 5,
@@ -126,9 +126,28 @@ const styles = StyleSheet.create({
   aboutText: {
     marginHorizontal: 10,
     marginTop: 10
+  },
+  aboutTextDark: {
+    marginHorizontal: 10,
+    marginTop: 10,
+    color: 'white'
+  },
+  textStyle: {
+    fontSize: 20
+  },
+  textStyleDark: {
+    fontSize: 20,
+    color: 'white'
+  },
+  backButton: {
+    fontSize: 35,
+    marginLeft: 5
+
+  },
+  backButtonDark: {
+    fontSize: 35,
+    color: 'white',
   }
-
-
 });
 
 export default SettingsScreen;

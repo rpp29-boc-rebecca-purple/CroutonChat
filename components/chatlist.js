@@ -4,7 +4,7 @@ import SearchBarMessages from './searchBarMessages'
 import { useNavigation } from '@react-navigation/native';
 import Conversation from './conversation/conversation.js';
 
-function ChatList({ currentUser, data }) {
+function ChatList({ currentUser, data, isDarkTheme }) {
   const userId = currentUser;
   const [friendId, setFriendId] = useState(4);
   const [chatId, setChatId] = useState(0);
@@ -45,12 +45,9 @@ function ChatList({ currentUser, data }) {
                     <View>
                     <Image style={styles.images} source={e.photo}/>
                     </View>
-                    <View style={{
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                        }}>
-                    <Text style={styles.username}> {e.name}</Text>
-                    <Text style={styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'} {e.photomessages.length > 0 ?  ' 📸' : ''}  </Text>
+                    <View style={isDarkTheme ? styles.borderDark : styles.border}>
+                    <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.name}</Text>
+                    <Text style={isDarkTheme ? styles.unreadDark : styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'} {e.photomessages.length > 0 ?  ' 📸' : ''}  </Text>
                     </View>
 
                   </Text>
@@ -80,6 +77,15 @@ function ChatList({ currentUser, data }) {
         left: 15,
         width: 270,
       },
+      usernameDark: {
+        color: 'white',
+        fontWeight: 'bold',
+        marginTop: 38,
+        fontSize: 20,
+        flex: 1,
+        left: 15,
+        width: 270,
+      },
       images: {
         width: 75,
         height: 75,
@@ -91,6 +97,20 @@ function ChatList({ currentUser, data }) {
         fontSize: 14,
         left: 20,
         bottom: 16
+      },
+      unreadDark: {
+        fontSize: 14,
+        left: 20,
+        bottom: 16,
+        color: 'white'
+      },
+      border: {
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+      },
+      borderDark: {
+        borderBottomColor: 'white',
+        borderBottomWidth: 1,
       }
     });
 

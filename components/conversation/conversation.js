@@ -1,14 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView, TouchableOpacity} from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
-import PhotoAdditionIcon from './photoAdditionIcon.js';
+import CameraComponent from '../camera.js';
 const api = require('./apiHelpers.js');
 
-const Conversation = ({ userId = 5, friendId = 4, chatId = 0, handleBackButtonPress }) => {
+const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonPress }) => {
   let [messages, setMessages] = useState([]);
   let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
+  let [cameraDisplay, setCameraDisplay] = useState(false);
   let [progressBarFill, setProgressBarFill] = useState(1);
 
   // updates messages upon render
@@ -39,12 +40,33 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0, handleBackButtonPr
 
   // message that shows for unseen pictures
   const unopenedImage = ({currentMessage}) => {
-    return (
+    console.log(currentMessage);
+    return currentMessage.user._id !== userId ? (
       <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={styles.unopenedImageBody}>
         <Image source={require('../../assets/icons/photoStack.jpeg')} style={styles.unopenedImageIcon}/>
         <Text style={styles.unopenedImageText}>Tap here to view a new photo from {api.getFriendName(friendId)}!</Text>
       </Pressable>
+    )
+    :
+    (
+      <Image source={{uri: currentMessage.image}} style={styles.ownSentImage} />
     );
+  };
+
+  const handlePhotoAdditionIconPress = () => {
+    setCameraDisplay(true);
+  };
+
+  const photoAdditionIcon = () => {
+    return (
+      <Pressable onPress={handlePhotoAdditionIconPress}>
+        <Image source={require('../../assets/icons/camera.png')} style={styles.photoAdditionIcon}/>
+      </Pressable>
+    )
+  };
+
+  const exitCamera = () => {
+    setCameraDisplay(false);
   };
 
   return picDisplay ? (
@@ -55,17 +77,21 @@ const Conversation = ({ userId = 5, friendId = 4, chatId = 0, handleBackButtonPr
         </View>
       </View>
     )
+    : cameraDisplay ?
+    (
+      <CameraComponent chatId={chatId} senderId={userId} exitCamera={exitCamera} />
+    )
     :
     (
       <View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, flex: 1, justifyContent: 'flex-start'}}>
         <View style={{width: Dimensions.get('window').width, flex: .08, backgroundColor: 'transparent', zIndex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
-          <Pressable onPress={handleBackButtonPress}>
-            <Image source={require('../../assets/icons/backArrow.png')} style={{height: 40, width: 40, left: 7, top: 3}}/>
-          </Pressable>
+          <TouchableOpacity onPress={handleBackButtonPress}>
+            <Image source={require('../../assets/icons/backArrow.png')} style={{height: 50, width: 50, left: 15, top: 10}}/>
+          </TouchableOpacity>
         </View>
         <GiftedChat
           messages={messages}
-          renderActions={() => PhotoAdditionIcon(userId, chatId)}
+          renderActions={photoAdditionIcon}
           renderMessageImage={unopenedImage}
           onSend={outgoingMessages => onSend(outgoingMessages)}
           user={{
@@ -98,6 +124,18 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 15
   },
+  ownSentImage: {
+    height: 170,
+    width: 170,
+    bottom: 4,
+    top: 0,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 2,
+    // borderBottomLeftRadius: 15,
+    // borderBottomRightRadius: 15
+  },
   unopenedImageIcon: {
     height: 100,
     width: 100,
@@ -107,6 +145,12 @@ const styles = StyleSheet.create({
   unopenedImageText: {
     color: '#24303a',
     textAlign: 'center'
+  },
+  photoAdditionIcon: {
+    height: 30,
+    width: 30,
+    left: 7,
+    top: -8
   }
 });
 

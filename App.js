@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
@@ -10,25 +11,26 @@ import {
   DefaultTheme as NavigationDefaultTheme
    } from "@react-navigation/native";
 import {
-  Provider as PaperProvider,
   DarkTheme as PaperDarkTheme,
   DefaultTheme as PaperDefaultTheme
  } from 'react-native-paper';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from '@expo/vector-icons';
-import Friends from './components/friends.js'
-import ChatList from './components/chatlist.js'
-import CameraComponent from './components/camera.js'
-import Profile from './components/profile/profileScreen.js'
-import Settings from './components/profile/settingsScreen.js'
-import useToggle from "./HelperFuncs/profileHelpers.js";
-import EditProfile from "./components/profile/editProfileScreen.js";
-import LogoutScreen from "./components/profile/logoutScreen.js";
-import ChangePasswordScreen from "./components/profile/changePasswordScreen.js";
-import LoginPage from './components/loginPage';
-import SignupPage from './components/signupPage';
 
-import fakeUser from "./data/profileData.js";
+
+import { Ionicons } from '@expo/vector-icons';
+import Friends from './components/friends.js';
+import ChatList from './components/chatlist.js';
+import CameraComponent from './components/camera.js';
+import Profile from './components/profile/profileScreen.js';
+import Settings from './components/profile/settingsScreen.js';
+import useToggle from './HelperFuncs/profileHelpers.js';
+import EditProfile from './components/profile/editProfileScreen.js';
+import LogoutScreen from './components/profile/logoutScreen.js';
+import ChangePasswordScreen from './components/profile/changePasswordScreen.js';
+import LoginPage from './components/auth/loginPage';
+import SignupPage from './components/auth/signupPage';
+
+import fakeUser from './data/profileData.js';
 import data from './data/data';
 const Tab = createBottomTabNavigator();
 
@@ -46,11 +48,17 @@ export default function App() {
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
+<<<<<<< HEAD
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
   const [isLoggedIn, setLoggedIn] = useToggle(true);
+=======
+  const [isDarkTheme, setIsDarkTheme] = useToggle(false);
+  const [isLoggedIn, setLoggedIn] = useToggle(false);
+>>>>>>> 7a19a34587687fd9dfb0515753c2fdc0e83a7b42
   const [email] = useState(fakeUser.email);
+  const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
-
+  const [authPage, setAuthPage] = useState('login');
 
   // Setting default and dark custom themes
   const customDefaultTheme = {
@@ -58,8 +66,8 @@ export default function App() {
     ...PaperDefaultTheme,
     colors: {
       ...NavigationDefaultTheme.colors,
-      ...PaperDefaultTheme.colors
-    }
+      ...PaperDefaultTheme.colors,
+    },
   };
 
   const customDarkTheme = {
@@ -67,16 +75,13 @@ export default function App() {
     ...PaperDarkTheme,
     colors: {
       ...NavigationDarkTheme.colors,
-      ...PaperDarkTheme.colors
-    }
+      ...PaperDarkTheme.colors,
+    },
   };
 
   const theme = isDarkTheme ? customDarkTheme : customDefaultTheme;
 
-
-
   // Functions that will nagivate to each componenet // acts like a router
-
 
   useEffect(() => {
     fetchUserData();
@@ -102,13 +107,7 @@ export default function App() {
   };
 
   const ChatScreen = ({ route }) => {
-    return (
-      <ScrollView>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <ChatList data={userData} />
-        </View>
-      </ScrollView>
-    );
+    return <ChatList data={userData} currentUser={currentUser} />;
   };
 
   const CameraScreen = () => {
@@ -117,7 +116,7 @@ export default function App() {
         <CameraComponent email={email} />
       </View>
     );
-  }
+  };
 
   function ProfileScreen() {
     let displaypage = null;
@@ -164,55 +163,51 @@ export default function App() {
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{displaypage}</View>;
   }
 
-  if (!isLoggedIn) {
-    return <LoginPage setLoggedIn={setLoggedIn}/>;
+  if (!isLoggedIn && authPage === 'signup') {
+    return <SignupPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
+  } else if (!isLoggedIn) {
+    return <LoginPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} />;
   } else {
     return (
-      <PaperProvider theme={theme}>
-        <NavigationContainer theme={theme}>
-          <Tab.Navigator>
-            <Tab.Screen
-              name="Friends"
-              component={FriendsScreen}
-              options={{
-                tabBarLabel: 'Friends',
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="paw-outline" color={color} size={size} />
-                ),
-              }}/>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen
+            name="Chat"
+            component={ChatScreen}
+            options={{
+              tabBarLabel: 'Chat',
+              tabBarIcon: ({ color, size }) => <Ionicons name="chatbubbles-outline" color={color} size={size} />,
+            }}
+          />
 
-            <Tab.Screen
-              name="Camera"
-              component={CameraScreen}
-              options={{
-                tabBarLabel: 'Camera',
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="camera-outline" color={color} size={size} />
-                ),
-              }}/>
+          <Tab.Screen
+            name="Camera"
+            component={CameraScreen}
+            options={{
+              tabBarLabel: 'Camera',
+              tabBarIcon: ({ color, size }) => <Ionicons name="camera-outline" color={color} size={size} />,
+            }}
+          />
 
-            <Tab.Screen
-              name="Chat"
-              component={ChatScreen}
-              options={{
-                tabBarLabel: 'Chat',
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="chatbubbles-outline" color={color} size={size} />
-                ),
-              }}/>
+          <Tab.Screen
+            name="Friends"
+            component={FriendsScreen}
+            options={{
+              tabBarLabel: 'Friends',
+              tabBarIcon: ({ color, size }) => <Ionicons name="paw-outline" color={color} size={size} />,
+            }}
+          />
 
-            <Tab.Screen
-              name="Profile"
-              component={ProfileScreen}
-              options={{
-                tabBarLabel: 'Profile',
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="person-circle-outline" color={color} size={size} />
-                ),
-              }}/>
-          </Tab.Navigator>
-        </NavigationContainer>
-      </PaperProvider>
+          <Tab.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{
+              tabBarLabel: 'Profile',
+              tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" color={color} size={size} />,
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
     );
   }
 }

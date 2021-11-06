@@ -2,10 +2,11 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView, TouchableOpacity} from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
+import { Ionicons } from '@expo/vector-icons';
 import CameraComponent from '../camera.js';
 const api = require('./apiHelpers.js');
 
-const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonPress }) => {
+const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPress }) => {
   let [messages, setMessages] = useState([]);
   let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
@@ -14,25 +15,42 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
 
   // updates messages upon render
   useEffect(() => {
-    setMessages(api.fetchMessages())
-  }, []);
+    async function updateMessages() {
+      const incomingMessages = await api.fetchMessages(chatId, userId);
+      if (incomingMessages !== undefined && Array.isArray(incomingMessages)) {
+        setMessages(incomingMessages);
+      } else {
+        setMessages([]);
+      }
+    }
+    updateMessages();
+  }, [chatId, picDisplay, cameraDisplay]);
 
   // handles text message send
   const onSend = useCallback((newMessages = []) => {
+    let newConversation = messages < 1;
+    console.log('\n\nNEW MESSAGES AT ONSEND', newMessages);
     setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
-    api.sendMessage(newMessages);
+    newMessages.forEach((message) => {
+      console.log('message to be sent:', message);
+      if (newConversation) {
+        api.startConversation(message, userId);
+      } else {
+        api.sendMessage(message, chatId);
+      }
+    });
   }, []);
 
   // handles all tasks related to photo loading, displaying, & deleting
   const handleImageViewing = (imgUrl, messageId) => {
-    api.deleteImage(chatId, messageId);
+    console.log(`parameters for deletion:\nchatId: ${chatId}\nmessageId: ${messageId}\n url: ${imgUrl}`);
+    api.deleteImage(chatId, messageId, imgUrl);
     setSpotlightPic(imgUrl);
     setProgressBarFill(1);
     setPicDisplay(true);
     let viewingStartTime = Date.now();
     let incrementProgressBar = setInterval(() => { setProgressBarFill(1 - ((Date.now() - viewingStartTime) / 10000)); }, 40);
     setTimeout(() => {
-      setMessages(api.fetchMessages());
       setPicDisplay(false);
       clearInterval(incrementProgressBar);
     }, 10000);
@@ -40,7 +58,6 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
 
   // message that shows for unseen pictures
   const unopenedImage = ({currentMessage}) => {
-    console.log(currentMessage);
     return currentMessage.user._id !== userId ? (
       <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={styles.unopenedImageBody}>
         <Image source={require('../../assets/icons/photoStack.jpeg')} style={styles.unopenedImageIcon}/>
@@ -73,7 +90,10 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
       <View style={styles.lightbox}>
         <View>
           <Image source={{uri: spotlightPic}} style={styles.spotlight}/>
-          <ProgressBar progress={progressBarFill} color={'#a1dc91'}/>
+          <Pressable onPress={() => {}} style={{width: Dimensions.get('window').width, alignSelf: 'center', flex: 1, display: 'flex'}}>
+            <Ionicons name="cloud-download-outline" style={{ color: "#fff", fontSize: 50, alignSelf: 'center'}}/>
+          </Pressable>
+          <ProgressBar progress={progressBarFill} color={'#a1dc91'} style={{height: 15}}/>
         </View>
       </View>
     )
@@ -85,7 +105,7 @@ const Conversation = ({ userId = 1, friendId = 2, chatId = 12, handleBackButtonP
     (
       <View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, flex: 1, justifyContent: 'flex-start'}}>
         <View style={{width: Dimensions.get('window').width, flex: .08, backgroundColor: 'transparent', zIndex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
-          <TouchableOpacity onPress={handleBackButtonPress}>
+          <TouchableOpacity onPress={() => {api.exitConversation(); handleBackButtonPress();}}>
             <Image source={require('../../assets/icons/backArrow.png')} style={{height: 50, width: 50, left: 15, top: 10}}/>
           </TouchableOpacity>
         </View>
@@ -127,14 +147,14 @@ const styles = StyleSheet.create({
   ownSentImage: {
     height: 170,
     width: 170,
-    bottom: 4,
     top: 0,
-    resizeMode: 'contain',
+    bottom: 10,
+    resizeMode: 'cover',
     alignSelf: 'center',
     borderTopLeftRadius: 15,
-    borderTopRightRadius: 2,
-    // borderBottomLeftRadius: 15,
-    // borderBottomRightRadius: 15
+    borderTopRightRadius: 3,
+    borderBottomLeftRadius: 3,
+    borderBottomRightRadius: 3
   },
   unopenedImageIcon: {
     height: 100,

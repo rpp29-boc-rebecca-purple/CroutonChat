@@ -55,8 +55,13 @@ export default function App() {
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
+<<<<<<< HEAD
   const [apploaded, setAppLoaded] = useState(false)
 
+=======
+  const [isLoggedIn, setLoggedIn] = useToggle(false);
+  const [email] = useState(fakeUser.email);
+>>>>>>> eeab7c4858fa7f6c600efaf869ecdd42bea98b9a
   const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
   const [realUserData, setRealUserData] = useState({});
@@ -119,8 +124,7 @@ export default function App() {
     return (
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <Friends data={userData} isDarkTheme={isDarkTheme} />
-          {/* <Friends friendlistdata={friendsList} isDarkTheme={isDarkTheme} /> */}
+          <Friends friendlistdata={friendsList} isDarkTheme={isDarkTheme} />
         </View>
       </ScrollView>
     );

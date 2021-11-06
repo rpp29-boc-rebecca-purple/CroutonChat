@@ -68,7 +68,7 @@ const Profile = ({fakeUser, editProfile, toggleSettings, isDarkTheme}) => {
                   <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Edit Profile</Text>
               </TouchableOpacity>
             </View>
-          <View style={isDarkTheme ? styles.darkProfileButton : styles.profileButton}>
+          <View style={styles.profileButton}>
             <TouchableOpacity onPress={()=> toggleSettings()}>
               <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Settings</Text>
             </TouchableOpacity>

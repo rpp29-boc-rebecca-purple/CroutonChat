@@ -45,42 +45,6 @@ const convertUser = (incomingUser) => {
   }
 };
 
-const fetchUserData = (userId) => {
-  //will eventually fetch userData from API
-  let dataCopy = data.sort((a,b) => a.uid < b.uid);
-  let foundUser = dataCopy.filter(x => x.uid === userId)[0];
-  return foundUser;
-};
-
-//variables for storing current friend info
-let currentFriendId = null;
-let friendName = null;
-let friendAvatar = null;
-
-const getFriendName = (friendId) => {
-  if (friendId === currentFriendId) {
-    return friendName;
-  } else {
-    let newFriendInfo = fetchUserData(friendId);
-    currentFriendId = friendId;
-    friendName = newFriendInfo.name;
-    friendAvatar = newFriendInfo.photo;
-    return friendName;
-  }
-};
-
-const getFriendAvatar = (friendId) => {
-  if (friendId === currentFriendId) {
-    return friendAvatar;
-  } else {
-    let newFriendInfo = fetchUserData(friendId);
-    currentFriendId = friendId;
-    friendName = newFriendInfo.name;
-    friendAvatar = newFriendInfo.photo;
-    return friendAvatar;
-  }
-};
-
 //input: an array of new messages
 const sendMessage = async (message, chatId) => {
   const formData = new FormData();
@@ -98,14 +62,15 @@ const sendMessage = async (message, chatId) => {
   })
   .then((response) => {
     if (response.status === 200) {
-      console.log('message send successful', response);
+      console.log('message send successful');
     } else {
-      console.log('message send failed', response);
+      console.log('message send failed');
     }
   })
 };
 
 const startConversation = async (message, friendId) => {
+  console.log('message recieved at startConversation:', message);
   const formData = new FormData();
   formData.append('senderId', message.user._id);
   formData.append('userId2', friendId);
@@ -120,9 +85,9 @@ const startConversation = async (message, friendId) => {
   })
   .then((response) => {
     if (response.status === 200) {
-      console.log('conversation creation successful', response);
+      console.log('conversation creation successful');
     } else {
-      console.log('conversation creation failed', response);
+      console.log('conversation creation failed');
     }
   })
 };
@@ -141,15 +106,53 @@ const deleteImage = (chatId, messageId, imageUrl) => {
   })
   .then((response) => {
     if (response.status === 200) {
-      console.log('image deletion successful', response);
+      console.log('image deletion successful');
     } else {
-      console.log('image deletion failed', response);
+      console.log('image deletion failed');
     }
   })
 };
 
 const saveImage = () => {
 
+};
+
+const fetchUserData = (userId) => {
+  //will pull from user data retrieved in App
+  let dataCopy = data.sort((a,b) => a.uid < b.uid);
+  let foundUser = dataCopy.filter(x => x.uid === userId)[0];
+  return foundUser;
+};
+
+//variables for storing current friend info
+let currentFriendId = null;
+let friendName = null;
+let friendAvatar = null;
+
+const getFriendName = (friendId) => {
+  //will pull from user data retrieved in App
+  if (friendId === currentFriendId) {
+    return friendName;
+  } else {
+    let newFriendInfo = fetchUserData(friendId);
+    currentFriendId = friendId;
+    friendName = newFriendInfo.name;
+    friendAvatar = newFriendInfo.photo;
+    return friendName;
+  }
+};
+
+const getFriendAvatar = (friendId) => {
+  //will pull from user data retrieved in App
+  if (friendId === currentFriendId) {
+    return friendAvatar;
+  } else {
+    let newFriendInfo = fetchUserData(friendId);
+    currentFriendId = friendId;
+    friendName = newFriendInfo.name;
+    friendAvatar = newFriendInfo.photo;
+    return friendAvatar;
+  }
 };
 
 const exitConversation = () => {

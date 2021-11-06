@@ -59,7 +59,7 @@ const sendMessage = async (message, chatId) => {
   })
   .then((response) => {
     if (response.status === 200) {
-      console.log('message send successful');
+      console.log('message send successful', response);
     } else {
       console.log('message send failed');
     }
@@ -89,10 +89,6 @@ const startConversation = async (message, friendId) => {
   })
 };
 
-const markAsRead = () => {
-  //will eventually send read receipts to API
-};
-
 const deleteImage = (chatId, messageId, imageUrl) => {
   const formData = new FormData();
   formData.append('chatId', chatId);
@@ -110,8 +106,25 @@ const deleteImage = (chatId, messageId, imageUrl) => {
   })
 };
 
-const saveImage = () => {
+let screenShotRecentlyRecorded = false;
+const noteScreenShot = (chatId, userId) => {
+  if (!screenShotRecentlyRecorded) {
+    screenShotRecentlyRecorded = true;
+    console.log('note screen shot called');
+    let message = {
+      text: 'Your photo was saved.',
+      createdAt: new Date(),
+      user: {
+        _id: userId
+      }
+    };
+    sendMessage(message, chatId);
+    setTimeout(() => {screenShotRecentlyRecorded = false}, 5000);
+  }
 
+};
+
+const saveImage = (url) => {
 };
 
 const fetchUserData = (userId) => {
@@ -165,9 +178,9 @@ module.exports = {
   getFriendAvatar,
   sendMessage,
   startConversation,
-  markAsRead,
   deleteImage,
   exitConversation,
-  saveImage
+  saveImage,
+  noteScreenShot
 };
 

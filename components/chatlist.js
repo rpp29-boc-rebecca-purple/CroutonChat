@@ -27,7 +27,7 @@ function ChatList({ currentUser, data, isDarkTheme }) {
 
   return conversation ?
         (
-          <Conversation userId={0} friendId={1} chatId={1} handleBackButtonPress={backButtonHandler} style={{flex: 1, height: Dimensions.get('window').height, width: Dimensions.get('window').width}} />
+          <Conversation userId={1} friendId={0} chatId={1} handleBackButtonPress={backButtonHandler} style={{flex: 1, height: Dimensions.get('window').height, width: Dimensions.get('window').width}} />
         )
         :
         (

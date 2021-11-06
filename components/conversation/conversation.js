@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView, TouchableOpacity} from 'react-native';
+import * as ScreenCapture from 'expo-screen-capture';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,6 +13,11 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
   let [picDisplay, setPicDisplay] = useState(false);
   let [cameraDisplay, setCameraDisplay] = useState(false);
   let [progressBarFill, setProgressBarFill] = useState(1);
+
+  let screenShotListener = ScreenCapture.addScreenshotListener(() => {
+    console.log('screen shot listener triggered');
+    api.noteScreenShot(chatId, userId);
+  })
 
   // updates messages upon render
   useEffect(() => {
@@ -90,7 +96,7 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
       <View style={styles.lightbox}>
         <View>
           <Image source={{uri: spotlightPic}} style={styles.spotlight}/>
-          <Pressable onPress={() => {}} style={{width: Dimensions.get('window').width, alignSelf: 'center', flex: 1, display: 'flex'}}>
+          <Pressable onPress={() => {api.saveImage(spotlightPic)}} style={{width: Dimensions.get('window').width, alignSelf: 'center', flex: 1, display: 'flex'}}>
             <Ionicons name="cloud-download-outline" style={{ color: "#fff", fontSize: 50, alignSelf: 'center'}}/>
           </Pressable>
           <ProgressBar progress={progressBarFill} color={'#a1dc91'} style={{height: 15}}/>

@@ -4,14 +4,20 @@ import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
 //import { globalStyles } from '../styles/global.js'
 
-function Friends( { route, data } ) {
+function Friends( { route, friendlistdata } ) {
 
-  const [userData, setUserData] = useState(data);
+  const [listofusers, setListofusers] = useState('') // need to pass down all users
   const [friendSearch, setFriendSearch] = useState('')
   const navigation = useNavigation(false);
 
  const searchFriend = (searchedEmail) => {
-  userData.map(e => {
+  // calls on database to get every user that exist to map and match if they are found you can ad dthem
+  fetch('http://18.219.200.72:8080/user')
+  .then(response => setListofusers(response.json()))
+  .then(data => console.log(data));
+  
+  // map thru the list of all users in database
+  listofusers.map(e => {
     if (e.email.toLowerCase() === searchedEmail.toLowerCase()) {
     setFriendSearch(e.email)
     navigation.navigate('Profile', { email: e.email})
@@ -23,21 +29,21 @@ function Friends( { route, data } ) {
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <ScrollView>
-      <SearchBarFriends searchFriend={searchFriend} userData={userData}/>
-            <View  style={styles.main}>{userData.map((e) => {
+      <SearchBarFriends searchFriend={searchFriend} listofusers={listofusers}/>
+            <View  style={styles.main}>{friendlistdata.map((e) => {
               return <Text onPress={() => {
-                navigation.navigate('Profile', { email: e.email})
-                console.log(`you clicked on user:  ${e.email}`)
+                navigation.navigate('Profile', { first_name: e.first_name})
+                console.log(`you clicked on user:  ${e.first_name}`)
               }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
                 <View >
-                <Image style={styles.images} source={e.photo}/>
+                      {/* if no thumbnail photo selected will default logo pic */}
+                <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../data/photos/tester.png')} />
                 </View>
                 <View style={{
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     }}>
-                <Text style={styles.username}> {e.name}</Text>
-                <Text style={styles.friendsonline}> {e.friends} friends online</Text>
+                <Text style={styles.username}> {e.first_name}</Text>
                 </View>
               </Text>
             })}

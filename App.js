@@ -45,8 +45,8 @@ export default function App() {
   // Add State that will be shared globally here
   const [userEmail, setUserEmail] = useState('');
   const [userId, setUserId] = useState(null);
-  const [fetchdata, setFetchData] = useState('')
-  const [friendsList, setFriendsList] = useState('')
+  const [fetchdata, setFetchData] = useState('');
+  const [friendsList, setFriendsList] = useState('');
   const [token, setToken] = useState('');
 
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
@@ -54,7 +54,7 @@ export default function App() {
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
-  const [isLoggedIn, setLoggedIn] = useToggle(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);
@@ -86,10 +86,10 @@ export default function App() {
 
   const theme = isDarkTheme ? customDarkTheme : customDefaultTheme;
 
-  useEffect(() => {
+  useEffect( () => {
       fetchUserData();
       fetchFriendsData();
-  }, []);
+  }, [isLoggedIn]);
 
   const fetchUserData = () => {
     console.log('fetchUserData invoked')
@@ -187,6 +187,8 @@ export default function App() {
     setUserId={setUserId}
     setToken={setToken}
     setUserEmail={setUserEmail}
+    fetchUserData={fetchUserData}
+    fetchFriendsData={fetchFriendsData}
     />;
   } else {
     return (

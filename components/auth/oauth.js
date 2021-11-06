@@ -10,10 +10,15 @@ const changeScreen = () => {};
 
 function OAuth(props) {
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: '1058454216082-014k0icvvopm51k53kplsj2gv50iop4c.apps.googleusercontent.com',
-    iosClientId: '1058454216082-014k0icvvopm51k53kplsj2gv50iop4c.apps.googleusercontent.com',
-    androidClientId: '1058454216082-014k0icvvopm51k53kplsj2gv50iop4c.apps.googleusercontent.com',
-    webClientId: '1058454216082-014k0icvvopm51k53kplsj2gv50iop4c.apps.googleusercontent.com',
+    // expoClientId: '1058454216082-014k0icvvopm51k53kplsj2gv50iop4c.apps.googleusercontent.com',
+    // iosClientId: '1058454216082-014k0icvvopm51k53kplsj2gv50iop4c.apps.googleusercontent.com',
+    // androidClientId: '1058454216082-014k0icvvopm51k53kplsj2gv50iop4c.apps.googleusercontent.com',
+    // webClientId: '1058454216082-014k0icvvopm51k53kplsj2gv50iop4c.apps.googleusercontent.com',
+
+    expoClientId: '1058454216082-26e47v0h7cpsbcfdkmkbunmc1l6n0md2.apps.googleusercontent.com',
+    iosClientId: '1058454216082-26e47v0h7cpsbcfdkmkbunmc1l6n0md2.apps.googleusercontent.com',
+    androidClientId: '1058454216082-26e47v0h7cpsbcfdkmkbunmc1l6n0md2.apps.googleusercontent.com',
+    webClientId: '1058454216082-26e47v0h7cpsbcfdkmkbunmc1l6n0md2.apps.googleusercontent.com',
   });
 
   React.useEffect(() => {

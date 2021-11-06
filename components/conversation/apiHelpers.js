@@ -1,9 +1,7 @@
-import conversationMockData from '../../data/conversationMockData.js';
 import data from '../../data/data.js';
 import axios from 'axios';
 
 const CHAT_API = 'http://3.133.100.147:2550';
-let messageData = conversationMockData;
 
 // input: chatId: INTEGER (the chatId of the current conversation)
 // output: an array of messages in GiftedChat format
@@ -24,7 +22,6 @@ const fetchMessages = (chatId) => {
 };
 
 // converts messages into GiftedChat format
-// NOTE: this is currently configured for test data and will be changed once connected to the API
 const formatMessages = (messages) => {
   return messages
     .map((message) => {
@@ -37,13 +34,6 @@ const formatMessages = (messages) => {
       return formattedMessage;
     })
     .reverse();
-};
-
-let chatId = undefined;
-let currentMessages = [{"_id":15,"text":null,"createdAt":"2021-11-05T01:44:04.630Z","user":{"_id":3,"name":"Snowy","avatar":22},"image":"https://croutonchat.s3.us-east-2.amazonaws.com/05D24C1B-77C6-4492-875A-BA365594C7F7.jpg"},{"_id":2,"text":"Language, please...","createdAt":"2021-11-05T01:39:17.539Z","user":{"_id":5,"name":"Ruffalot","avatar":24}},{"_id":1,"text":"barking meow, I just stubbed my paw","createdAt":"2021-11-05T01:39:17.539Z","user":{"_id":4,"name":"Bork","avatar":23}}];
-
-const getMessages = () => {
-  return currentMessages;
 };
 
 const convertUser = (incomingUser) => {
@@ -95,12 +85,27 @@ const getFriendAvatar = (friendId) => {
 };
 
 //input: an array of new messages
-const sendMessage = () => {
-  //will eventually post text message to API
-};
-
-const sendPicture = () => {
-  //will eventually post picture message to API
+const sendMessage = async (message, chatId) => {
+  const formData = new FormData();
+  formData.append('chatId', chatId);
+  formData.append('senderId', message.user._id);
+  formData.append('body', message.text);
+  formData.append('date', message.createdAt);
+  await fetch('http://3.133.100.147:2550/add-message', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      Accept: 'application/json',
+      'content-type': 'multipart/form-data',
+    },
+  })
+  .then((response) => {
+    if (response.status === 200) {
+      console.log('message send successful', response);
+    } else {
+      console.log('message send failed', response);
+    }
+  })
 };
 
 const markAsRead = () => {
@@ -123,11 +128,9 @@ const exitConversation = () => {
 
 module.exports = {
   fetchMessages,
-  getMessages,
   getFriendName,
   getFriendAvatar,
   sendMessage,
-  sendPicture,
   markAsRead,
   deleteImage,
   exitConversation

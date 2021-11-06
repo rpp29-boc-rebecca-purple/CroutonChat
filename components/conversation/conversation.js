@@ -27,7 +27,10 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
   // handles text message send
   const onSend = useCallback((newMessages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
-    api.sendMessage(newMessages);
+    newMessages.forEach((message) => {
+      console.log('message to be sent:', message);
+      api.sendMessage(message, chatId);
+    });
   }, []);
 
   // handles all tasks related to photo loading, displaying, & deleting

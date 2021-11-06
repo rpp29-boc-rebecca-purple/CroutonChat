@@ -18,7 +18,7 @@ function ChatList({ currentUser, friendsList, isDarkTheme }) {
   const navigation = useNavigation();
 
   const searchMessages = (name) => {
-    data.map(e => {
+    data.forEach(e => {
       if (e.email.toLowerCase() === name.toLowerCase()) {
       navigation.navigate('Profile', { email: e.email})
       console.log(`you clicked on user:  ${e.email}`)

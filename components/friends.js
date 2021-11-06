@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
 //import { globalStyles } from '../styles/global.js'
 
-function Friends( { route, props, isDarkTheme } ) {
+function Friends( { route, friendsList, isDarkTheme } ) {
 
   const [listofusers, setListofusers] = useState('') // need to pass down all users
   const [friendSearch, setFriendSearch] = useState('')
@@ -30,18 +30,17 @@ function Friends( { route, props, isDarkTheme } ) {
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <ScrollView>
       <SearchBarFriends searchFriend={searchFriend} listofusers={listofusers}/>
-            <View  style={styles.main}>{props.friendsList.map((e) => {
+            <View  style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
                 navigation.navigate('Profile', { first_name: e.first_name})
                 console.log(`you clicked on user:  ${e.first_name}`)
               }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
                 <View >
-                      {/* if no thumbnail photo selected will default logo pic */}
                 <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../data/photos/tester.png')} />
                 </View>
                 <View style={isDarkTheme ? styles.borderDark : styles.border}>
                 <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
-                {/* <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}> {e.friends} friends online</Text> */}
+                <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}>  following:{e.following_count} | followers: {e.follower_count} </Text>
                 </View>
               </Text>
             })}

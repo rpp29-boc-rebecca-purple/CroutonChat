@@ -31,20 +31,19 @@ import LoginPage from './components/auth/loginPage';
 import SignupPage from './components/auth/signupPage';
 
 import fakeUser from './data/profileData.js';
-import data from './data/data';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   // Determine user has light/dark theme on phone
   let phoneTheme = true;
   const colorScheme = Appearance.getColorScheme();
-  if (colorScheme === 'dark') {
+  if (colorScheme === 'light') {
     phoneTheme = false;
 }
 
   // Add State that will be shared globally here
   const [userEmail, setUserEmail] = useState('');
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('');
   const [fetchdata, setFetchData] = useState('');
   const [friendsList, setFriendsList] = useState('');
   const [token, setToken] = useState('');
@@ -58,7 +57,6 @@ export default function App() {
 
   const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);
-  const [userData, setUserData] = useState(data);
   const [realUserData, setRealUserData] = useState({});
 
   const [authPage, setAuthPage] = useState('login');
@@ -89,7 +87,7 @@ export default function App() {
   useEffect( () => {
       fetchUserData();
       fetchFriendsData();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, userId]);
 
   const fetchUserData = () => {
     console.log('fetchUserData invoked')
@@ -123,7 +121,7 @@ export default function App() {
     );
   };
   const ChatScreen = ({ route }) => {
-    return <ChatList data={userData} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
+    return <ChatList friendsList={friendsList} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
   };
   const CameraScreen = () => {
     return (

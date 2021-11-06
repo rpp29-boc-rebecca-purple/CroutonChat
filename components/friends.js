@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
 //import { globalStyles } from '../styles/global.js'
 
-function Friends( { route, data, isDarkTheme } ) {
+function Friends( { route, friendsList, isDarkTheme } ) {
 
   const [listofusers, setListofusers] = useState('') // need to pass down all users
   const [friendSearch, setFriendSearch] = useState('')
@@ -30,7 +30,7 @@ function Friends( { route, data, isDarkTheme } ) {
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <ScrollView>
       <SearchBarFriends searchFriend={searchFriend} listofusers={listofusers}/>
-            <View  style={styles.main}>{friendlistdata.map((e) => {
+            <View  style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
                 navigation.navigate('Profile', { first_name: e.first_name})
                 console.log(`you clicked on user:  ${e.first_name}`)
@@ -41,7 +41,7 @@ function Friends( { route, data, isDarkTheme } ) {
                 </View>
                 <View style={isDarkTheme ? styles.borderDark : styles.border}>
                 <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
-                <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}> {e.friends} friends online</Text>
+                {/* <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}> {e.friends} friends online</Text> */}
                 </View>
               </Text>
             })}

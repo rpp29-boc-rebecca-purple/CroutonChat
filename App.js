@@ -44,7 +44,6 @@ export default function App() {
 
   // Add State that will be shared globally here
   const [userEmail, setUserEmail] = useState('');
-  const [isLoggedIn, setLoggedIn] = useToggle(false);
   const [userId, setUserId] = useState(null);
   const [fetchdata, setFetchData] = useState('')
   const [friendsList, setFriendsList] = useState('')
@@ -56,12 +55,11 @@ export default function App() {
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
   const [isLoggedIn, setLoggedIn] = useToggle(false);
+
   const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
   const [realUserData, setRealUserData] = useState({});
-  const [isLoggedIn, setLoggedIn] = useToggle(false);
-  const [email] = useState(fakeUser.email);
 
   const [authPage, setAuthPage] = useState('login');
 
@@ -91,7 +89,7 @@ export default function App() {
   useEffect(() => {
       fetchUserData();
       fetchFriendsData();
-  }, [isLoggedIn]);
+  }, []);
 
   const fetchUserData = () => {
     console.log('fetchUserData invoked')
@@ -119,7 +117,7 @@ export default function App() {
     return (
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <Friends friendlistdata={friendsList} isDarkTheme={isDarkTheme} />
+          <Friends friendsList={friendsList} isDarkTheme={isDarkTheme} />
         </View>
       </ScrollView>
     );

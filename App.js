@@ -60,6 +60,8 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(5);
   const [userData, setUserData] = useState(data);
   const [realUserData, setRealUserData] = useState({});
+  const [isLoggedIn, setLoggedIn] = useToggle(false);
+  const [email] = useState(fakeUser.email);
 
   const [authPage, setAuthPage] = useState('login');
 
@@ -117,7 +119,8 @@ export default function App() {
     return (
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <Friends friendlistdata={friendsList} isDarkTheme={isDarkTheme} />
+          <Friends data={userData} isDarkTheme={isDarkTheme} />
+          {/* <Friends friendlistdata={friendsList} isDarkTheme={isDarkTheme} /> */}
         </View>
       </ScrollView>
     );

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
 //import { globalStyles } from '../styles/global.js'
 
-function Friends( { route, friendlistdata } ) {
+function Friends( { route, data } ) {
 
   const [listofusers, setListofusers] = useState('') // need to pass down all users
   const [friendSearch, setFriendSearch] = useState('')
@@ -15,7 +15,7 @@ function Friends( { route, friendlistdata } ) {
   fetch('http://18.219.200.72:8080/user')
   .then(response => setListofusers(response.json()))
   .then(data => console.log(data));
-  
+
   // map thru the list of all users in database
   listofusers.map(e => {
     if (e.email.toLowerCase() === searchedEmail.toLowerCase()) {

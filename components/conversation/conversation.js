@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView, TouchableOpacity} from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
+import { Ionicons } from '@expo/vector-icons';
 import CameraComponent from '../camera.js';
 const api = require('./apiHelpers.js');
 
@@ -15,10 +16,12 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
   // updates messages upon render
   useEffect(() => {
     async function updateMessages() {
-      const incomingMessages = await api.fetchMessages(chatId);
-      console.log('\n\n\nmessages recieved in useEffect:\n', incomingMessages);
-      if (incomingMessages !== undefined) {
+      const incomingMessages = await api.fetchMessages(chatId, userId);
+      // console.log('\n\n\nmessages recieved in useEffect:\n', incomingMessages);
+      if (incomingMessages !== undefined && Array.isArray(incomingMessages)) {
         setMessages(incomingMessages);
+      } else {
+        setMessages([]);
       }
     }
     updateMessages();
@@ -26,23 +29,29 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
 
   // handles text message send
   const onSend = useCallback((newMessages = []) => {
+    let newConversation = messages < 1;
+    console.log('\n\nNEW MESSAGES AT ONSEND', newMessages);
     setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
     newMessages.forEach((message) => {
       console.log('message to be sent:', message);
-      api.sendMessage(message, chatId);
+      if (newConversation) {
+        api.startConversation(message, userId);
+      } else {
+        api.sendMessage(message, chatId);
+      }
     });
   }, []);
 
   // handles all tasks related to photo loading, displaying, & deleting
   const handleImageViewing = (imgUrl, messageId) => {
-    api.deleteImage(chatId, messageId);
+    console.log(`parameters for deletion:\nchatId: ${chatId}\nmessageId: ${messageId}\n url: ${imgUrl}`);
+    api.deleteImage(chatId, messageId, imgUrl);
     setSpotlightPic(imgUrl);
     setProgressBarFill(1);
     setPicDisplay(true);
     let viewingStartTime = Date.now();
     let incrementProgressBar = setInterval(() => { setProgressBarFill(1 - ((Date.now() - viewingStartTime) / 10000)); }, 40);
     setTimeout(() => {
-      setMessages(api.fetchMessages());
       setPicDisplay(false);
       clearInterval(incrementProgressBar);
     }, 10000);
@@ -82,7 +91,10 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
       <View style={styles.lightbox}>
         <View>
           <Image source={{uri: spotlightPic}} style={styles.spotlight}/>
-          <ProgressBar progress={progressBarFill} color={'#a1dc91'}/>
+          <Pressable onPress={() => {}} style={{width: Dimensions.get('window').width, alignSelf: 'center', flex: 1, display: 'flex'}}>
+            <Ionicons name="cloud-download-outline" style={{ color: "#fff", fontSize: 50, alignSelf: 'center'}}/>
+          </Pressable>
+          <ProgressBar progress={progressBarFill} color={'#a1dc91'} style={{height: 15}}/>
         </View>
       </View>
     )

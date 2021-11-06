@@ -5,15 +5,15 @@ const CHAT_API = 'http://3.133.100.147:2550';
 
 // input: chatId: INTEGER (the chatId of the current conversation)
 // output: an array of messages in GiftedChat format
-const fetchMessages = (chatId) => {
+const fetchMessages = (chatId, userId) => {
   return axios({
     method: 'GET',
-    url: `${CHAT_API}/conversation?chatId=${chatId}`,
+    url: `${CHAT_API}/conversation?chatId=${chatId}&senderId=${userId}`,
   })
   .then((res) => {
-    console.log('conversation retrieval successful\n', res.data);
+    // console.log('conversation retrieval successful\n', res.data);
     let formattedData = formatMessages(res.data);
-    console.log('messages in GiftedChat format: ', JSON.stringify(formattedData));
+    // console.log('messages in GiftedChat format: ', JSON.stringify(formattedData));
     return formattedData;
   })
   .catch((err) => {
@@ -37,7 +37,7 @@ const formatMessages = (messages) => {
 };
 
 const convertUser = (incomingUser) => {
-  console.log('\n\n\nincoming user data to be converted:', incomingUser)
+  // console.log('\n\n\nincoming user data to be converted:', incomingUser)
   return {
     _id: incomingUser.uid,
     name: incomingUser.name,
@@ -47,11 +47,8 @@ const convertUser = (incomingUser) => {
 
 const fetchUserData = (userId) => {
   //will eventually fetch userData from API
-  console.log('FETCH USER DATA ENTERED')
   let dataCopy = data.sort((a,b) => a.uid < b.uid);
-  console.log('\n\n\nDATACOPY:', dataCopy);
   let foundUser = dataCopy.filter(x => x.uid === userId)[0];
-  console.log('user found in fetchUserData:', foundUser);
   return foundUser;
 };
 
@@ -96,7 +93,7 @@ const sendMessage = async (message, chatId) => {
     body: formData,
     headers: {
       Accept: 'application/json',
-      'content-type': 'multipart/form-data',
+      'content-type': 'application/json',
     },
   })
   .then((response) => {
@@ -108,13 +105,51 @@ const sendMessage = async (message, chatId) => {
   })
 };
 
+const startConversation = async (message, friendId) => {
+  const formData = new FormData();
+  formData.append('senderId', message.user._id);
+  formData.append('userId2', friendId);
+  formData.append('body', message.text);
+  return await fetch('http://3.133.100.147:2550/new-conversation', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      Accept: 'application/json',
+      'content-type': 'multipart/form-data',
+    },
+  })
+  .then((response) => {
+    if (response.status === 200) {
+      console.log('conversation creation successful', response);
+    } else {
+      console.log('conversation creation failed', response);
+    }
+  })
+};
+
 const markAsRead = () => {
   //will eventually send read receipts to API
 };
 
-const deleteImage = (chatId, messageId) => {
-  //will eventually send an API call to delete the viewed image
-  messageData = messageData.filter((x) => x.messageid !== messageId);
+const deleteImage = (chatId, messageId, imageUrl) => {
+  const formData = new FormData();
+  formData.append('chatId', chatId);
+  formData.append('messageId', messageId);
+  formData.append('url', JSON.stringify(imageUrl));
+  fetch(`http://3.133.100.147:2550/delete-photo?chatId=${chatId}&messageId=${messageId}&url=${imageUrl}`, {
+    method: 'DELETE'
+  })
+  .then((response) => {
+    if (response.status === 200) {
+      console.log('image deletion successful', response);
+    } else {
+      console.log('image deletion failed', response);
+    }
+  })
+};
+
+const saveImage = () => {
+
 };
 
 const exitConversation = () => {
@@ -123,16 +158,17 @@ const exitConversation = () => {
   friendAvatar = null;
 };
 
-// currentMessages = fetchMessages(12);
-// setInterval(() => {currentMessages = fetchMessages(12); console.log('current messages:', currentMessages)}, 5000);
+
 
 module.exports = {
   fetchMessages,
   getFriendName,
   getFriendAvatar,
   sendMessage,
+  startConversation,
   markAsRead,
   deleteImage,
-  exitConversation
+  exitConversation,
+  saveImage
 };
 

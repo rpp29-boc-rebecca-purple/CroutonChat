@@ -4,7 +4,12 @@ import SearchBarMessages from './searchBarMessages'
 import { useNavigation } from '@react-navigation/native';
 import Conversation from './conversation/conversation.js';
 
-function ChatList({ currentUser, data, isDarkTheme }) {
+import data from '../data/data'
+
+function ChatList({ currentUser, friendsList, isDarkTheme }) {
+
+  const [list] = useState(friendsList)
+
   const userId = currentUser;
   const [friendId, setFriendId] = useState(4);
   const [chatId, setChatId] = useState(0);
@@ -13,7 +18,7 @@ function ChatList({ currentUser, data, isDarkTheme }) {
   const navigation = useNavigation();
 
   const searchMessages = (name) => {
-    data.map(e => {
+    data.forEach(e => {
       if (e.email.toLowerCase() === name.toLowerCase()) {
       navigation.navigate('Profile', { email: e.email})
       console.log(`you clicked on user:  ${e.email}`)
@@ -33,7 +38,7 @@ function ChatList({ currentUser, data, isDarkTheme }) {
         (
           <ScrollView>
             <SearchBarMessages searchMessages={searchMessages} userData={userData}/>
-                <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{userData.map((e) => {
+                <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{list ? list.map((e) => {
 
                   return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
                     // set friendId
@@ -43,15 +48,15 @@ function ChatList({ currentUser, data, isDarkTheme }) {
 
                   key={e.key} style={styles.container}>
                     <View>
-                    <Image style={styles.images} source={e.photo}/>
+                    <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../data/photos/tester.png')} />
                     </View>
                     <View style={isDarkTheme ? styles.borderDark : styles.border}>
-                    <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.name}</Text>
-                    <Text style={isDarkTheme ? styles.unreadDark : styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'} {e.photomessages.length > 0 ?  ' 📸' : ''}  </Text>
+                    <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
+                    {/* <Text style={isDarkTheme ? styles.unreadDark : styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'} {e.photomessages.length > 0 ?  ' 📸' : ''}  </Text> */}
                     </View>
 
                   </Text>
-                })}
+                }) : null }
               </View>
           </ScrollView>
         )
@@ -115,4 +120,3 @@ function ChatList({ currentUser, data, isDarkTheme }) {
     });
 
 export default ChatList
-

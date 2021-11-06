@@ -11,10 +11,7 @@ const fetchMessages = (chatId, userId) => {
     url: `${CHAT_API}/conversation?chatId=${chatId}&senderId=${userId}`,
   })
   .then((res) => {
-    // console.log('conversation retrieval successful\n', res.data);
-    let formattedData = formatMessages(res.data);
-    // console.log('messages in GiftedChat format: ', JSON.stringify(formattedData));
-    return formattedData;
+    return formatMessages(res.data);
   })
   .catch((err) => {
     console.log('conversation retrieval failed\n', err);
@@ -119,9 +116,8 @@ const saveImage = () => {
 
 const fetchUserData = (userId) => {
   //will pull from user data retrieved in App
-  let dataCopy = data.sort((a,b) => a.uid < b.uid);
-  let foundUser = dataCopy.filter(x => x.uid === userId)[0];
-  return foundUser;
+  let dataCopy = data;
+  return dataCopy.filter(x => x.uid === userId)[0];
 };
 
 //variables for storing current friend info

@@ -17,7 +17,6 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
   useEffect(() => {
     async function updateMessages() {
       const incomingMessages = await api.fetchMessages(chatId, userId);
-      // console.log('\n\n\nmessages recieved in useEffect:\n', incomingMessages);
       if (incomingMessages !== undefined && Array.isArray(incomingMessages)) {
         setMessages(incomingMessages);
       } else {

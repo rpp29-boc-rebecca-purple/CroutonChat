@@ -14,8 +14,8 @@ export default class CameraComponent extends React.Component {
     super(props)
     this.exitCamera = props.exitCamera;
     this.state = {
-      chatId: props.chatId || 12,
-      senderId: props.senderId || 1,
+      chatId: props.chatId,
+      senderId: props.senderId,
       hasPermission: null,
       cameraType: Camera.Constants.Type.back,
       setpreview: false,

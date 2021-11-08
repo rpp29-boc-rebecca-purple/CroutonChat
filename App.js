@@ -146,6 +146,7 @@ export default function App() {
         displaypage = <LogoutScreen
         logoutModalToggle={setLogoutModalOpen}
         toggleSettings={setProfileSettingsOpen}
+        setLoggedIn={setLoggedIn}
         isDarkTheme={isDarkTheme} />
       } else if (changePassModalOpen) {
         displaypage = <ChangePasswordScreen

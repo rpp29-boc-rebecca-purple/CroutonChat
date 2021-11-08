@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Avatar,
   Title,
@@ -13,6 +13,8 @@ import {
   SafeAreaView,
   ImageBackground,
 } from 'react-native';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { editProfileInfo } from '../../HelperFuncs/profileApi';
 
@@ -23,6 +25,12 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   const [age, setAge] = useState(userData.age);
   const [favoriteSnack, setFavoriteSnack] = useState(userData.snack);
   const [animalType, setAnimalType] = useState(userData.animal_type);
+  const [thumbnail, setThumbnail] = useState(null);
+  const [hasPermission, setHasPermission] = useState(null);
+
+  useEffect(() => {
+    getPermissionAsync();
+  }, []);
 
   const sendChanges = () => {
     let curState = {
@@ -32,11 +40,41 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       'age': age,
       'snack': favoriteSnack,
       'animal_type': animalType,
-      'thumbnail': userData.thumbnail || null
+      'thumbnail': thumbnail || null
       }
     }
     editProfileInfo(curState);
     fetchUserData();
+  }
+
+  // camra roll permissions
+  const getPermissionAsync = async () => {
+    if (Platform.OS === 'ios') {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Enable Camera Roll Permissions');
+      }
+    }
+    // Camera Permission
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    setHasPermission(status === 'granted');
+  }
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  })
+
+  let localUri = result.uri.replace('file://', '');
+  let filename = localUri.split('/').pop();
+  let match = /\.(\w+)$/.exec(filename);
+  let type = match ? `image/${match[1]}` : `image`;
+  let formData = new FormData();
+  formData.append({ uri: localUri, name: filename, type: type });
+  console.log(formData);
   }
 
     return (
@@ -55,11 +93,9 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
                 >  &#x2190;</Text>
               </TouchableOpacity>
             </View>
-            <View style={{alignItems: 'center', marginTop: 35}}>
+            <View  style={{alignItems: 'center', marginTop: 35}}>
               <Avatar.Image
-                source={{
-                  uri: 'https://i.imgur.com/ckCX9Xc.jpg'
-                }}
+                source={null}
                 size={100}
               />
               <View style={{alignItems: 'center'}}>
@@ -73,7 +109,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
         {/* user info textinput section */}
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
-            <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>First Name:          </Text>
+            <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>First Name:          </Text>
             <TextInput
             placeholder={userData.first_name}
             onChangeText={(val)=> setName(val)}
@@ -125,11 +161,16 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
           </View>
         </View>
 
-        {/* save changes button */}
+        {/* change profile picture / save changes button */}
         <TouchableRipple style={isDarkTheme ? styles.editProfileButtonsWrapperDark : styles.editProfileButtonsWrapper}>
               <Text
               style={isDarkTheme ? styles.editProfileButtonDark : styles.editProfileButton}
-              onPress={()=> {editProfile(); sendChanges();}}>Save changes?</Text>
+              onPress={()=> {pickImage();}}>Change Profile Picture</Text>
+          </TouchableRipple>
+        <TouchableRipple style={isDarkTheme ? styles.editProfileButtonsWrapperDark : styles.editProfileButtonsWrapper}>
+              <Text
+              style={isDarkTheme ? styles.editProfileButtonDark : styles.editProfileButton}
+              onPress={()=> {editProfile(); sendChanges();}}>Save Changes</Text>
           </TouchableRipple>
       </SafeAreaView>
     );
@@ -163,7 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#DDDDDD",
     padding: 10,
     fontSize: 20,
-    minWidth: 200,
+    minWidth: 210,
     textAlign: 'center'
   },
   editProfileButtonsWrapper: {
@@ -176,7 +217,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     fontSize: 20,
-    minWidth: 200,
+    minWidth: 210,
     textAlign: 'center',
     backgroundColor: 'black',
     color: 'white'

@@ -92,7 +92,6 @@ export default function App() {
     console.log('fetchUserData invoked')
     axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
     .then(function (response) {
-      console.log(response.data[0])
       setUserData(response.data[0])
     })
     .catch(function (error) {

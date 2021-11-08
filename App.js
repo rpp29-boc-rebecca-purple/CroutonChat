@@ -160,6 +160,7 @@ export default function App() {
         editProfile={setEditProfile}
         fakeUser={fakeUser}
         userData={userData}
+        fetchUserData={fetchUserData}
         isDarkTheme={isDarkTheme}
          />
       }

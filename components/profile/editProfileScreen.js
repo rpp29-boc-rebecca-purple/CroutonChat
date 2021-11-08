@@ -17,7 +17,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { editProfileInfo } from '../../HelperFuncs/profileApi';
 
 
-const EditProfile = ({ userData, editProfile, isDarkTheme }) => {
+const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   const [name, setName] = useState(userData.first_name);
   const [lastName, setLastName] = useState(userData.last_name);
   const [age, setAge] = useState(userData.age);
@@ -26,13 +26,17 @@ const EditProfile = ({ userData, editProfile, isDarkTheme }) => {
 
   const sendChanges = () => {
     let curState = {
+      data: {
       'first_name': name,
       'last_name': lastName,
       'age': age,
       'snack': favoriteSnack,
-      'animal_type': animalType
+      'animal_type': animalType,
+      'thumbnail': userData.thumbnail || null
+      }
     }
     editProfileInfo(curState);
+    fetchUserData();
   }
 
     return (

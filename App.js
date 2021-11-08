@@ -158,6 +158,7 @@ export default function App() {
         displaypage = <EditProfile
         editProfile={setEditProfile}
         fakeUser={fakeUser}
+        userData={userData}
         isDarkTheme={isDarkTheme}
          />
       }
@@ -166,7 +167,6 @@ export default function App() {
           displaypage = <Profile
           toggleSettings={setProfileSettingsOpen}
           editProfile={setEditProfile}
-          fakeUser={fakeUser}
           userData={userData}
           isDarkTheme={isDarkTheme}
            />;

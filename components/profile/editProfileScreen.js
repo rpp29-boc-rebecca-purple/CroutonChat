@@ -17,12 +17,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { editProfileInfo } from '../../HelperFuncs/profileApi';
 
 
-const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
-  const [name, setName] = useState(fakeUser.first_name);
-  const [lastName, setLastName] = useState(fakeUser.last_name);
-  const [age, setAge] = useState(fakeUser.age);
-  const [favoriteSnack, setFavoriteSnack] = useState(fakeUser.snack);
-  const [animalType, setAnimalType] = useState(fakeUser.animal_type);
+const EditProfile = ({ userData, editProfile, isDarkTheme }) => {
+  const [name, setName] = useState(userData.first_name);
+  const [lastName, setLastName] = useState(userData.last_name);
+  const [age, setAge] = useState(userData.age);
+  const [favoriteSnack, setFavoriteSnack] = useState(userData.snack);
+  const [animalType, setAnimalType] = useState(userData.animal_type);
 
   const sendChanges = () => {
     let curState = {
@@ -71,7 +71,7 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>First Name:          </Text>
             <TextInput
-            placeholder={fakeUser.first_name}
+            placeholder={userData.first_name}
             onChangeText={(val)=> setName(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -81,7 +81,7 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Last Name:          </Text>
             <TextInput
-            placeholder={fakeUser.last_name}
+            placeholder={userData.last_name}
             onChangeText={(val)=> setLastName(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -92,7 +92,7 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Age:                       </Text>
             <TextInput
             style={{marginRight:0}}
-            placeholder={fakeUser.age}
+            placeholder={userData.age.toString()}
             onChangeText={(val) => setAge(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -102,7 +102,7 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Species:               </Text>
             <TextInput
-            placeholder={fakeUser.animal_type}
+            placeholder={userData.animal_type}
             onChangeText={(val) => setAnimalType(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -112,7 +112,7 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Favorite Snack:  </Text>
             <TextInput
-            placeholder={fakeUser.snack}
+            placeholder={userData.snack}
             onChangeText={(val) => setFavoriteSnack(val)}
             autoCapitalize="none"
             autoCorrect={false}

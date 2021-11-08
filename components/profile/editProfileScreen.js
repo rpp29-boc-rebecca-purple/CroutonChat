@@ -25,7 +25,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   const [age, setAge] = useState(userData.age);
   const [favoriteSnack, setFavoriteSnack] = useState(userData.snack);
   const [animalType, setAnimalType] = useState(userData.animal_type);
-  const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnail, setThumbnail] = useState(userData.thumbnail);
   const [hasPermission, setHasPermission] = useState(null);
 
   useEffect(() => {
@@ -69,6 +69,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   })
 
   let localUri = result.uri.replace('file://', '');
+  setThumbnail(localUri)
   let filename = localUri.split('/').pop();
   let match = /\.(\w+)$/.exec(filename);
   let type = match ? `image/${match[1]}` : `image`;
@@ -95,7 +96,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
             </View>
             <View  style={{alignItems: 'center', marginTop: 35}}>
               <Avatar.Image
-                source={null}
+                source={{ uri: thumbnail}}
                 size={100}
               />
               <View style={{alignItems: 'center'}}>

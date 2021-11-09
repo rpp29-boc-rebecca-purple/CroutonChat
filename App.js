@@ -129,12 +129,9 @@ export default function App() {
   };
 
   function ProfileScreen( {route} ) {
-    // Callum im passing you down the user that was searched in my searchbarfriends
-    // if user is found it will pass down the user searched email here as a param so you can
-    // pass that infomation to any components below you need this to use that info to pull
-    // up the correct persons profile, If you need anything else besides email when someone
-    // is searched, let me know!
-    // console.log(route.params.user, '😅😆')
+
+    let info = route.params.info
+    let currentUser = userId
 
     let displaypage = null;
     if (profileSettingsOpen) {

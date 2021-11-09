@@ -14,8 +14,8 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
       <SearchBarFriends loggedinEmail={userEmail} />
             <View  style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
-                navigation.navigate('Profile', { first_name: e.first_name})
-                console.log(`you clicked on user:  ${e.first_name}`)
+                navigation.navigate('Profile', { info: e})
+                console.log(`you clicked on user:  ${JSON.stringify(e)} 😄😄😄😄`)
               }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
                 <View >
                 <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />

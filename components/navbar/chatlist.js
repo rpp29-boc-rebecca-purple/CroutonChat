@@ -1,30 +1,59 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-native";
-import SearchBarMessages from './searchBarMessages'
+import SearchBarMessages from '../navbar/searchBarMessages'
 import { useNavigation } from '@react-navigation/native';
-import Conversation from './conversation/conversation.js';
+import Conversation from '../conversation/conversation.js';
 
-import data from '../data/data'
+//delete after fake data
+import data from '../../data/data'
+
 
 function ChatList({ currentUser, friendsList, isDarkTheme }) {
 
-  const [list] = useState(friendsList)
 
+  //hard coded delete after hookup
+  const [userData, setUserData] = useState(data);
   const userId = currentUser;
+
+  const [userFound, setUserFound] = useState(false)
+  const [allFriends, setAllFriends] = useState('')
+  const [list, setList] = useState('')
+  const [found, setFound] = useState('')
   const [friendId, setFriendId] = useState(4);
   const [chatId, setChatId] = useState(0);
-  const [userData, setUserData] = useState(data);
   const [conversation, setConversation] = useState(false);
   const navigation = useNavigation();
 
+  useEffect( () => {
+    newList(found)
+}, [userFound]);
+
+
   const searchMessages = (name) => {
-    data.forEach(e => {
-      if (e.email.toLowerCase() === name.toLowerCase()) {
-      navigation.navigate('Profile', { email: e.email})
-      console.log(`you clicked on user:  ${e.email}`)
+    let found = []
+    friendsList.map(e => {
+      if (name.toLowerCase() === e.first_name.toLowerCase()) {
+        found.push(e)
       }
+      setFound(found)
+      newList(found)
     })
+
+
+    if (found.length === 1) {
+      setUserFound(true)
+    } else {
+      setUserFound(false)
+    }
   };
+
+  const newList = (array) => {
+      if (userFound) {
+        setList(array)
+      } else {
+        setList(friendsList)
+      }
+  }
 
   const backButtonHandler = () => {
     setConversation(false);
@@ -48,7 +77,7 @@ function ChatList({ currentUser, friendsList, isDarkTheme }) {
 
                   key={e.key} style={styles.container}>
                     <View>
-                    <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../data/photos/tester.png')} />
+                    <Image style={styles.images} source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
                     </View>
                     <View style={isDarkTheme ? styles.borderDark : styles.border}>
                     <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
@@ -120,3 +149,31 @@ function ChatList({ currentUser, friendsList, isDarkTheme }) {
     });
 
 export default ChatList
+
+
+
+
+
+
+
+
+
+// <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>
+// {/* <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
+//     // set friendId
+//     // set chatId
+//     setConversation(true);
+//   }}
+//  style={styles.container}> */}
+
+//     <View>
+//     {/* <Image style={styles.images}  source={thumbnail[0] ? thumbnail[0] : require('../../data/photos/tester.png')} /> */}
+//     </View>
+//     <View style={isDarkTheme ? styles.borderDark : styles.border}>
+//     <Text style={isDarkTheme ? styles.usernameDark : styles.username}>
+//       {setSearchedChat.first_name}
+//     </Text>
+//     </View>
+//   {/* </Text> */}
+// })
+// </View>

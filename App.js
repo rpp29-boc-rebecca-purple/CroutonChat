@@ -18,9 +18,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import axios from 'axios';
 
 import { Ionicons } from '@expo/vector-icons';
-import Friends from './components/friends.js';
-import ChatList from './components/chatlist.js';
-import CameraComponent from './components/camera.js';
+import Friends from './components/navbar/friends.js';
+import ChatList from './components/navbar/chatlist.js';
+import CameraComponent from './components/navbar/camera.js';
 import Profile from './components/profile/profileScreen.js';
 import Settings from './components/profile/settingsScreen.js';
 import useToggle from './HelperFuncs/profileHelpers.js';
@@ -46,7 +46,6 @@ export default function App() {
   const [userId, setUserId] = useState('');
   const [fetchdata, setFetchData] = useState('');
   const [friendsList, setFriendsList] = useState('');
-  const [token, setToken] = useState('');
 
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
@@ -104,7 +103,7 @@ export default function App() {
     console.log('fetchFriendsData invoked')
       axios.get(`http://18.219.200.72:8080/user/friendsList?user_id=${userId}`)
       .then(function (response) {
-        setFriendsList( response.data.sort((a, b) => (a.first_name > b.first_name ? 1 : -1)) )
+        setFriendsList( response.data.sort((a, b) => ( a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1)) )
       })
       .catch(function (error) {
         console.log(error);
@@ -115,7 +114,7 @@ export default function App() {
     return (
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <Friends friendsList={friendsList} isDarkTheme={isDarkTheme} />
+          <Friends email={userEmail} friendsList={friendsList} isDarkTheme={isDarkTheme} />
         </View>
       </ScrollView>
     );
@@ -131,7 +130,14 @@ export default function App() {
     );
   };
 
-  function ProfileScreen() {
+  function ProfileScreen( {route} ) {
+    // Callum im passing you down the user that was searched in my searchbarfriends
+    // if user is found it will pass down the user searched email here as a param so you can
+    // pass that infomation to any components below you need this to use that info to pull
+    // up the correct persons profile, If you need anything else besides email when someone
+    // is searched, let me know!
+    // console.log(route.params.user, '😅😆')
+
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {
@@ -183,11 +189,10 @@ export default function App() {
     theme ={theme}
     isDarkTheme={isDarkTheme}
     setUserId={setUserId}
-    setToken={setToken}
     setUserEmail={setUserEmail}
     fetchUserData={fetchUserData}
     fetchFriendsData={fetchFriendsData}
-    />;
+    />
   } else {
     return (
       <PaperProvider theme={theme}>

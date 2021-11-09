@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Avatar,
   Title,
@@ -13,7 +13,9 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Profile = ({fakeUser, editProfile, toggleSettings, isDarkTheme}) => {
+const Profile = ({fakeUser, editProfile, toggleSettings, isDarkTheme, user}) => {
+
+
     return (
       <SafeAreaView style={styles.container}>
 

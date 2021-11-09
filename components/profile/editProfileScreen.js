@@ -26,7 +26,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   const [favoriteSnack, setFavoriteSnack] = useState(userData.snack);
   const [animalType, setAnimalType] = useState(userData.animal_type);
   const [thumbnail, setThumbnail] = useState(userData.thumbnail);
-  const [hasPermission, setHasPermission] = useState(null);
+
 
   useEffect(() => {
     getPermissionAsync();
@@ -43,9 +43,10 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       'thumbnail':  null
       }
     };
-    await editProfileInfo(curState, userData.user_id);
-    fetchUserData();
-  };
+    await editProfileInfo(curState, userData.user_id)
+      .then(()=> fetchUserData())
+
+  }
 
   // camra roll permissions
   const getPermissionAsync = async () => {
@@ -55,9 +56,6 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
         alert('Enable Camera Roll Permissions');
       }
     }
-    // Camera Permission
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    setHasPermission(status === 'granted');
   }
 
   const pickImage = async () => {
@@ -76,7 +74,8 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   let formData = new FormData();
   formData.append('photo', { uri: localUri, name: filename, type: type });
 
-  await editProfilePicture(formData);
+  await editProfilePicture(formData)
+    .then(()=> fetchUserData())
   }
 
     return (
@@ -97,7 +96,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
             </View>
             <View  style={{alignItems: 'center', marginTop: 35}}>
               <Avatar.Image
-                source={{ uri: null}}
+                source={{ uri: null || thumbnail}}
                 size={100}
               />
               <View style={{alignItems: 'center'}}>

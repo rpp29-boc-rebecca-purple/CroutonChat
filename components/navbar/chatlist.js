@@ -115,7 +115,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
                     </View>
 
                   </Text>
-                }) : <Text>'NO FRIENDS! ADD SOME'</Text> }
+                }) : null }
               </View>
           </ScrollView>
         )

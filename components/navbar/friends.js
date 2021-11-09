@@ -1,42 +1,24 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
-//import { globalStyles } from '../styles/global.js'
 
-function Friends( { route, friendsList, isDarkTheme } ) {
+function Friends( { route, friendsList, email, isDarkTheme } ) {
 
-  const [listofusers, setListofusers] = useState('') // need to pass down all users
-  const [friendSearch, setFriendSearch] = useState('')
+  const [userEmail] = useState(email)
   const navigation = useNavigation(false);
-
- const searchFriend = (searchedEmail) => {
-  // calls on database to get every user that exist to map and match if they are found you can ad dthem
-  fetch('http://18.219.200.72:8080/user')
-  .then(response => setListofusers(response.json()))
-  .then(data => console.log(data));
-
-  // map thru the list of all users in database
-  listofusers.map(e => {
-    if (e.email.toLowerCase() === searchedEmail.toLowerCase()) {
-    setFriendSearch(e.email)
-    navigation.navigate('Profile', { email: e.email})
-    console.log(`you searched user:  ${e.email}`)
-    }
-  })
-}
 
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <ScrollView>
-      <SearchBarFriends searchFriend={searchFriend} listofusers={listofusers}/>
+      <SearchBarFriends loggedinEmail={userEmail} />
             <View  style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
                 navigation.navigate('Profile', { first_name: e.first_name})
                 console.log(`you clicked on user:  ${e.first_name}`)
               }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
                 <View >
-                <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../data/photos/tester.png')} />
+                <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
                 </View>
                 <View style={isDarkTheme ? styles.borderDark : styles.border}>
                 <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>

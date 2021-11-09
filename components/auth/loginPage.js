@@ -28,7 +28,6 @@ function LoginPage(props) {
               props.setLoggedIn(true);
               props.setUserId(response.data.userId);
               props.setUserEmail(response.data.email);
-              props.setToken(response.data.token);
             })
             .catch(err => {
               if (err.toString().indexOf('401') > 0 || err.toString().indexOf('400') > 0) {

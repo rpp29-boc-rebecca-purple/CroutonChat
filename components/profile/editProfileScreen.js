@@ -77,7 +77,6 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   formData.append('photo', { uri: localUri, name: filename, type: type });
 
   await editProfilePicture(formData);
-  console.log(formData);
   }
 
     return (

@@ -8,9 +8,7 @@ import axios from 'axios'
 //delete after fake data
 import data from '../../data/data'
 
-
 function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
-
 
   //hard coded delete after hookup
   const [userData, setUserData] = useState(data);
@@ -18,39 +16,24 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
 
   const [userFound, setUserFound] = useState(false)
   const [allFriends, setAllFriends] = useState('')
-  const [list, setList] = useState('')
+  const [list, setList] = useState(friendsList)
   const [found, setFound] = useState('')
   const [friendId, setFriendId] = useState(4);
   const [chatId, setChatId] = useState(0);
   const [conversation, setConversation] = useState(false);
-  const navigation = useNavigation();
+  const [timer, setTimer] = useState(false)
 
   useEffect( () => {
+    findMessagesPhotos()
+    setTime()
     newList(found)
-}, [userFound]);
+}, [userFound], timer);
 
-  const findMessagesPhotos = () => {
-    console.log('findMessagesPhotos')
-    axios.get(`http://3.133.100.147:2550/chatlist?userId=${userID}`)
-      .then(function (response) {
-      let data = response.data
-      for (const key in data) {
-        for (const id in list) {
-          if (list[id].friend_id == data[key].uid2) {
-            list[id].unread = data[key].unread
-            list[id].photounread = data[key].unreadphoto
-            list[id].userId = data[key].uid1
-            list[id].chatId = data[key].chatid
-          }
-        }
-      }
-      setList(list)
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+  const setTime = () => {
+    setTimeout(function() {
+      setTimer(true)
+    }, 1500);
   }
-
 
   const searchUsers = (name) => {
     let found = []
@@ -66,6 +49,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
     } else {
       setUserFound(false)
     }
+    findMessagesPhotos()
   };
 
   const newList = (array) => {
@@ -74,6 +58,27 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
       } else {
         setList(friendsList)
       }
+  }
+
+  const findMessagesPhotos = () => {
+    axios.get(`http://3.133.100.147:2550/chatlist?userId=${userID}`)
+      .then(function (response) {
+      let data = response.data
+      for (const key in data) {
+        for (const id in list) {
+          if (list[id].friend_id == data[key].uid2) {
+            list[id].unread = data[key].unread
+            list[id].photounread = data[key].unreadphoto
+            list[id].userId = data[key].uid1
+            list[id].chatId = data[key].chatid
+          }
+        }
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    setList(list)
   }
 
   const backButtonHandler = () => {
@@ -103,14 +108,14 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
                     <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
 
                     <Text style={isDarkTheme ? styles.unreadDark : styles.unread}>
-                    {e.unread >= 1 ? e.unread + ' NEW woofs' : ''}
+                    {e.unread >= 1 ? e.unread + ' 🐕 woofs' : ''}
                     {' '}{' '}
-                    {!e.photounread ? ' 📷 meows' : ''}
+                    {!e.photounread ? '  📷 meows' : ''}
                     </Text>
                     </View>
 
                   </Text>
-                }) : null }
+                }) : <Text>'NO FRIENDS! ADD SOME'</Text> }
               </View>
           </ScrollView>
         )
@@ -154,7 +159,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
       },
       unread: {
         fontSize: 14,
-        left: 20,
+        left: 30,
         bottom: 16
       },
       unreadDark: {

@@ -1,14 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
-//import { globalStyles } from '../styles/global.js'
 
 function Friends( { route, friendsList, email, isDarkTheme } ) {
 
-  const [friendSearch, setFriendSearch] = useState('')
-  const [userEmail, setUserEmail] = useState(email)
-  const [foundUser, setFoundUser] = useState(false)
+  const [userEmail] = useState(email)
   const navigation = useNavigation(false);
 
   return (

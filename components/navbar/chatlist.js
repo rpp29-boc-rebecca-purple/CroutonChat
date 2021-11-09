@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-native";
 import SearchBarMessages from '../navbar/searchBarMessages'
-import { useNavigation } from '@react-navigation/native';
 import Conversation from '../conversation/conversation.js';
 import axios from 'axios'
 
@@ -15,10 +14,8 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
   const userId = currentUser;
 
   const [userFound, setUserFound] = useState(false)
-  const [allFriends, setAllFriends] = useState('')
   const [list, setList] = useState(friendsList)
   const [found, setFound] = useState('')
-  const [friendId, setFriendId] = useState(4);
   const [chatId, setChatId] = useState(0);
   const [conversation, setConversation] = useState(false);
   const [timer, setTimer] = useState(false)
@@ -180,30 +177,3 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
 
 export default ChatList
 
-
-
-
-
-
-
-
-
-// <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>
-// {/* <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
-//     // set friendId
-//     // set chatId
-//     setConversation(true);
-//   }}
-//  style={styles.container}> */}
-
-//     <View>
-//     {/* <Image style={styles.images}  source={thumbnail[0] ? thumbnail[0] : require('../../data/photos/tester.png')} /> */}
-//     </View>
-//     <View style={isDarkTheme ? styles.borderDark : styles.border}>
-//     <Text style={isDarkTheme ? styles.usernameDark : styles.username}>
-//       {setSearchedChat.first_name}
-//     </Text>
-//     </View>
-//   {/* </Text> */}
-// })
-// </View>

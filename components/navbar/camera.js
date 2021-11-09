@@ -1,8 +1,8 @@
 
-import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View , TouchableOpacity,Platform, Image, ImageBackground} from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View , TouchableOpacity,Platform, Image} from 'react-native';
 import { Camera } from 'expo-camera';
-import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 //import { globalStyles } from '../styles/global.js'
 
 import * as MediaLibrary from 'expo-media-library';
@@ -40,7 +40,7 @@ export default class CameraComponent extends React.Component {
     }
     // Camera Permission
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasPermission: status === 'granted' });
+    this.setState({ hasPermission: status === 'granted' })
   }
 
   handleCameraType=()=>{

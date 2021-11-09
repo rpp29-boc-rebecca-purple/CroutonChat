@@ -56,7 +56,6 @@ export default function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   const [currentUser, setCurrentUser] = useState(5);
-  const [realUserData, setRealUserData] = useState({});
 
   const [authPage, setAuthPage] = useState('login');
 
@@ -88,9 +87,9 @@ export default function App() {
       fetchFriendsData();
   }, [isLoggedIn, userId]);
 
-  const fetchUserData = () => {
-    console.log('fetchUserData invoked')
-    axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
+  const fetchUserData = async () => {
+    console.log('fetchUserData invoked');
+    await axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
     .then(function (response) {
       setUserData(response.data[0])
     })

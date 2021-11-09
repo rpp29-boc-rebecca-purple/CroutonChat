@@ -16,7 +16,7 @@ import {
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { editProfileInfo } from '../../HelperFuncs/profileApi';
+import { editProfileInfo, editProfilePicture } from '../../HelperFuncs/profileApi';
 
 
 const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
@@ -30,9 +30,9 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
 
   useEffect(() => {
     getPermissionAsync();
-  }, []);
+  });
 
-  const sendChanges = () => {
+  async function sendChanges() {
     let curState = {
       data: {
       'first_name': name,
@@ -40,12 +40,12 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       'age': age,
       'snack': favoriteSnack,
       'animal_type': animalType,
-      'thumbnail': thumbnail || null
+      'thumbnail':  null
       }
-    }
-    editProfileInfo(curState);
+    };
+    await editProfileInfo(curState, userData.user_id);
     fetchUserData();
-  }
+  };
 
   // camra roll permissions
   const getPermissionAsync = async () => {
@@ -74,7 +74,9 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   let match = /\.(\w+)$/.exec(filename);
   let type = match ? `image/${match[1]}` : `image`;
   let formData = new FormData();
-  formData.append({ uri: localUri, name: filename, type: type });
+  formData.append('photo', { uri: localUri, name: filename, type: type });
+
+  await editProfilePicture(formData);
   console.log(formData);
   }
 
@@ -96,7 +98,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
             </View>
             <View  style={{alignItems: 'center', marginTop: 35}}>
               <Avatar.Image
-                source={{ uri: thumbnail}}
+                source={{ uri: null}}
                 size={100}
               />
               <View style={{alignItems: 'center'}}>

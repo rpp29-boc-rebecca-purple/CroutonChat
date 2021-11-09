@@ -13,9 +13,8 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Profile = ({fakeUser, editProfile, toggleSettings, isDarkTheme, user}) => {
-
-
+const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
+  console.log(userData)
     return (
       <SafeAreaView style={styles.container}>
 
@@ -27,13 +26,13 @@ const Profile = ({fakeUser, editProfile, toggleSettings, isDarkTheme, user}) => 
             <View style={{alignItems: 'center', marginTop: 75}}>
               <Avatar.Image
                 source={{
-                  uri: fakeUser.thumbnail
+                  uri: userData.thumbnail
                 }}
                 size={100}
               />
               <View style={{alignItems: 'center'}}>
-                <Title style={styles.title}>{fakeUser.first_name}</Title>
-                <Caption style={styles.caption}>Loves snacking on {fakeUser.snack}</Caption>
+                <Title style={styles.title}>{userData.first_name}</Title>
+                <Caption style={styles.caption}>Loves snacking on {userData.snack}</Caption>
               </View>
             </View>
             </ImageBackground>
@@ -43,23 +42,23 @@ const Profile = ({fakeUser, editProfile, toggleSettings, isDarkTheme, user}) => 
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>First Name: </Text>
-            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{fakeUser.first_name}</Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{userData.first_name}</Text>
           </View>
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Last Name: </Text>
-            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{fakeUser.last_name}</Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{userData.last_name}</Text>
           </View>
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Age: </Text>
-            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{fakeUser.age}</Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{userData.age}</Text>
           </View>
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Species: </Text>
-            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{fakeUser.animal_type}</Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{userData.animal_type}</Text>
           </View>
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Favorite Snack: </Text>
-            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{fakeUser.snack}</Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{userData.snack}</Text>
           </View>
         </View>
 

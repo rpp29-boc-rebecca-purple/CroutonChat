@@ -89,6 +89,7 @@ export default class CameraComponent extends React.Component {
   formData.append('chatId', this.state.chatId);
   formData.append('senderId', this.state.senderId);
 
+
    await fetch('http://3.133.100.147:2550/add-photo', {
       method: 'POST',
       body: formData,

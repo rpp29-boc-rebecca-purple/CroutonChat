@@ -44,7 +44,7 @@ export default function App() {
   // Add State that will be shared globally here
   const [userEmail, setUserEmail] = useState('');
   const [userId, setUserId] = useState('');
-  const [fetchdata, setFetchData] = useState('');
+  const [userData, setUserData] = useState('');
   const [friendsList, setFriendsList] = useState('');
 
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
@@ -54,9 +54,7 @@ export default function App() {
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
   const [isLoggedIn, setLoggedIn] = useState(false);
 
-  const [email] = useState(fakeUser.email);
   const [currentUser, setCurrentUser] = useState(5);
-  const [realUserData, setRealUserData] = useState({});
 
   const [authPage, setAuthPage] = useState('login');
 
@@ -88,12 +86,11 @@ export default function App() {
       fetchFriendsData();
   }, [isLoggedIn, userId]);
 
-
-  const fetchUserData = () => {
-    console.log('fetchUserData invoked')
-    axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
+  const fetchUserData = async () => {
+    console.log('fetchUserData invoked');
+    await axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
     .then(function (response) {
-      setFetchData(response.data)
+      setUserData(response.data[0])
     })
     .catch(function (error) {
       console.log(error);
@@ -153,6 +150,7 @@ export default function App() {
         displaypage = <LogoutScreen
         logoutModalToggle={setLogoutModalOpen}
         toggleSettings={setProfileSettingsOpen}
+        setLoggedIn={setLoggedIn}
         isDarkTheme={isDarkTheme} />
       } else if (changePassModalOpen) {
         displaypage = <ChangePasswordScreen
@@ -165,6 +163,8 @@ export default function App() {
         displaypage = <EditProfile
         editProfile={setEditProfile}
         fakeUser={fakeUser}
+        userData={userData}
+        fetchUserData={fetchUserData}
         isDarkTheme={isDarkTheme}
          />
       }
@@ -173,7 +173,7 @@ export default function App() {
           displaypage = <Profile
           toggleSettings={setProfileSettingsOpen}
           editProfile={setEditProfile}
-          fakeUser={fakeUser}
+          userData={userData}
           isDarkTheme={isDarkTheme}
            />;
         }

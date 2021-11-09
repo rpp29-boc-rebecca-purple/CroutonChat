@@ -12,14 +12,16 @@ import {
   ImageBackground,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
-const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
-  console.log(userData)
+const FriendProfile = ({userData, isDarkTheme}) => {
+  //console.log(userData)
     return (
       <SafeAreaView style={styles.container}>
 
         {/* profile pic, name, and snack tag */}
         <View style={styles.userInfoSection}>
+
           <ImageBackground
           source={isDarkTheme ? require('../../assets/BOC.nightskymoon.jpeg') : require('../../assets/BOC.profile.cloud.bg.webp')}
           style={{width: 400, height: 250}}>
@@ -30,12 +32,22 @@ const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
                 }}
                 size={100}
               />
+
               <View style={{alignItems: 'center'}}>
-                <Title style={styles.title}>{userData.first_name}</Title>
+                <Title style={styles.title}>FRIEND NAME</Title>
                 <Caption style={styles.caption}>Loves snacking on {userData.snack}</Caption>
               </View>
+              {/* back button */}
+              <View style={{position: 'absolute', marginTop: -80, marginLeft: 5, alignSelf: 'flex-start'}}>
+              <TouchableOpacity onPress={()=> alert('clicked back')}>
+                <Text style={isDarkTheme ? styles.backButtonDark : styles.backButton}
+                >&#x2190;</Text>
+              </TouchableOpacity>
+          </View>
+
             </View>
             </ImageBackground>
+
         </View>
 
         {/* user info section */}
@@ -65,13 +77,13 @@ const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
         {/* buttons for edit profile and navigate to settings */}
         <View style={isDarkTheme ? styles.darkProfileButtonsWrapper : styles.profileButtonsWrapper}>
             <View style={styles.profileButton}>
-              <TouchableOpacity onPress={()=> editProfile()}>
-                  <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Edit Profile</Text>
+              <TouchableOpacity onPress={()=> alert('follow friend')}>
+                  <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Follow</Text>
               </TouchableOpacity>
             </View>
           <View style={styles.profileButton}>
-            <TouchableOpacity onPress={()=> toggleSettings()}>
-              <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Settings</Text>
+            <TouchableOpacity onPress={()=> alert('unfollow')}>
+              <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Unfollow</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -140,8 +152,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRightWidth: 1,
-
+  },
+  backButton: {
+    fontSize: 35,
+  },
+  backButtonDark: {
+    fontSize: 35,
+    color: 'white',
   }
 });
 
-export default Profile;
+export default FriendProfile;

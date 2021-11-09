@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithout
 import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
 
-function Friends( { route, friendsList, email, isDarkTheme } ) {
+function Friends( { route, friendsList, email, isDarkTheme, setFriendProfileView } ) {
 
   const [userEmail] = useState(email)
   const navigation = useNavigation(false);
@@ -14,8 +14,9 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
       <SearchBarFriends loggedinEmail={userEmail} />
             <View  style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
-                navigation.navigate('Profile', { info: e})
-                console.log(`you clicked on user:  ${JSON.stringify(e)} 😄😄😄😄`)
+                navigation.navigate('Profile', { info: e});
+                setFriendProfileView(true);
+                console.log(`you clicked on user:  ${JSON.stringify(e)} 😄😄😄😄`);
               }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
                 <View >
                 <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />

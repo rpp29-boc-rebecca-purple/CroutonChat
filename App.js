@@ -27,10 +27,10 @@ import useToggle from './HelperFuncs/profileHelpers.js';
 import EditProfile from './components/profile/editProfileScreen.js';
 import LogoutScreen from './components/profile/logoutScreen.js';
 import ChangePasswordScreen from './components/profile/changePasswordScreen.js';
+import FriendProfile from './components/profile/friendProfileScreen.js';
 import LoginPage from './components/auth/loginPage';
 import SignupPage from './components/auth/signupPage';
 
-import fakeUser from './data/profileData.js';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -46,7 +46,7 @@ export default function App() {
   const [userId, setUserId] = useState('');
   const [userData, setUserData] = useState('');
   const [friendsList, setFriendsList] = useState('');
-
+  const [friendProfileView, setFriendProfileView] = useState(false);
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
@@ -112,7 +112,7 @@ export default function App() {
     return (
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <Friends email={userEmail} friendsList={friendsList} isDarkTheme={isDarkTheme} />
+          <Friends email={userEmail} friendsList={friendsList} isDarkTheme={isDarkTheme} setFriendProfileView={setFriendProfileView} />
         </View>
       </ScrollView>
     );
@@ -129,9 +129,8 @@ export default function App() {
   };
 
   function ProfileScreen( {route} ) {
-
-    let info = route.params.info
-    let currentUser = userId
+    //let currentUserId = userData.user_id;
+    //let friendUserId = route.params.info.friend_id || null;
 
     let displaypage = null;
     if (profileSettingsOpen) {
@@ -159,7 +158,6 @@ export default function App() {
       if (editProfile) {
         displaypage = <EditProfile
         editProfile={setEditProfile}
-        fakeUser={fakeUser}
         userData={userData}
         fetchUserData={fetchUserData}
         isDarkTheme={isDarkTheme}
@@ -167,12 +165,19 @@ export default function App() {
       }
       else {
         if (!profileSettingsOpen) {
-          displaypage = <Profile
-          toggleSettings={setProfileSettingsOpen}
-          editProfile={setEditProfile}
-          userData={userData}
-          isDarkTheme={isDarkTheme}
-           />;
+          if (!friendProfileView) {
+            displaypage = <Profile
+            toggleSettings={setProfileSettingsOpen}
+            editProfile={setEditProfile}
+            userData={userData}
+            isDarkTheme={isDarkTheme}
+             />;
+          } else {
+            displaypage = <FriendProfile
+            userData={userData}
+            isDarkTheme={isDarkTheme}
+            />
+          }
         }
       }
     }

@@ -96,7 +96,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
             </View>
             <View  style={{alignItems: 'center', marginTop: 35}}>
               <Avatar.Image
-                source={{ uri: null || thumbnail}}
+                source={{ uri: thumbnail}}
                 size={100}
               />
               <View style={{alignItems: 'center'}}>

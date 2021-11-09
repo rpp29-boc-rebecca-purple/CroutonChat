@@ -8,7 +8,7 @@ function SearchBarMessages(props) {
 
   const onChangeSearch = (q) => {
     setSearchMessages(q);
-    props.searchMessages(q)
+    props.searchUsers(q)
 
   }
 

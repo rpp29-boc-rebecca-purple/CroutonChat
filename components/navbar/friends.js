@@ -21,7 +21,7 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
                 console.log(`you clicked on user:  ${e.first_name}`)
               }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
                 <View >
-                <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../../data/photos/tester.png')} />
+                <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
                 </View>
                 <View style={isDarkTheme ? styles.borderDark : styles.border}>
                 <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>

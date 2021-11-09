@@ -88,6 +88,7 @@ export default function App() {
       fetchFriendsData();
   }, [isLoggedIn, userId]);
 
+
   const fetchUserData = () => {
     console.log('fetchUserData invoked')
     axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
@@ -120,7 +121,7 @@ export default function App() {
     );
   };
   const ChatScreen = ({ route }) => {
-    return <ChatList friendsList={friendsList} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
+    return <ChatList userID={userId} friendsList={friendsList} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
   };
   const CameraScreen = () => {
     return (

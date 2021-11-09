@@ -3,12 +3,13 @@ import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-nati
 import SearchBarMessages from '../navbar/searchBarMessages'
 import { useNavigation } from '@react-navigation/native';
 import Conversation from '../conversation/conversation.js';
+import axios from 'axios'
 
 //delete after fake data
 import data from '../../data/data'
 
 
-function ChatList({ currentUser, friendsList, isDarkTheme }) {
+function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
 
 
   //hard coded delete after hookup
@@ -28,8 +29,30 @@ function ChatList({ currentUser, friendsList, isDarkTheme }) {
     newList(found)
 }, [userFound]);
 
+  const findMessagesPhotos = () => {
+    console.log('findMessagesPhotos')
+    axios.get(`http://3.133.100.147:2550/chatlist?userId=${userID}`)
+      .then(function (response) {
+      let data = response.data
+      for (const key in data) {
+        for (const id in list) {
+          if (list[id].friend_id == data[key].uid2) {
+            list[id].unread = data[key].unread
+            list[id].photounread = data[key].unreadphoto
+            list[id].userId = data[key].uid1
+            list[id].chatId = data[key].chatid
+          }
+        }
+      }
+      setList(list)
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
 
-  const searchMessages = (name) => {
+
+  const searchUsers = (name) => {
     let found = []
     friendsList.map(e => {
       if (name.toLowerCase() === e.first_name.toLowerCase()) {
@@ -38,8 +61,6 @@ function ChatList({ currentUser, friendsList, isDarkTheme }) {
       setFound(found)
       newList(found)
     })
-
-
     if (found.length === 1) {
       setUserFound(true)
     } else {
@@ -66,22 +87,26 @@ function ChatList({ currentUser, friendsList, isDarkTheme }) {
         :
         (
           <ScrollView>
-            <SearchBarMessages searchMessages={searchMessages} userData={userData}/>
+            <SearchBarMessages searchUsers={searchUsers}/>
                 <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{list ? list.map((e) => {
-
                   return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
                     // set friendId
                     // set chatId
                     setConversation(true);
                   }}
 
-                  key={e.key} style={styles.container}>
+                  key={e.friend_id} style={styles.container}>
                     <View>
                     <Image style={styles.images} source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
                     </View>
                     <View style={isDarkTheme ? styles.borderDark : styles.border}>
                     <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
-                    {/* <Text style={isDarkTheme ? styles.unreadDark : styles.unread}> {e.messages.length ? e.messages.length + ' new messages' : 'no new messages'} {e.photomessages.length > 0 ?  ' 📸' : ''}  </Text> */}
+
+                    <Text style={isDarkTheme ? styles.unreadDark : styles.unread}>
+                    {e.unread >= 1 ? e.unread + ' NEW woofs' : ''}
+                    {' '}{' '}
+                    {!e.photounread ? ' 📷 meows' : ''}
+                    </Text>
                     </View>
 
                   </Text>

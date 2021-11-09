@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Avatar,
   Title,
@@ -13,26 +13,69 @@ import {
   SafeAreaView,
   ImageBackground,
 } from 'react-native';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { editProfileInfo } from '../../HelperFuncs/profileApi';
+import { editProfileInfo, editProfilePicture } from '../../HelperFuncs/profileApi';
 
 
-const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
-  const [name, setName] = useState(fakeUser.first_name);
-  const [lastName, setLastName] = useState(fakeUser.last_name);
-  const [age, setAge] = useState(fakeUser.age);
-  const [favoriteSnack, setFavoriteSnack] = useState(fakeUser.snack);
-  const [animalType, setAnimalType] = useState(fakeUser.animal_type);
+const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
+  const [name, setName] = useState(userData.first_name);
+  const [lastName, setLastName] = useState(userData.last_name);
+  const [age, setAge] = useState(userData.age);
+  const [favoriteSnack, setFavoriteSnack] = useState(userData.snack);
+  const [animalType, setAnimalType] = useState(userData.animal_type);
+  const [thumbnail, setThumbnail] = useState(userData.thumbnail);
 
-  const sendChanges = () => {
+
+  useEffect(() => {
+    getPermissionAsync();
+  });
+
+  async function sendChanges() {
     let curState = {
+      data: {
       'first_name': name,
       'last_name': lastName,
       'age': age,
       'snack': favoriteSnack,
-      'animal_type': animalType
+      'animal_type': animalType,
+      'thumbnail':  null
+      }
+    };
+    await editProfileInfo(curState, userData.user_id)
+      .then(()=> fetchUserData())
+
+  }
+
+  // camra roll permissions
+  const getPermissionAsync = async () => {
+    if (Platform.OS === 'ios') {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Enable Camera Roll Permissions');
+      }
     }
-    editProfileInfo(curState);
+  }
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  })
+
+  let localUri = result.uri.replace('file://', '');
+  setThumbnail(localUri)
+  let filename = localUri.split('/').pop();
+  let match = /\.(\w+)$/.exec(filename);
+  let type = match ? `image/${match[1]}` : `image`;
+  let formData = new FormData();
+  formData.append('photo', { uri: localUri, name: filename, type: type });
+
+  await editProfilePicture(formData)
+    .then(()=> fetchUserData())
   }
 
     return (
@@ -51,11 +94,9 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
                 >  &#x2190;</Text>
               </TouchableOpacity>
             </View>
-            <View style={{alignItems: 'center', marginTop: 35}}>
+            <View  style={{alignItems: 'center', marginTop: 35}}>
               <Avatar.Image
-                source={{
-                  uri: 'https://i.imgur.com/ckCX9Xc.jpg'
-                }}
+                source={{ uri: null || thumbnail}}
                 size={100}
               />
               <View style={{alignItems: 'center'}}>
@@ -69,9 +110,9 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
         {/* user info textinput section */}
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
-            <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>First Name:          </Text>
+            <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>First Name:          </Text>
             <TextInput
-            placeholder={fakeUser.first_name}
+            placeholder={userData.first_name}
             onChangeText={(val)=> setName(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -81,7 +122,7 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Last Name:          </Text>
             <TextInput
-            placeholder={fakeUser.last_name}
+            placeholder={userData.last_name}
             onChangeText={(val)=> setLastName(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -92,7 +133,7 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Age:                       </Text>
             <TextInput
             style={{marginRight:0}}
-            placeholder={fakeUser.age}
+            placeholder={userData.age.toString()}
             onChangeText={(val) => setAge(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -102,7 +143,7 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Species:               </Text>
             <TextInput
-            placeholder={fakeUser.animal_type}
+            placeholder={userData.animal_type}
             onChangeText={(val) => setAnimalType(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -112,7 +153,7 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Favorite Snack:  </Text>
             <TextInput
-            placeholder={fakeUser.snack}
+            placeholder={userData.snack}
             onChangeText={(val) => setFavoriteSnack(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -121,11 +162,16 @@ const EditProfile = ({fakeUser, editProfile, isDarkTheme}) => {
           </View>
         </View>
 
-        {/* save changes button */}
+        {/* change profile picture / save changes button */}
         <TouchableRipple style={isDarkTheme ? styles.editProfileButtonsWrapperDark : styles.editProfileButtonsWrapper}>
               <Text
               style={isDarkTheme ? styles.editProfileButtonDark : styles.editProfileButton}
-              onPress={()=> {editProfile(); sendChanges();}}>Save changes?</Text>
+              onPress={()=> {pickImage();}}>Change Profile Picture</Text>
+          </TouchableRipple>
+        <TouchableRipple style={isDarkTheme ? styles.editProfileButtonsWrapperDark : styles.editProfileButtonsWrapper}>
+              <Text
+              style={isDarkTheme ? styles.editProfileButtonDark : styles.editProfileButton}
+              onPress={()=> {editProfile(); sendChanges();}}>Save Changes</Text>
           </TouchableRipple>
       </SafeAreaView>
     );
@@ -159,7 +205,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#DDDDDD",
     padding: 10,
     fontSize: 20,
-    minWidth: 200,
+    minWidth: 210,
     textAlign: 'center'
   },
   editProfileButtonsWrapper: {
@@ -172,7 +218,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     fontSize: 20,
-    minWidth: 200,
+    minWidth: 210,
     textAlign: 'center',
     backgroundColor: 'black',
     color: 'white'

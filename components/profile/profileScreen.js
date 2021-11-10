@@ -26,7 +26,7 @@ const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
             <View style={{alignItems: 'center', marginTop: 75}}>
               <Avatar.Image
                 source={{
-                  uri: userData.thumbnail
+                  uri: null
                 }}
                 size={100}
               />

@@ -45,6 +45,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
     };
     await editProfileInfo(curState, userData.user_id)
       .then(()=> fetchUserData())
+      .catch(err => console.log(err));
 
   }
 
@@ -57,7 +58,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       }
     }
   }
-
+  // image picker
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -78,6 +79,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
     .then(()=> fetchUserData())
   }
 
+    console.log(userData)
     return (
       <SafeAreaView style={styles.container}>
 

@@ -18,19 +18,19 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
   const [found, setFound] = useState('')
   const [chatId, setChatId] = useState(0);
   const [conversation, setConversation] = useState(false);
-  const [timer, setTimer] = useState(false)
+ // const [timer, setTimer] = useState(false)
 
   useEffect( () => {
     findMessagesPhotos()
-    setTime()
+    //setTime()
     newList(found)
-}, [userFound], timer);
+}, [userFound]);
 
-  const setTime = () => {
-    setTimeout(function() {
-      setTimer(true)
-    }, 1500);
-  }
+  // const setTime = () => {
+  //   setTimeout(function() {
+  //     setTimer(true)
+  //   }, 1500);
+  // }
 
   const searchUsers = (name) => {
     let found = []

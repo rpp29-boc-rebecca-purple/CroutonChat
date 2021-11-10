@@ -111,6 +111,11 @@ function ChatList({ currentUser, data, isDarkTheme }) {
       borderDark: {
         borderBottomColor: 'white',
         borderBottomWidth: 1,
+      },
+      conversation: {
+        flex: 1,
+        height: Dimensions.get('window').height,
+        width: Dimensions.get('window').width
       }
     });
 

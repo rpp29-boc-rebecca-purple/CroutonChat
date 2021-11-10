@@ -11,6 +11,7 @@ const fetchMessages = (chatId, userId) => {
     url: `${CHAT_API}/conversation?chatId=${chatId}&senderId=${userId}`,
   })
   .then((res) => {
+    console.log('unfromatted messages recieved in fetchMessages:', res.data);
     return formatMessages(res.data);
   })
   .catch((err) => {
@@ -25,7 +26,7 @@ const formatMessages = (messages) => {
       let formattedMessage = {};
       formattedMessage._id = message.messageid;
       formattedMessage.text = message.body;
-      formattedMessage.createdAt = message.time;
+      formattedMessage.createdAt = Date.parse(message.time);
       formattedMessage.user = convertUser(fetchUserData(Number(message.senderid)));
       formattedMessage.image = message.photourl !== null ? message.photourl : undefined;
       return formattedMessage;
@@ -49,7 +50,7 @@ const sendMessage = async (message, chatId) => {
   formData.append('senderId', message.user._id);
   formData.append('body', message.text);
   formData.append('date', message.createdAt);
-  await fetch('http://3.133.100.147:2550/add-message', {
+  return await fetch('http://3.133.100.147:2550/add-message', {
     method: 'POST',
     body: formData,
     headers: {
@@ -60,14 +61,17 @@ const sendMessage = async (message, chatId) => {
   .then((response) => {
     if (response.status === 200) {
       console.log('message send successful', response);
+      return response.json();
     } else {
       console.log('message send failed');
     }
   })
+  .then((newData) => {
+    return formatMessages(newData);
+  })
 };
 
 const startConversation = async (message, friendId) => {
-  console.log('message recieved at startConversation:', message);
   const formData = new FormData();
   formData.append('senderId', message.user._id);
   formData.append('userId2', friendId);
@@ -77,15 +81,19 @@ const startConversation = async (message, friendId) => {
     body: formData,
     headers: {
       Accept: 'application/json',
-      'content-type': 'multipart/form-data',
+      'content-type': 'application/json',
     },
   })
   .then((response) => {
     if (response.status === 200) {
-      console.log('conversation creation successful');
+      console.log('conversation creation successful', response);
+      return response.json();
     } else {
       console.log('conversation creation failed');
     }
+  })
+  .then((newData) => {
+    return formatMessages(newData);
   })
 };
 

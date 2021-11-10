@@ -34,18 +34,25 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
 
   // handles text message send
   const onSend = useCallback((newMessages = []) => {
-    let newConversation = messages < 1;
-    console.log('\n\nNEW MESSAGES AT ONSEND', newMessages);
-    setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
+    let newConversation = messages.length === 0;
     newMessages.forEach((message) => {
-      console.log('message to be sent:', message);
+      console.log('new conversation boolean:', newConversation)
       if (newConversation) {
-        api.startConversation(message, userId);
+        api.startConversation(message, friendId)
+        .then((results) => {
+          console.log('results from startConversation:', results);
+          setMessages(results);
+          chatId = results[0].chatId
+        });
       } else {
-        api.sendMessage(message, chatId);
+        api.sendMessage(message, chatId)
+        .then((results) => {
+          console.log('results from sendMessage:', results);
+          setMessages(results);
+        });
       }
     });
-  }, []);
+  }, [messages]);
 
   // handles all tasks related to photo loading, displaying, & deleting
   const handleImageViewing = (imgUrl, messageId) => {

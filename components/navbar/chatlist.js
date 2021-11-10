@@ -24,7 +24,11 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
     findMessagesPhotos()
     setTime()
     newList(found)
-}, [userFound], timer);
+    return () => {
+      userFound.current;
+      timer.current;
+    };
+}, [userFound, timer]);
 
   const setTime = () => {
     setTimeout(function() {
@@ -58,6 +62,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
   }
 
   const findMessagesPhotos = () => {
+    console.log('findMessagesPhotos')
     axios.get(`http://3.133.100.147:2550/chatlist?userId=${userID}`)
       .then(function (response) {
       let data = response.data

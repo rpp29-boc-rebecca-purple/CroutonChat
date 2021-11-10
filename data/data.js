@@ -4,8 +4,8 @@
 
 const data = [{
   uid: 0,
-  name: 'Woofy',
-  photo:require("./photos/pet1.jpeg"),
+  first_name: 'Woofy',
+  thumbnail:require("./photos/pet1.jpeg"),
   key: 1,
   messages: ['1','2'],
   friends: 62,
@@ -15,8 +15,8 @@ const data = [{
 
 {
   uid: 1,
-  name: 'Sam',
-  photo:require("./photos/pet2.jpeg"),
+  first_name: 'Sam',
+  thumbnail:require("./photos/pet2.jpeg"),
   key: 2,
   messages: ['1','2','1','2'],
   friends: 4,
@@ -26,8 +26,8 @@ const data = [{
 
 {
   uid: 2,
-  name: 'Barky',
-  photo:require("./photos/pet3.jpeg"),
+  first_name: 'Barky',
+  thumbnail:require("./photos/pet3.jpeg"),
   key: 3,
   messages: ['1'],
   friends: 1,
@@ -37,8 +37,8 @@ const data = [{
 
 {
   uid: 3,
-  name: 'Snowy',
-  photo:require("./photos/pet4.jpeg"),
+  first_name: 'Snowy',
+  thumbnail:require("./photos/pet4.jpeg"),
   key: 4,
   messages: [],
   friends: 0,
@@ -49,8 +49,8 @@ const data = [{
 
 {
   uid: 4,
-  name: 'Bork',
-  photo:require("./photos/pet5.jpeg"),
+  first_name: 'Bork',
+  thumbnail:require("./photos/pet5.jpeg"),
   key: 5,
   messages: ['1','2'],
   friends: 11,
@@ -60,8 +60,8 @@ const data = [{
 
 {
   uid: 5,
-  name: 'Ruffalot',
-  photo:require("./photos/pet6.png"),
+  first_name: 'Ruffalot',
+  thumbnail:require("./photos/pet6.png"),
   key: 6,
   messages: ['1'],
   friends: 4,

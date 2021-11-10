@@ -26,6 +26,8 @@ function LoginPage(props) {
               setErrorText('');
               await AsyncStorage.setItem('user', JSON.stringify(response.data));
               props.setLoggedIn(true);
+              props.setUserId(response.data.userId);
+              props.setUserEmail(response.data.email);
             })
             .catch(err => {
               if (err.toString().indexOf('401') > 0 || err.toString().indexOf('400') > 0) {

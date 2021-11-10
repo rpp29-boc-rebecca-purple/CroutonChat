@@ -1,40 +1,28 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
-//import { globalStyles } from '../styles/global.js'
 
-function Friends( { route, data, isDarkTheme } ) {
+function Friends( { route, friendsList, email, isDarkTheme } ) {
 
-  const [userData, setUserData] = useState(data);
-  const [friendSearch, setFriendSearch] = useState('')
+  const [userEmail] = useState(email)
   const navigation = useNavigation(false);
-
- const searchFriend = (searchedEmail) => {
-  userData.map(e => {
-    if (e.email.toLowerCase() === searchedEmail.toLowerCase()) {
-    setFriendSearch(e.email)
-    navigation.navigate('Profile', { email: e.email})
-    console.log(`you searched user:  ${e.email}`)
-    }
-  })
-}
 
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <ScrollView>
-      <SearchBarFriends searchFriend={searchFriend} userData={userData}/>
-            <View  style={styles.main}>{userData.map((e) => {
+      <SearchBarFriends loggedinEmail={userEmail} />
+            <View  style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
-                navigation.navigate('Profile', { email: e.email})
-                console.log(`you clicked on user:  ${e.email}`)
+                navigation.navigate('Profile', { info: e})
+                console.log(`you clicked on user:  ${JSON.stringify(e)} 😄😄😄😄`)
               }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
                 <View >
-                <Image style={styles.images} source={e.photo}/>
+                <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
                 </View>
                 <View style={isDarkTheme ? styles.borderDark : styles.border}>
-                <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.name}</Text>
-                <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}> {e.friends} friends online</Text>
+                <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
+                <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}>  following:{e.following_count} | followers: {e.follower_count} </Text>
                 </View>
               </Text>
             })}

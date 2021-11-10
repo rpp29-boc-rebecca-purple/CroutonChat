@@ -15,12 +15,12 @@ import {
   DefaultTheme as PaperDefaultTheme
  } from 'react-native-paper';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
+import axios from 'axios';
 
 import { Ionicons } from '@expo/vector-icons';
-import Friends from './components/friends.js';
-import ChatList from './components/chatlist.js';
-import CameraComponent from './components/camera.js';
+import Friends from './components/navbar/friends.js';
+import ChatList from './components/navbar/chatlist.js';
+import CameraComponent from './components/navbar/camera.js';
 import Profile from './components/profile/profileScreen.js';
 import Settings from './components/profile/settingsScreen.js';
 import useToggle from './HelperFuncs/profileHelpers.js';
@@ -31,29 +31,34 @@ import LoginPage from './components/auth/loginPage';
 import SignupPage from './components/auth/signupPage';
 
 import fakeUser from './data/profileData.js';
-import data from './data/data';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   // Determine user has light/dark theme on phone
   let phoneTheme = true;
   const colorScheme = Appearance.getColorScheme();
-  if (colorScheme === 'dark') {
+  if (colorScheme === 'light') {
     phoneTheme = false;
 }
 
   // Add State that will be shared globally here
-  const [name, setName] = useState(fakeUser.first_name);
+  const [userEmail, setUserEmail] = useState('');
+  const [userId, setUserId] = useState('');
+  const [userData, setUserData] = useState('');
+  const [friendsList, setFriendsList] = useState('');
+
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
   const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
-  const [isLoggedIn, setLoggedIn] = useToggle(false);
-  const [email] = useState(fakeUser.email);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
   const [currentUser, setCurrentUser] = useState(5);
-  const [userData, setUserData] = useState(data);
+
   const [authPage, setAuthPage] = useState('login');
+
+  const [checkout,setCheckout] = useState({});
 
   // Setting default and dark custom themes
   const customDefaultTheme = {
@@ -76,44 +81,58 @@ export default function App() {
 
   const theme = isDarkTheme ? customDarkTheme : customDefaultTheme;
 
-  // Functions that will nagivate to each componenet // acts like a router
+  useEffect( () => {
+      fetchUserData();
+      fetchFriendsData();
+  }, [isLoggedIn, userId]);
 
-  useEffect(() => {
-    fetchUserData();
-  });
-
-  const fetchUserData = () => {
-    setUserData(data.sort((a, b) => (a.name > b.name ? 1 : -1)));
-    // fetch(/*http:<IP HERE>/searchFriends*/)
-    // .then((data) => {
-    //   setUserData(data)
-    // })
-    // setAllUsers() fnc to set all user that exist for friends search
+  const fetchUserData = async () => {
+    console.log('fetchUserData invoked');
+    await axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
+    .then(function (response) {
+      setUserData(response.data[0])
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
   };
+
+  const fetchFriendsData = () => {
+    console.log('fetchFriendsData invoked')
+      axios.get(`http://18.219.200.72:8080/user/friendsList?user_id=${userId}`)
+      .then(function (response) {
+        setFriendsList( response.data.sort((a, b) => ( a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1)) )
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    };
 
   const FriendsScreen = () => {
     return (
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <Friends data={userData} isDarkTheme={isDarkTheme} />
+          <Friends email={userEmail} friendsList={friendsList} isDarkTheme={isDarkTheme} />
         </View>
       </ScrollView>
     );
   };
-
   const ChatScreen = ({ route }) => {
-    return <ChatList data={userData} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
+    return <ChatList userID={userId} friendsList={friendsList} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
   };
-
   const CameraScreen = () => {
     return (
       <View style={{ flex: 1 }}>
-        <CameraComponent email={email} />
+        <CameraComponent email={userEmail} />
       </View>
     );
   };
 
-  function ProfileScreen() {
+  function ProfileScreen( {route} ) {
+
+    let info = route.params.info
+    let currentUser = userId
+
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {
@@ -128,6 +147,7 @@ export default function App() {
         displaypage = <LogoutScreen
         logoutModalToggle={setLogoutModalOpen}
         toggleSettings={setProfileSettingsOpen}
+        setLoggedIn={setLoggedIn}
         isDarkTheme={isDarkTheme} />
       } else if (changePassModalOpen) {
         displaypage = <ChangePasswordScreen
@@ -140,6 +160,8 @@ export default function App() {
         displaypage = <EditProfile
         editProfile={setEditProfile}
         fakeUser={fakeUser}
+        userData={userData}
+        fetchUserData={fetchUserData}
         isDarkTheme={isDarkTheme}
          />
       }
@@ -148,7 +170,7 @@ export default function App() {
           displaypage = <Profile
           toggleSettings={setProfileSettingsOpen}
           editProfile={setEditProfile}
-          fakeUser={fakeUser}
+          userData={userData}
           isDarkTheme={isDarkTheme}
            />;
         }
@@ -157,11 +179,18 @@ export default function App() {
 
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{displaypage}</View>;
   }
-
   if (!isLoggedIn && authPage === 'signup') {
     return <SignupPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} isDarkTheme={isDarkTheme} />;
   } else if (!isLoggedIn) {
-    return <LoginPage setLoggedIn={setLoggedIn} setAuthPage={setAuthPage} theme ={theme} isDarkTheme={isDarkTheme} />;
+    return <LoginPage setLoggedIn={setLoggedIn}
+    setAuthPage={setAuthPage}
+    theme ={theme}
+    isDarkTheme={isDarkTheme}
+    setUserId={setUserId}
+    setUserEmail={setUserEmail}
+    fetchUserData={fetchUserData}
+    fetchFriendsData={fetchFriendsData}
+    />
   } else {
     return (
       <PaperProvider theme={theme}>

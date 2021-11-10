@@ -4,7 +4,7 @@ import * as ScreenCapture from 'expo-screen-capture';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import CameraComponent from '../camera.js';
+import CameraComponent from '../navbar/camera';
 const api = require('./apiHelpers.js');
 
 const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPress }) => {

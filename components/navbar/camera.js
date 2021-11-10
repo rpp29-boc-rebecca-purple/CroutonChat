@@ -1,8 +1,8 @@
 
-import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View , TouchableOpacity,Platform, Image, ImageBackground} from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View , TouchableOpacity,Platform, Image} from 'react-native';
 import { Camera } from 'expo-camera';
-import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 //import { globalStyles } from '../styles/global.js'
 
 import * as MediaLibrary from 'expo-media-library';
@@ -40,7 +40,7 @@ export default class CameraComponent extends React.Component {
     }
     // Camera Permission
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasPermission: status === 'granted' });
+    this.setState({ hasPermission: status === 'granted' })
   }
 
   handleCameraType=()=>{
@@ -89,6 +89,7 @@ export default class CameraComponent extends React.Component {
   formData.append('chatId', this.state.chatId);
   formData.append('senderId', this.state.senderId);
 
+
    await fetch('http://3.133.100.147:2550/add-photo', {
       method: 'POST',
       body: formData,
@@ -124,7 +125,7 @@ export default class CameraComponent extends React.Component {
                   style={styles.backArrow}
                   onPress={()=>this.exitCamera()}>
                   <Image
-                      source={require('./../assets/icons/backArrowWhite.png')}
+                      source={{uri:'https://www.creativefabrica.com/wp-content/uploads/2019/03/Arrow-icon-by-ahlangraphic-150-580x386.jpg'}}
                       style={{ height: 50, width: 50, left: 15, top: 10}}
                   />
                 </TouchableOpacity>

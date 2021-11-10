@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Avatar,
   Title,
@@ -12,10 +12,27 @@ import {
   ImageBackground,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
-const FriendProfile = ({userData, isDarkTheme}) => {
-  //console.log(userData)
+
+const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFriendId}) => {
+
+  const [friendInfo, setFriendInfo] = useState('');
+
+  useEffect( () => {
+    fetchFriendData();
+  }, []);
+
+  const fetchFriendData = async () => {
+    await axios.get(`http://18.219.200.72:8080/user/?user_id=${clickedFriendId}`)
+    .then(function (response) {
+      setFriendInfo(response.data[0])
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  };
+
     return (
       <SafeAreaView style={styles.container}>
 
@@ -34,12 +51,12 @@ const FriendProfile = ({userData, isDarkTheme}) => {
               />
 
               <View style={{alignItems: 'center'}}>
-                <Title style={styles.title}>FRIEND NAME</Title>
-                <Caption style={styles.caption}>Loves snacking on {userData.snack}</Caption>
+                <Title style={styles.title}>{friendInfo.first_name}</Title>
+                <Caption style={styles.caption}>Loves snacking on {friendInfo.snack}</Caption>
               </View>
               {/* back button */}
               <View style={{position: 'absolute', marginTop: -80, marginLeft: 5, alignSelf: 'flex-start'}}>
-              <TouchableOpacity onPress={()=> alert('clicked back')}>
+              <TouchableOpacity onPress={()=> setFriendProfileView(false)}>
                 <Text style={isDarkTheme ? styles.backButtonDark : styles.backButton}
                 >&#x2190;</Text>
               </TouchableOpacity>
@@ -54,23 +71,23 @@ const FriendProfile = ({userData, isDarkTheme}) => {
         <View style={styles.userInfoSection}>
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>First Name: </Text>
-            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{userData.first_name}</Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{friendInfo.first_name}</Text>
           </View>
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Last Name: </Text>
-            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{userData.last_name}</Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{friendInfo.last_name}</Text>
           </View>
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Age: </Text>
-            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{userData.age}</Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{friendInfo.age}</Text>
           </View>
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Species: </Text>
-            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{userData.animal_type}</Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{friendInfo.animal_type}</Text>
           </View>
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.keyTextStyleDark : styles.keyTextStyle}>Favorite Snack: </Text>
-            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{userData.snack}</Text>
+            <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>{friendInfo.snack}</Text>
           </View>
         </View>
 

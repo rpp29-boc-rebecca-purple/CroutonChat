@@ -47,6 +47,7 @@ export default function App() {
   const [userData, setUserData] = useState('');
   const [friendsList, setFriendsList] = useState('');
   const [friendProfileView, setFriendProfileView] = useState(false);
+  const [clickedFriendId, setClickedFriendId] = useState(null);
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
@@ -112,7 +113,12 @@ export default function App() {
     return (
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <Friends email={userEmail} friendsList={friendsList} isDarkTheme={isDarkTheme} setFriendProfileView={setFriendProfileView} />
+          <Friends
+          email={userEmail}
+          friendsList={friendsList}
+          isDarkTheme={isDarkTheme}
+          setFriendProfileView={setFriendProfileView}
+          setClickedFriendId={setClickedFriendId} />
         </View>
       </ScrollView>
     );
@@ -175,7 +181,9 @@ export default function App() {
           } else {
             displaypage = <FriendProfile
             userData={userData}
+            setFriendProfileView={setFriendProfileView}
             isDarkTheme={isDarkTheme}
+            clickedFriendId={clickedFriendId}
             />
           }
         }

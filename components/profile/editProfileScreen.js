@@ -133,7 +133,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Age:                       </Text>
             <TextInput
             style={{marginRight:0}}
-            placeholder={userData.age.toString()}
+            placeholder={userData.age ? userData.age.toString()  : '0'}
             onChangeText={(val) => setAge(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -143,7 +143,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Species:               </Text>
             <TextInput
-            placeholder={userData.animal_type}
+            placeholder={userData.animal_type ? userData.animal_type : ''}
             onChangeText={(val) => setAnimalType(val)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -153,7 +153,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
           <View style={styles.row}>
             <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Favorite Snack:  </Text>
             <TextInput
-            placeholder={userData.snack}
+            placeholder={userData.snack ? userData.snack : ''}
             onChangeText={(val) => setFavoriteSnack(val)}
             autoCapitalize="none"
             autoCorrect={false}

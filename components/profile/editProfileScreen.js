@@ -17,6 +17,9 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { editProfileInfo, editProfilePicture } from '../../HelperFuncs/profileApi';
+import {
+  Buffer
+} from "buffer";
 
 
 const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
@@ -40,7 +43,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       'age': age,
       'snack': favoriteSnack,
       'animal_type': animalType,
-      'thumbnail':  null
+      'thumbnail':  thumbnail
       }
     };
     await editProfileInfo(curState, userData.user_id)
@@ -59,25 +62,28 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   }
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All,
-    allowsEditing: true,
-    aspect: [4, 3],
-    quality: 1,
-  })
+    try {
+       let result = await ImagePicker.launchImageLibraryAsync({
+          base64: true,
+          allowsEditing: true,
+          aspect: [4, 3],
+          maxWidth: 300,
+          maxHeight: 300,
+          quality: 0.5
+       });
 
-  let localUri = result.uri.replace('file://', '');
-  setThumbnail(localUri)
-  let filename = localUri.split('/').pop();
-  let match = /\.(\w+)$/.exec(filename);
-  let type = match ? `image/${match[1]}` : `image`;
-  let formData = new FormData();
-  formData.append('photo', { uri: localUri, name: filename, type: type });
+       if (!result.cancelled) {
+          let imageByte = new Buffer(result.base64, "base64");
 
-  await editProfilePicture(formData)
-    .then(()=> fetchUserData())
-  }
+          setThumbnail(imageByte);
+       }
+    } catch (e) {
+       console.log(e);
+    }
+ };
 
+
+    console.log(userData)
     return (
       <SafeAreaView style={styles.container}>
 
@@ -96,7 +102,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
             </View>
             <View  style={{alignItems: 'center', marginTop: 35}}>
               <Avatar.Image
-                source={{ uri: thumbnail}}
+                source={{ uri: userData.thumbnail}}
                 size={100}
               />
               <View style={{alignItems: 'center'}}>

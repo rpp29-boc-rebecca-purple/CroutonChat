@@ -90,6 +90,9 @@ export default function App() {
     console.log('fetchUserData invoked');
     await axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
     .then(function (response) {
+      var base64Image = response.data[0].thumbnail.toString('base64');
+      response.data[0].thumbail = base64Image
+      console.log(base64Image)
       setUserData(response.data[0])
     })
     .catch(function (error) {
@@ -129,9 +132,6 @@ export default function App() {
   };
 
   function ProfileScreen( {route} ) {
-
-    let info = route.params.info
-    let currentUser = userId
 
     let displaypage = null;
     if (profileSettingsOpen) {

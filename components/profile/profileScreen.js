@@ -14,7 +14,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
-  console.log(userData)
+
     return (
       <SafeAreaView style={styles.container}>
 
@@ -26,7 +26,7 @@ const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
             <View style={{alignItems: 'center', marginTop: 75}}>
               <Avatar.Image
                 source={{
-                  uri: userData.thumbnail
+                  uri: `data:image/png;base64,${userData.thumbnail}`
                 }}
                 size={100}
               />

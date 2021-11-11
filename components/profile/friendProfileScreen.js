@@ -26,12 +26,29 @@ const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFri
   const fetchFriendData = async () => {
     await axios.get(`http://18.219.200.72:8080/user/?user_id=${clickedFriendId}`)
     .then(function (response) {
+      //console.log(response.data[0])
       setFriendInfo(response.data[0])
     })
     .catch(function (error) {
       console.log(error);
     })
   };
+
+  const followFriend = async () => {
+    console.log('inside follow')
+    await axios.post(`http://18.219.200.72:8080/user/friendsList/follow?user_id=${userData.user_id}&friend_id=${clickedFriendId}`)
+      .then(res => alert(`Followed ${friendInfo.first_name}`))
+      //.then(res => console.log(res))
+      .catch(err => console.log(err))
+  }
+
+  const unfollowFriend = async () => {
+    console.log('inside unfollow')
+    await axios.put(`http://18.219.200.72:8080/user/friendsList/unfollow?user_id=${userData.user_id}&friend_id=${clickedFriendId}`)
+       .then(res => alert(`Unfollowed ${friendInfo.first_name}`))
+      //.then(res => console.log(res))
+      .catch(err => console.log(err))
+  }
 
     return (
       <SafeAreaView style={styles.container}>
@@ -45,7 +62,7 @@ const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFri
             <View style={{alignItems: 'center', marginTop: 75}}>
               <Avatar.Image
                 source={{
-                  uri: userData.thumbnail
+                  uri: null
                 }}
                 size={100}
               />
@@ -94,12 +111,12 @@ const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFri
         {/* buttons for edit profile and navigate to settings */}
         <View style={isDarkTheme ? styles.darkProfileButtonsWrapper : styles.profileButtonsWrapper}>
             <View style={styles.profileButton}>
-              <TouchableOpacity onPress={()=> alert('follow friend')}>
+              <TouchableOpacity onPress={()=> followFriend()}>
                   <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Follow</Text>
               </TouchableOpacity>
             </View>
           <View style={styles.profileButton}>
-            <TouchableOpacity onPress={()=> alert('unfollow')}>
+            <TouchableOpacity onPress={()=> unfollowFriend()}>
               <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Unfollow</Text>
             </TouchableOpacity>
           </View>

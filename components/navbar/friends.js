@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
@@ -11,7 +11,10 @@ function Friends( { route, friendsList, email, isDarkTheme, setFriendProfileView
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <ScrollView>
-      <SearchBarFriends loggedinEmail={userEmail} />
+      <SearchBarFriends
+        loggedinEmail={userEmail}
+        setFriendProfileView={setFriendProfileView}
+        setClickedFriendId={setClickedFriendId} />
             <View  style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
                 navigation.navigate('Profile', { info: e});

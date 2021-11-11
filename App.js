@@ -134,10 +134,7 @@ export default function App() {
     );
   };
 
-  function ProfileScreen( {route} ) {
-    //let currentUserId = userData.user_id;
-    //let friendUserId = route.params.info.friend_id || null;
-
+  function ProfileScreen() {
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {

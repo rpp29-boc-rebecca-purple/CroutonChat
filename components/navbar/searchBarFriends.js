@@ -2,27 +2,29 @@ import React, {useState} from "react";
 import { Searchbar } from 'react-native-paper';
 import { StyleSheet, View} from "react-native";
 import { useNavigation } from '@react-navigation/native';
-//import { globalStyles } from '../styles/global.js'
+import axios from 'axios';
 
-function SearchBarFriends( props ) {
+function SearchBarFriends( {setFriendProfileView, setClickedFriendId}) {
 
   const [searchEmail, setSearchEmail] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const navigation = useNavigation(false);
 
- const searchFriend = (searchedEmail) => {
-  fetch(`http://18.219.200.72:8080/searchFriend?email=${searchEmail.toLowerCase()}`)
+ const searchFriend = async () => {
+  await axios.get(`http://18.219.200.72:8080/searchFriend?email=${searchEmail.toLowerCase()}`)
   .then((res) => {
     if (res.status === 400) {
       alert('user does not exist')
     } else if ( res.status === 200) {
-      navigation.navigate('Profile', { user: searchEmail})
+      let data = res.data[0];
+      setClickedFriendId(data.user_id);
+      setFriendProfileView(true);
+      navigation.navigate('Profile', {});
       console.log(`User ${searchEmail} has been found`)
-      setSearchEmail('')
-
+      setSearchEmail('');
     }
-    return res.json();
   })
+  .catch(err => console.log(err))
  }
 
   const onChangeSearch = (q) => {

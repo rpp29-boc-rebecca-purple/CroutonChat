@@ -7,7 +7,6 @@ import axios from 'axios';
 function SearchBarFriends( {setFriendProfileView, setClickedFriendId}) {
 
   const [searchEmail, setSearchEmail] = useState('');
-  const [userEmail, setUserEmail] = useState('');
   const navigation = useNavigation(false);
 
  const searchFriend = async () => {

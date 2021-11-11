@@ -15,7 +15,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
 
 
-const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFriendId}) => {
+const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFriendId, fetchFriendsData}) => {
 
   const [friendInfo, setFriendInfo] = useState('');
 
@@ -26,7 +26,6 @@ const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFri
   const fetchFriendData = async () => {
     await axios.get(`http://18.219.200.72:8080/user/?user_id=${clickedFriendId}`)
     .then(function (response) {
-      //console.log(response.data[0])
       setFriendInfo(response.data[0])
     })
     .catch(function (error) {
@@ -37,17 +36,17 @@ const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFri
   const followFriend = async () => {
     console.log('inside follow')
     await axios.post(`http://18.219.200.72:8080/user/friendsList/follow?user_id=${userData.user_id}&friend_id=${clickedFriendId}`)
-      .then(res => alert(`Followed ${friendInfo.first_name}`))
-      //.then(res => console.log(res))
+      .then(() => fetchFriendsData())
+      .then(() => alert(`Followed ${friendInfo.first_name}`))
       .catch(err => console.log(err))
   }
 
   const unfollowFriend = async () => {
     console.log('inside unfollow')
     await axios.put(`http://18.219.200.72:8080/user/friendsList/unfollow?user_id=${userData.user_id}&friend_id=${clickedFriendId}`)
-       .then(res => alert(`Unfollowed ${friendInfo.first_name}`))
-      //.then(res => console.log(res))
-      .catch(err => console.log(err))
+    .then(() => fetchFriendsData())
+    .then(() => alert(`Unfollowed ${friendInfo.first_name}`))
+    .catch(err => console.log(err))
   }
 
     return (

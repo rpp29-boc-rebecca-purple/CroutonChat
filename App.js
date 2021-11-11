@@ -181,6 +181,7 @@ export default function App() {
             setFriendProfileView={setFriendProfileView}
             isDarkTheme={isDarkTheme}
             clickedFriendId={clickedFriendId}
+            fetchFriendsData={fetchFriendsData}
             />
           }
         }

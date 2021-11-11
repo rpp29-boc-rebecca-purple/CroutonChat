@@ -13,7 +13,7 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <ScrollView>
         <SearchBarFriends loggedinEmail={userEmail} />
-            <View  style={styles.container}>{list ? friendsList.map((e) => {
+            <View  style={styles.main}>{list ? friendsList.map((e) => {
               return <Text onPress={() => {
                 navigation.navigate('Profile', { info: e})
                 console.log(`you clicked on user:  ${JSON.stringify(e)} 😄😄😄😄`)

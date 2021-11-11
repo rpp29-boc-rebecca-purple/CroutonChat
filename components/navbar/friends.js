@@ -26,7 +26,7 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
                 <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}>  following:{e.following_count} | followers: {e.follower_count} </Text>
                 </View>
               </Text>
-            }) :  <Text> Add some furry friends </Text> }
+            }) :  <Text> Add some furry friends! </Text> }
           </View>
       </ScrollView>
     </TouchableWithoutFeedback>

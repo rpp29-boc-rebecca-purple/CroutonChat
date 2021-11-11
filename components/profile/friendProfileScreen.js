@@ -34,7 +34,6 @@ const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFri
   };
 
   const followFriend = async () => {
-    console.log('inside follow')
     await axios.post(`http://18.219.200.72:8080/user/friendsList/follow?user_id=${userData.user_id}&friend_id=${clickedFriendId}`)
       .then(() => fetchFriendsData())
       .then(() => alert(`Followed ${friendInfo.first_name}`))
@@ -42,7 +41,6 @@ const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFri
   }
 
   const unfollowFriend = async () => {
-    console.log('inside unfollow')
     await axios.put(`http://18.219.200.72:8080/user/friendsList/unfollow?user_id=${userData.user_id}&friend_id=${clickedFriendId}`)
     .then(() => fetchFriendsData())
     .then(() => alert(`Unfollowed ${friendInfo.first_name}`))

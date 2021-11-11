@@ -104,8 +104,6 @@ export default function App() {
       axios.get(`http://18.219.200.72:8080/user/friendsList?user_id=${userId}`)
       .then(function (response) {
         setFriendsList( response.data.sort((a, b) => ( a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1)) )
-
-      console.log(friendslist, '😂')
       })
       .catch(function (error) {
         console.log(error);

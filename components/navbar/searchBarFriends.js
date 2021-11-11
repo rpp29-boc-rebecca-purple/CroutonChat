@@ -35,7 +35,7 @@ function SearchBarFriends( {setFriendProfileView, setClickedFriendId}) {
       <Searchbar style={styles.searchbar}
       placeholder="Search for friends"
       onChangeText={onChangeSearch}
-      onSubmitEditing = {() => searchFriend(searchEmail)}
+      onSubmitEditing = {() => searchFriend()}
       multiline={false}
       value={searchEmail}/>
    </View>

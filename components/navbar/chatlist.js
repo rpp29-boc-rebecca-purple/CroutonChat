@@ -97,7 +97,6 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
                     // set chatId
                     setConversation(true);
                   }}
-
                   key={e.friend_id} style={styles.container}>
                     <View>
                     <Image style={styles.images} source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
@@ -111,7 +110,6 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
                     {!e.photounread ? '  📷 meows' : ''}
                     </Text>
                     </View>
-
                   </Text>
                 }) : <Text> Add some furry friends </Text> }
               </View>

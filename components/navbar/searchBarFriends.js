@@ -4,7 +4,7 @@ import { StyleSheet, View} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 //import { globalStyles } from '../styles/global.js'
 
-function SearchBarFriends() {
+function SearchBarFriends( props ) {
 
   const [searchEmail, setSearchEmail] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderBottomColor: 'black',
     borderBottomWidth: 2,
-    marginBottom: 20,
   },
   text: {
     fontSize: 15,

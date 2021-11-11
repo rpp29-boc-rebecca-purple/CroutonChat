@@ -22,15 +22,15 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
 
   useEffect( () => {
     findMessagesPhotos()
-    setTime()
+    const setTime = () => {
+      setTimeout(function() {
+        setTimer(true)
+      }, 1500);
+    }
     newList(found)
 }, [userFound, timer]);
 
-  const setTime = () => {
-    setTimeout(function() {
-      setTimer(true)
-    }, 1500);
-  }
+
 
   const searchUsers = (name) => {
     let found = []
@@ -116,7 +116,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
                     </View>
 
                   </Text>
-                }) : null }
+                }) : <Text> Add some furry friends </Text> }
               </View>
           </ScrollView>
         )

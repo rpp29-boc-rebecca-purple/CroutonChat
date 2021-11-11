@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
@@ -7,6 +7,7 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
 
   const [userEmail] = useState(email)
   const navigation = useNavigation(false);
+  const [list, setList] = useState(friendsList)
 
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
@@ -15,7 +16,7 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         loggedinEmail={userEmail}
         setFriendProfileView={setFriendProfileView}
         setClickedFriendId={setClickedFriendId} />
-            <View  style={styles.main}>{friendsList.map((e) => {
+            <View  style={styles.main}>{list ? friendsList.map((e) => {
               return <Text onPress={() => {
                 navigation.navigate('Profile', { info: e});
                 setClickedFriendId(e.friend_id);
@@ -29,10 +30,11 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
                 <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}>  following:{e.following_count} | followers: {e.follower_count} </Text>
                 </View>
               </Text>
-            })}
+            }) : <View style={styles.container}></View> }
           </View>
       </ScrollView>
     </TouchableWithoutFeedback>
+
         )
       }
 
@@ -49,7 +51,6 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         },
         main: {
           flexDirection: 'column',
-          flex: 1,
           alignItems: 'flex-start'
         },
       username: {

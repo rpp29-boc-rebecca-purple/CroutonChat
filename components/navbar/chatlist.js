@@ -21,19 +21,18 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
   const [timer, setTimer] = useState(false)
 
   useEffect( () => {
+    (() => {
+      setTimeout(function() {
+        setTimer(true)
+      }, 1500);
+    })()
     findMessagesPhotos()
-    setTime()
     newList(found)
-}, [userFound], timer);
-
-  const setTime = () => {
-    setTimeout(function() {
-      setTimer(true)
-    }, 1500);
-  }
+}, [userFound, timer]);
 
   const searchUsers = (name) => {
     let found = []
+    if (friendsList) {
     friendsList.map(e => {
       if (name.toLowerCase() === e.first_name.toLowerCase()) {
         found.push(e)
@@ -46,6 +45,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
     } else {
       setUserFound(false)
     }
+  }
     findMessagesPhotos()
   };
 
@@ -58,6 +58,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
   }
 
   const findMessagesPhotos = () => {
+    console.log('findMessagesPhotos')
     axios.get(`http://3.133.100.147:2550/chatlist?userId=${userID}`)
       .then(function (response) {
       let data = response.data
@@ -112,7 +113,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
                     </View>
 
                   </Text>
-                }) : null }
+                }) : <Text> Add some furry friends </Text> }
               </View>
           </ScrollView>
         )

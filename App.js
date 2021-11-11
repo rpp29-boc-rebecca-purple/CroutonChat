@@ -88,8 +88,9 @@ export default function App() {
 
   const fetchUserData = async () => {
     console.log('fetchUserData invoked');
-    await axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
+    axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
     .then(function (response) {
+      conosle.log(response)
       var base64Image = response.data[0].thumbnail.toString('base64');
       response.data[0].thumbail = base64Image
       console.log(base64Image)

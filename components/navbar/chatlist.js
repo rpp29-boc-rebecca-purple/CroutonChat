@@ -24,10 +24,6 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
     findMessagesPhotos()
     setTime()
     newList(found)
-    return () => {
-      userFound.current;
-      timer.current;
-    };
 }, [userFound, timer]);
 
   const setTime = () => {
@@ -38,6 +34,8 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
 
   const searchUsers = (name) => {
     let found = []
+
+    if (friendsList) {
     friendsList.map(e => {
       if (name.toLowerCase() === e.first_name.toLowerCase()) {
         found.push(e)
@@ -50,6 +48,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
     } else {
       setUserFound(false)
     }
+  }
     findMessagesPhotos()
   };
 

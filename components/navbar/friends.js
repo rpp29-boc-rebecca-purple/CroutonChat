@@ -7,12 +7,13 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
 
   const [userEmail] = useState(email)
   const navigation = useNavigation(false);
+  const [list, setList] = useState(friendsList)
 
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <ScrollView>
-      <SearchBarFriends loggedinEmail={userEmail} />
-            <View  style={styles.main}>{friendsList.map((e) => {
+        <SearchBarFriends loggedinEmail={userEmail} />
+            <View  style={styles.container}>{list ? friendsList.map((e) => {
               return <Text onPress={() => {
                 navigation.navigate('Profile', { info: e})
                 console.log(`you clicked on user:  ${JSON.stringify(e)} 😄😄😄😄`)
@@ -25,7 +26,7 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
                 <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}>  following:{e.following_count} | followers: {e.follower_count} </Text>
                 </View>
               </Text>
-            })}
+            }) : null }
           </View>
       </ScrollView>
     </TouchableWithoutFeedback>
@@ -34,7 +35,6 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
 
       const styles = StyleSheet.create({
         container: {
-          flex: 1,
           flexDirection: 'column',
           width: Dimensions.get('window').width,
           height: 100,

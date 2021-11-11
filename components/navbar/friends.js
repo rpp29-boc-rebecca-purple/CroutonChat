@@ -51,9 +51,7 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
           marginTop: 11,
           marginBottom: 1,
           left: 15,
-          top: 15,
-          flexDirection: 'column',
-          alignItems: 'flex-start'
+          top: 15
         },
         main: {
           flexDirection: 'column',

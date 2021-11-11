@@ -46,7 +46,6 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
         },
         main: {
           flexDirection: 'column',
-          flex: 1,
           alignItems: 'flex-start'
         },
       username: {

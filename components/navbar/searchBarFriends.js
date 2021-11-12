@@ -12,16 +12,13 @@ function SearchBarFriends( {setFriendProfileView, setClickedFriendId}) {
  const searchFriend = async () => {
   await axios.get(`http://18.219.200.72:8080/searchFriend?email=${searchEmail.toLowerCase()}`)
   .then((res) => {
-    if (res.status === 400) {
-      alert('user does not exist')
-    } else if ( res.status === 200) {
       let data = res.data[0];
       setClickedFriendId(data.user_id);
       setFriendProfileView(true);
       navigation.navigate('Profile', {});
       console.log(`User ${searchEmail} has been found`)
       setSearchEmail('');
-    }
+
   })
   .catch(err => console.log(err))
  }

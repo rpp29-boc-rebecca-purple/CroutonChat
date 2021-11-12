@@ -8,7 +8,7 @@ export const editProfileInfo = (changes, id) => {
         'Content-Type': 'multipart/form-data',
       },
     })
-    .catch(err => console.error(err));
+    .catch(err => console.error('error recieved at editProfileInfo: ', err.response));
 };
 
 export const editProfilePicture = formData => {

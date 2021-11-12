@@ -6,31 +6,39 @@ import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { editProfileInfo, editProfilePicture } from '../../HelperFuncs/profileApi';
 import { Buffer } from 'buffer';
+import * as FileSystem from 'expo-file-system';
+import { manipulateAsync } from 'expo-image-manipulator';
 
 const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
-  const [name, setName] = useState(userData.first_name);
-  const [lastName, setLastName] = useState(userData.last_name);
-  const [age, setAge] = useState(userData.age);
-  const [favoriteSnack, setFavoriteSnack] = useState(userData.snack);
-  const [animalType, setAnimalType] = useState(userData.animal_type);
-  const [thumbnail, setThumbnail] = useState(userData.thumbnail);
+  const [name, setName] = useState(userData?.first_name);
+  const [lastName, setLastName] = useState(userData?.last_name);
+  const [age, setAge] = useState(userData?.age);
+  const [favoriteSnack, setFavoriteSnack] = useState(userData?.snack);
+  const [animalType, setAnimalType] = useState(userData?.animal_type);
+  const [thumbnail, setThumbnail] = useState(userData?.thumbnail);
+  const [thumbnailSrc, setThumbnailSrc] = useState(userData.thumbnailSrc);
 
   useEffect(() => {
     getPermissionAsync();
   });
 
   async function sendChanges() {
-    let curState = {
-      data: {
-        first_name: name,
-        last_name: lastName,
-        age: age,
-        snack: favoriteSnack,
-        animal_type: animalType,
-        thumbnail: thumbnail,
-      },
-    };
-    await editProfileInfo(curState, userData.user_id).then(() => fetchUserData());
+    let fd = new FormData();
+
+    console.log('USER DATA', userData);
+
+    fd.append('first_name', name);
+    fd.append('last_name', lastName);
+    fd.append('age', age);
+    fd.append('snack', favoriteSnack);
+    fd.append('animal_type', animalType);
+    fd.append('photo', thumbnail);
+    fd.append('user_id', userData?.userId || 33);
+
+    editProfileInfo(fd, userData?.userId || 33).then(() => {
+      console.log(response.status);
+      fetchUserData();
+    });
   }
 
   // camra roll permissions
@@ -46,7 +54,6 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   const pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
-        base64: true,
         allowsEditing: true,
         aspect: [4, 3],
         maxWidth: 300,
@@ -55,9 +62,15 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       });
 
       if (!result.cancelled) {
-        let imageByte = new Buffer(result.base64, 'base64');
+        await setThumbnailSrc(result.uri);
 
-        setThumbnail(imageByte);
+        var photo = {
+          uri: result.uri,
+          type: 'image/jpeg',
+          name: `thumbnail_${userData?.userId || 33}.jpg`,
+        };
+
+        setThumbnail(photo);
       }
     } catch (e) {
       console.log(e);
@@ -77,7 +90,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
             </TouchableOpacity>
           </View>
           <View style={{ alignItems: 'center', marginTop: 35 }}>
-            <Avatar.Image source={{ uri: userData.thumbnail }} size={100} />
+            <Avatar.Image source={{ uri: thumbnailSrc }} size={100} />
             <View style={{ alignItems: 'center' }}>
               <Title style={styles.title}>{name}</Title>
               <Caption style={styles.caption}>Loves snacking on {favoriteSnack}</Caption>
@@ -90,23 +103,23 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       <View style={styles.userInfoSection}>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>First Name: </Text>
-          <TextInput placeholder={userData.first_name} onChangeText={val => setName(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput placeholder={userData?.first_name} onChangeText={val => setName(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Last Name: </Text>
-          <TextInput placeholder={userData.last_name} onChangeText={val => setLastName(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput placeholder={userData?.last_name} onChangeText={val => setLastName(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Age: </Text>
-          <TextInput style={{ marginRight: 0 }} placeholder={userData.age.toString()} onChangeText={val => setAge(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput style={{ marginRight: 0 }} placeholder={userData?.age} onChangeText={val => setAge(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Species: </Text>
-          <TextInput placeholder={userData.animal_type} onChangeText={val => setAnimalType(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput placeholder={userData?.animal_type} onChangeText={val => setAnimalType(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Favorite Snack: </Text>
-          <TextInput placeholder={userData.snack} onChangeText={val => setFavoriteSnack(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput placeholder={userData?.snack} onChangeText={val => setFavoriteSnack(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
       </View>
 

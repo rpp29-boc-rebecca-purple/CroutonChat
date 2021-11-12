@@ -99,15 +99,13 @@ export default function App() {
   };
 
   const fetchFriendsData = () => {
-
-    console.log(userId)
-      axios.get(`http://18.219.200.72:8080/user/friendsList?user_id=${userId}`)
-      .then(function (response) {
-        setFriendsList( response.data.sort((a, b) => ( a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1)) )
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+    axios.get(`http://18.219.200.72:8080/user/friendsList?user_id=${userId}`)
+    .then(function (response) {
+      setFriendsList( response.data.sort((a, b) => ( a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1)) )
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
     };
 
   const FriendsScreen = () => {

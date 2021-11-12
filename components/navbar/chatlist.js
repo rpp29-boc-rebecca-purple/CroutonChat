@@ -8,17 +8,18 @@ import axios from 'axios'
 import data from '../../data/data'
 
 function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
-
   //hard coded delete after hookup
   const [userData, setUserData] = useState(data);
-  const userId = currentUser;
 
+
+  const [userId, setUserId] = useState(currentUser);
   const [userFound, setUserFound] = useState(false)
   const [list, setList] = useState(friendsList)
   const [found, setFound] = useState('')
   const [chatId, setChatId] = useState(0);
   const [conversation, setConversation] = useState(false);
   const [timer, setTimer] = useState(false)
+  const [selectedFriend, setSelectedFriend] = useState({});
 
   useEffect( () => {
     (() => {
@@ -85,16 +86,32 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
 
   return conversation ?
         (
-          <Conversation userId={1} friendId={0} chatId={1} handleBackButtonPress={backButtonHandler} style={{flex: 1, height: Dimensions.get('window').height, width: Dimensions.get('window').width}} />
+          <Conversation
+            userId={userId}
+            friendInfo={selectedFriend}
+            chatId={chatId}
+            handleBackButtonPress={backButtonHandler}
+            style={styles.conversation}
+          />
         )
         :
         (
           <ScrollView>
             <SearchBarMessages searchUsers={searchUsers}/>
                 <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{list ? list.map((e) => {
+                  console.log('\n\nelement being rendered in chatList', e);
                   return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
-                    // set friendId
-                    // set chatId
+                    let reTypedE = {
+                      chatId: Number(e.chatId),
+                      userId: Number(e.userId),
+                      friendId: Number(e.friend_id),
+                      friendFirstName: e.first_name,
+                      friendLastName: e.last_name,
+                      friendAvatar: e.thumbnail
+                    };
+                    setChatId(reTypedE.chatId);
+                    setUserId(reTypedE.userId);
+                    setSelectedFriend(reTypedE);
                     setConversation(true);
                   }}
                   key={e.friend_id} style={styles.container}>

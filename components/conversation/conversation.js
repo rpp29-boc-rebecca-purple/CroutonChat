@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import CameraComponent from '../navbar/camera';
 const api = require('./apiHelpers.js');
 
-const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPress }) => {
+const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => {
   let [messages, setMessages] = useState([]);
   let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
@@ -15,9 +15,8 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
   let [progressBarFill, setProgressBarFill] = useState(1);
 
   let screenShotListener = ScreenCapture.addScreenshotListener(() => {
-    console.log('screen shot listener triggered');
     api.noteScreenShot(chatId, userId);
-  })
+  });
 
   // updates messages upon render
   useEffect(() => {
@@ -38,7 +37,7 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
     newMessages.forEach((message) => {
       console.log('new conversation boolean:', newConversation)
       if (newConversation) {
-        api.startConversation(message, friendId)
+        api.startConversation(message, friendInfo.friend_id)
         .then((results) => {
           console.log('results from startConversation:', results);
           setMessages(results);
@@ -74,7 +73,7 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
     return currentMessage.user._id !== userId ? (
       <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={styles.unopenedImageBody}>
         <Image source={require('../../assets/icons/photoStack.jpeg')} style={styles.unopenedImageIcon}/>
-        <Text style={styles.unopenedImageText}>Tap here to view a new photo from {api.getFriendName(friendId)}!</Text>
+        <Text style={styles.unopenedImageText}>Tap here to view a new photo from {api.getFriendName(friendInfo.friend_id)}!</Text>
       </Pressable>
     )
     :

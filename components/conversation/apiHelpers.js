@@ -11,7 +11,6 @@ const fetchMessages = (chatId, userId) => {
     url: `${CHAT_API}/conversation?chatId=${chatId}&senderId=${userId}`,
   })
   .then((res) => {
-    console.log('unfromatted messages recieved in fetchMessages:', res.data);
     return formatMessages(res.data);
   })
   .catch((err) => {

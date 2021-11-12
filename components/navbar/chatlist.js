@@ -19,6 +19,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
   const [chatId, setChatId] = useState(0);
   const [conversation, setConversation] = useState(false);
   const [timer, setTimer] = useState(false)
+  const [currentChat, setCurrentChat] = useState(userID)
 
   useEffect( () => {
     (() => {
@@ -26,7 +27,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
         setTimer(true)
       }, 1500);
     })()
-    findMessagesPhotos()
+    findMessagesPhotos(currentChat)
     newList(found)
 }, [userFound, timer]);
 
@@ -57,9 +58,8 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
       }
   }
 
-  const findMessagesPhotos = () => {
-    console.log('findMessagesPhotos')
-    axios.get(`http://3.133.100.147:2550/chatlist?userId=${userID}`)
+  const findMessagesPhotos = (id) => {
+    axios.get(`http://3.133.100.147:2550/chatlist?userId=${id}`)
       .then(function (response) {
       let data = response.data
       for (const key in data) {
@@ -93,11 +93,12 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
             <SearchBarMessages searchUsers={searchUsers}/>
                 <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{list ? list.map((e) => {
                   return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
+                    {setCurrentChat(e.friend_id)}
+                    console.log('clicked', e)
                     // set friendId
                     // set chatId
                     setConversation(true);
                   }}
-
                   key={e.friend_id} style={styles.container}>
                     <View>
                     <Image style={styles.images} source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
@@ -106,7 +107,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
                     <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
 
                     <Text style={isDarkTheme ? styles.unreadDark : styles.unread}>
-                    {e.unread >= 1 ? e.unread + ' 🐕 woofs' : ''}
+                    {e.unread <= 1 ? e.unread + ' 🐕 woofs' : ''}
                     {' '}{' '}
                     {!e.photounread ? '  📷 meows' : ''}
                     </Text>

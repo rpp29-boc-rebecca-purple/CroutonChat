@@ -30,7 +30,6 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
     fd.append('animal_type', animalType);
     fd.append('photo', thumbnail);
     fd.append('user_id', userData?.user_id);
-
     editProfileInfo(fd, userData?.user_id).then(() => {
       fetchUserData();
     });

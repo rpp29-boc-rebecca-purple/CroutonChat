@@ -59,7 +59,7 @@ const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFri
             <View style={{alignItems: 'center', marginTop: 75}}>
               <Avatar.Image
                 source={{
-                  uri: null
+                  uri: friendInfo.thumbnail_url
                 }}
                 size={100}
               />

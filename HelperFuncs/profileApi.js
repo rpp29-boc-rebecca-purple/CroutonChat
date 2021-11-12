@@ -3,8 +3,9 @@ import axios from 'axios';
 export const editProfileInfo = (changes, id) => {
   console.log('SENDING', changes);
   return axios
-    .put(`http://localhost:3000/user/edit/?user_id=${id}`, changes, {
+    .put(`http://18.219.200.72:8080/user/edit/?user_id=${id}`, changes, {
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'multipart/form-data',
       },
     })

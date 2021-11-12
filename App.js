@@ -94,7 +94,7 @@ export default function App() {
       setUserData(response.data[0])
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('\n\nfetchUserData failed:', error);
     })
   };
 
@@ -104,7 +104,7 @@ export default function App() {
       setFriendsList( response.data.sort((a, b) => ( a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1)) )
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('\n\nfetchFriendsData failed:', error);
     })
     };
 

@@ -8,6 +8,7 @@ import CameraComponent from '../navbar/camera';
 const api = require('./apiHelpers.js');
 
 const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => {
+  api.setConversationInfo(friendInfo.friendId, friendInfo.friendFirstName, friendInfo.friendAvatar);
   let [messages, setMessages] = useState([]);
   let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
@@ -37,7 +38,7 @@ const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => 
     newMessages.forEach((message) => {
       console.log('new conversation boolean:', newConversation)
       if (newConversation) {
-        api.startConversation(message, friendInfo.friend_id)
+        api.startConversation(message, friendInfo.friendId)
         .then((results) => {
           console.log('results from startConversation:', results);
           setMessages(results);
@@ -73,7 +74,7 @@ const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => 
     return currentMessage.user._id !== userId ? (
       <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={styles.unopenedImageBody}>
         <Image source={require('../../assets/icons/photoStack.jpeg')} style={styles.unopenedImageIcon}/>
-        <Text style={styles.unopenedImageText}>Tap here to view a new photo from {api.getFriendName(friendInfo.friend_id)}!</Text>
+        <Text style={styles.unopenedImageText}>Tap here to view a new photo from {api.getFriendName(friendInfo.friendId)}!</Text>
       </Pressable>
     )
     :

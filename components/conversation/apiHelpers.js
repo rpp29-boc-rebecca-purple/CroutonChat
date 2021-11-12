@@ -6,12 +6,14 @@ const CHAT_API = 'http://3.133.100.147:2550';
 // input: chatId: INTEGER (the chatId of the current conversation)
 // output: an array of messages in GiftedChat format
 const fetchMessages = (chatId, userId) => {
+  console.log(`\nARGUMENTS RECEIVED IN FETCH MESSAGES:\nchatId: ${chatId}, userId: ${userId}\n`);
   return axios({
     method: 'GET',
     url: `${CHAT_API}/conversation?chatId=${chatId}&senderId=${userId}`,
   })
   .then((res) => {
-    return formatMessages(res.data);
+    console.log('\n\nunformatted messages received from fetchMessages:', res.data);
+    return formatMessages(res.data, userId);
   })
   .catch((err) => {
     console.log('conversation retrieval failed\n', err);
@@ -19,26 +21,28 @@ const fetchMessages = (chatId, userId) => {
 };
 
 // converts messages into GiftedChat format
-const formatMessages = (messages) => {
+const formatMessages = (messages, currentUserId) => {
   return messages
     .map((message) => {
       let formattedMessage = {};
       formattedMessage._id = message.messageid;
       formattedMessage.text = message.body;
       formattedMessage.createdAt = Date.parse(message.time);
-      formattedMessage.user = convertUser(fetchUserData(Number(message.senderid)));
+      formattedMessage.user = createGiftedUser(Number(message.senderid), currentUserId);
       formattedMessage.image = message.photourl !== null ? message.photourl : undefined;
       return formattedMessage;
     })
     .reverse();
 };
 
-const convertUser = (incomingUser) => {
-  // console.log('\n\n\nincoming user data to be converted:', incomingUser)
-  return {
-    _id: incomingUser.uid,
-    name: incomingUser.name,
-    avatar: incomingUser.photo
+const createGiftedUser = (incomingUserId, userId) => {
+  console.log(`\n\n\ncreateGiftedChat entered\nincomingUserId: ${incomingUserId}\nuserId: ${userId}\nstored friendId: ${currentFriendId}`);
+  return incomingUserId === currentFriendId ? {
+    _id: currentFriendId,
+    name: friendName,
+    avatar: friendAvatar
+  } : {
+    _id: userId
   }
 };
 
@@ -66,7 +70,8 @@ const sendMessage = async (message, chatId) => {
     }
   })
   .then((newData) => {
-    return formatMessages(newData);
+    console.log('\nunformatted repsonse data from sendMessage:', newData);
+    return formatMessages(newData, message.user._id);
   })
 };
 
@@ -92,7 +97,7 @@ const startConversation = async (message, friendId) => {
     }
   })
   .then((newData) => {
-    return formatMessages(newData);
+    return formatMessages(newData, message.user._id);
   })
 };
 
@@ -145,30 +150,18 @@ let currentFriendId = null;
 let friendName = null;
 let friendAvatar = null;
 
+const setConversationInfo = (id, name, avatar) => {
+  currentFriendId = id;
+  friendName = name;
+  friendAvatar = avatar;
+};
+
 const getFriendName = (friendId) => {
-  //will pull from user data retrieved in App
-  if (friendId === currentFriendId) {
-    return friendName;
-  } else {
-    let newFriendInfo = fetchUserData(friendId);
-    currentFriendId = friendId;
-    friendName = newFriendInfo.name;
-    friendAvatar = newFriendInfo.photo;
-    return friendName;
-  }
+  return friendName;
 };
 
 const getFriendAvatar = (friendId) => {
-  //will pull from user data retrieved in App
-  if (friendId === currentFriendId) {
-    return friendAvatar;
-  } else {
-    let newFriendInfo = fetchUserData(friendId);
-    currentFriendId = friendId;
-    friendName = newFriendInfo.name;
-    friendAvatar = newFriendInfo.photo;
-    return friendAvatar;
-  }
+  return friendAvatar;
 };
 
 const exitConversation = () => {
@@ -181,6 +174,7 @@ const exitConversation = () => {
 
 module.exports = {
   fetchMessages,
+  setConversationInfo,
   getFriendName,
   getFriendAvatar,
   sendMessage,

@@ -7,23 +7,20 @@ import axios from 'axios'
 //delete after fake data
 import data from '../../data/data'
 
-function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
+function ChatList({ userID, friendsList, isDarkTheme }) {
   //hard coded delete after hookup
   const [userData, setUserData] = useState(data);
 
 
-  const [userId, setUserId] = useState(currentUser);
+  const [userId, setUserId] = useState(userID);
   const [userFound, setUserFound] = useState(false)
   const [list, setList] = useState(friendsList)
   const [found, setFound] = useState('')
   const [chatId, setChatId] = useState(0);
   const [conversation, setConversation] = useState(false);
   const [timer, setTimer] = useState(false)
-<<<<<<< HEAD
   const [selectedFriend, setSelectedFriend] = useState({});
-=======
   const [currentChat, setCurrentChat] = useState(userID)
->>>>>>> main
 
   useEffect( () => {
     (() => {
@@ -51,7 +48,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
       setUserFound(false)
     }
   }
-    findMessagesPhotos()
+    findMessagesPhotos(userId)
   };
 
   const newList = (array) => {
@@ -65,14 +62,15 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
   const findMessagesPhotos = (id) => {
     axios.get(`http://3.133.100.147:2550/chatlist?userId=${id}`)
       .then(function (response) {
+      console.log('\n\nresponse received at findMessagesPhotos', response)
       let data = response.data
       for (const key in data) {
         for (const id in list) {
-          if (list[id].friend_id == data[key].uid2) {
-            list[id].unread = data[key].unread
-            list[id].photounread = data[key].unreadphoto
-            list[id].userId = data[key].uid1
-            list[id].chatId = data[key].chatid
+          if (list[id].friend_id == data[key].uid2 || list[id].friend_id == data[key].uid1) {
+            list[id].unread = data[key].unread;
+            list[id].photounread = data[key].unreadphoto;
+            list[id].userId = list[id].friend_id == data[key].uid2 ? data[key].uid1 : data[key].uid2;
+            list[id].chatId = data[key].chatid;
           }
         }
       }
@@ -112,6 +110,7 @@ function ChatList({ currentUser, userID, friendsList, isDarkTheme }) {
                       friendLastName: e.last_name,
                       friendAvatar: e.thumbnail
                     };
+                    console.log('\n\noriginal chatlist entry element:', e, '\nreformatted chatlist entry element:', reTypedE);
                     setChatId(reTypedE.chatId);
                     setUserId(reTypedE.userId);
                     setSelectedFriend(reTypedE);

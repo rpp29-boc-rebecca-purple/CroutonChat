@@ -55,8 +55,6 @@ export default function App() {
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
   const [isLoggedIn, setLoggedIn] = useState(false);
 
-  const [currentUser, setCurrentUser] = useState(5);
-
   const [authPage, setAuthPage] = useState('login');
 
   const [checkout,setCheckout] = useState({});
@@ -123,7 +121,7 @@ export default function App() {
     );
   };
   const ChatScreen = ({ route }) => {
-    return <ChatList userID={userId} friendsList={friendsList} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
+    return <ChatList userID={userId} friendsList={friendsList} isDarkTheme={isDarkTheme} />;
   };
   const CameraScreen = () => {
     return (

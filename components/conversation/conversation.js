@@ -9,6 +9,7 @@ const api = require('./apiHelpers.js');
 
 const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => {
   api.setConversationInfo(friendInfo.friendId, friendInfo.friendFirstName, friendInfo.friendAvatar);
+  let [currentChatId, setCurrentChatId] = useState(chatId);
   let [messages, setMessages] = useState([]);
   let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
@@ -16,13 +17,13 @@ const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => 
   let [progressBarFill, setProgressBarFill] = useState(1);
 
   let screenShotListener = ScreenCapture.addScreenshotListener(() => {
-    api.noteScreenShot(chatId, userId);
+    api.noteScreenShot(currentChatId, userId);
   });
 
   // updates messages upon render
   useEffect(() => {
     async function updateMessages() {
-      const incomingMessages = await api.fetchMessages(chatId, userId);
+      const incomingMessages = await api.fetchMessages(currentChatId, userId);
       if (incomingMessages !== undefined && Array.isArray(incomingMessages)) {
         setMessages(incomingMessages);
       } else {
@@ -30,7 +31,7 @@ const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => 
       }
     }
     updateMessages();
-  }, [chatId, picDisplay, cameraDisplay]);
+  }, [currentChatId, picDisplay, cameraDisplay]);
 
   // handles text message send
   const onSend = useCallback((newMessages = []) => {
@@ -42,10 +43,10 @@ const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => 
         .then((results) => {
           console.log('results from startConversation:', results);
           setMessages(results);
-          chatId = results[0].chatId
+          setCurrentChatId(results[0].chatId);
         });
       } else {
-        api.sendMessage(message, chatId)
+        api.sendMessage(message, currentChatId)
         .then((results) => {
           console.log('results from sendMessage:', results);
           setMessages(results);
@@ -56,8 +57,7 @@ const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => 
 
   // handles all tasks related to photo loading, displaying, & deleting
   const handleImageViewing = (imgUrl, messageId) => {
-    console.log(`parameters for deletion:\nchatId: ${chatId}\nmessageId: ${messageId}\n url: ${imgUrl}`);
-    api.deleteImage(chatId, messageId, imgUrl);
+    api.deleteImage(currentChatId, messageId, imgUrl);
     setSpotlightPic(imgUrl);
     setProgressBarFill(1);
     setPicDisplay(true);
@@ -112,7 +112,11 @@ const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => 
     )
     : cameraDisplay ?
     (
-      <CameraComponent chatId={chatId} senderId={userId} exitCamera={exitCamera} />
+      <CameraComponent
+        chatId={currentChatId}
+        senderId={userId}
+        exitCamera={exitCamera}
+      />
     )
     :
     (

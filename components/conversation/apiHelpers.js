@@ -27,6 +27,7 @@ const formatMessages = (messages, currentUserId) => {
       let formattedMessage = {};
       formattedMessage._id = message.messageid;
       formattedMessage.text = message.body;
+      formattedMessage.chatId = Number(message.chatid);
       formattedMessage.createdAt = Date.parse(message.time);
       formattedMessage.user = createGiftedUser(Number(message.senderid), currentUserId);
       formattedMessage.image = message.photourl !== null ? message.photourl : undefined;
@@ -36,7 +37,6 @@ const formatMessages = (messages, currentUserId) => {
 };
 
 const createGiftedUser = (incomingUserId, userId) => {
-  console.log(`\n\n\ncreateGiftedChat entered\nincomingUserId: ${incomingUserId}\nuserId: ${userId}\nstored friendId: ${currentFriendId}`);
   return incomingUserId === currentFriendId ? {
     _id: currentFriendId,
     name: friendName,

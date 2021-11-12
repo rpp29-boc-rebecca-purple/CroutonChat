@@ -62,7 +62,6 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
   const findMessagesPhotos = (id) => {
     axios.get(`http://3.133.100.147:2550/chatlist?userId=${id}`)
       .then(function (response) {
-      console.log('\n\nresponse received at findMessagesPhotos', response)
       let data = response.data
       for (const key in data) {
         for (const id in list) {
@@ -112,7 +111,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
                     };
                     console.log('\n\noriginal chatlist entry element:', e, '\nreformatted chatlist entry element:', reTypedE);
                     setChatId(reTypedE.chatId);
-                    setUserId(reTypedE.userId);
+                    setUserId(Number(userID));
                     setSelectedFriend(reTypedE);
                     setConversation(true);
                   }}

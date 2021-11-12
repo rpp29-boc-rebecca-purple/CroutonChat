@@ -55,8 +55,6 @@ export default function App() {
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
   const [isLoggedIn, setLoggedIn] = useState(false);
 
-  const [currentUser, setCurrentUser] = useState(5);
-
   const [authPage, setAuthPage] = useState('login');
 
   const [checkout,setCheckout] = useState({});
@@ -98,7 +96,7 @@ export default function App() {
       setUserData(response.data[0])
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('\n\nfetchUserData failed:', error);
     })
   };
 
@@ -108,7 +106,7 @@ export default function App() {
       setFriendsList( response.data.sort((a, b) => ( a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1)) )
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('\n\nfetchFriendsData failed:', error);
     })
     };
 
@@ -127,7 +125,7 @@ export default function App() {
     );
   };
   const ChatScreen = ({ route }) => {
-    return <ChatList userID={userId} friendsList={friendsList} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
+    return <ChatList userID={userId} friendsList={friendsList} isDarkTheme={isDarkTheme} />;
   };
   const CameraScreen = () => {
     return (

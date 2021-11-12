@@ -20,7 +20,6 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
   const [conversation, setConversation] = useState(false);
   const [timer, setTimer] = useState(false)
   const [selectedFriend, setSelectedFriend] = useState({});
-  const [currentChat, setCurrentChat] = useState(userID)
 
   useEffect( () => {
     (() => {
@@ -28,7 +27,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
         setTimer(true)
       }, 1500);
     })()
-    findMessagesPhotos(currentChat)
+    findMessagesPhotos(userID)
     newList(found)
 }, [userFound, timer, conversation]);
 

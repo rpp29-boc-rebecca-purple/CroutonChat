@@ -80,7 +80,7 @@ const startConversation = async (message, friendId) => {
   formData.append('senderId', message.user._id);
   formData.append('userId2', friendId);
   formData.append('body', message.text);
-  return await fetch('http://3.133.100.147:2550/new-conversation', {
+  return fetch('http://3.133.100.147:2550/new-conversation', {
     method: 'POST',
     body: formData,
     headers: {

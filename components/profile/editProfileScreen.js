@@ -33,9 +33,9 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
     fd.append('snack', favoriteSnack);
     fd.append('animal_type', animalType);
     fd.append('photo', thumbnail);
-    fd.append('user_id', userData?.userId || 33);
+    fd.append('user_id', userData?.userId);
 
-    editProfileInfo(fd, userData?.userId || 33).then(() => {
+    editProfileInfo(fd, userData?.userId).then(() => {
       console.log(response.status);
       fetchUserData();
     });
@@ -67,7 +67,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
         var photo = {
           uri: result.uri,
           type: 'image/jpeg',
-          name: `thumbnail_${userData?.userId || 33}.jpg`,
+          name: `thumbnail_${userData?.userId}.jpg`,
         };
 
         setThumbnail(photo);

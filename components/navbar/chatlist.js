@@ -98,7 +98,6 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
           <ScrollView>
             <SearchBarMessages searchUsers={searchUsers}/>
                 <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{list ? list.map((e) => {
-                  console.log('\n\nelement being rendered in chatList', e);
                   return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
                     let reTypedE = {
                       chatId: Number(e.chatId),
@@ -108,7 +107,6 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
                       friendLastName: e.last_name,
                       friendAvatar: e.thumbnail
                     };
-                    console.log('\n\noriginal chatlist entry element:', e, '\nreformatted chatlist entry element:', reTypedE);
                     setChatId(reTypedE.chatId);
                     setUserId(Number(userID));
                     setSelectedFriend(reTypedE);

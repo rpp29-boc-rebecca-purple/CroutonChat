@@ -16,22 +16,22 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   const [animalType, setAnimalType] = useState(userData?.animal_type);
   const [thumbnail, setThumbnail] = useState(userData?.thumbnail);
   const [thumbnailSrc, setThumbnailSrc] = useState(userData.thumbnailSrc);
+
   useEffect(() => {
     getPermissionAsync();
   });
+
   async function sendChanges() {
     let fd = new FormData();
-    console.log('USER DATA', userData);
     fd.append('first_name', name);
     fd.append('last_name', lastName);
     fd.append('age', age);
     fd.append('snack', favoriteSnack);
     fd.append('animal_type', animalType);
     fd.append('photo', thumbnail);
-    fd.append('user_id', userData?.userId);
+    fd.append('user_id', userData?.user_id);
 
-    editProfileInfo(fd, userData?.userId).then(() => {
-      console.log(response.status);
+    editProfileInfo(fd, userData?.user_id).then(() => {
       fetchUserData();
     });
   }
@@ -58,7 +58,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
         var photo = {
           uri: result.uri,
           type: 'image/jpeg',
-          name: `thumbnail_${userData?.userId}.jpg`,
+          name: `thumbnail_${userData?.user_id}.jpg`,
         };
 
         setThumbnail(photo);
@@ -67,7 +67,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       console.log(e);
     }
   };
-  console.log('inside editProfile', userData);
+
   return (
     <SafeAreaView style={styles.container}>
       {/* profile pic, name, and snack tag */}
@@ -100,7 +100,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
         </View>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Age: </Text>
-          <TextInput style={{ marginRight: 0 }} placeholder={userData?.age} onChangeText={val => setAge(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput style={{ marginRight: 0 }} placeholder={userData.age ? userData.age.toString()  : '0'} onChangeText={val => setAge(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Species: </Text>

@@ -65,7 +65,7 @@ const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFri
               />
 
               <View style={{alignItems: 'center'}}>
-                <Title style={styles.title}>{friendInfo.first_name}</Title>
+                <Title style={styles.title}>FRIEND</Title>
                 <Caption style={styles.caption}>Loves snacking on {friendInfo.snack}</Caption>
               </View>
               {/* back button */}

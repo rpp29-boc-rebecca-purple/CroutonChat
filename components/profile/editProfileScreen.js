@@ -4,10 +4,9 @@ import { StyleSheet, Text, View, SafeAreaView, ImageBackground } from 'react-nat
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { editProfileInfo, editProfilePicture } from '../../HelperFuncs/profileApi';
-import { Buffer } from 'buffer';
-import * as FileSystem from 'expo-file-system';
-import { manipulateAsync } from 'expo-image-manipulator';
+import { editProfileInfo} from '../../HelperFuncs/profileApi';
+
+
 
 const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   const [name, setName] = useState(userData?.first_name);
@@ -17,16 +16,12 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
   const [animalType, setAnimalType] = useState(userData?.animal_type);
   const [thumbnail, setThumbnail] = useState(userData?.thumbnail);
   const [thumbnailSrc, setThumbnailSrc] = useState(userData.thumbnailSrc);
-
   useEffect(() => {
     getPermissionAsync();
   });
-
   async function sendChanges() {
     let fd = new FormData();
-
     console.log('USER DATA', userData);
-
     fd.append('first_name', name);
     fd.append('last_name', lastName);
     fd.append('age', age);
@@ -40,7 +35,6 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       fetchUserData();
     });
   }
-
   // camra roll permissions
   const getPermissionAsync = async () => {
     if (Platform.OS === 'ios') {
@@ -50,7 +44,6 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       }
     }
   };
-
   const pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -60,10 +53,8 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
         maxHeight: 300,
         quality: 0.5,
       });
-
       if (!result.cancelled) {
         await setThumbnailSrc(result.uri);
-
         var photo = {
           uri: result.uri,
           type: 'image/jpeg',
@@ -76,8 +67,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       console.log(e);
     }
   };
-
-  console.log(userData);
+  console.log('inside editProfile', userData);
   return (
     <SafeAreaView style={styles.container}>
       {/* profile pic, name, and snack tag */}
@@ -95,98 +85,9 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
               <Title style={styles.title}>{name}</Title>
               <Caption style={styles.caption}>Loves snacking on {favoriteSnack}</Caption>
             </View>
-  }
-
-  await editProfilePicture(formData)
-    .then(()=> fetchUserData())
-  }
-
-    console.log(userData)
-    return (
-      <SafeAreaView style={styles.container}>
-
-        {/* profile pic, name, and snack tag */}
-        <View style={styles.userInfoSection}>
-          <ImageBackground
-          source={isDarkTheme ? require('../../assets/BOC.nightskymoon.jpeg') : require('../../assets/BOC.profile.cloud.bg.webp')}
-          style={{width: 400, height: 250}}>
-
-            {/* back button */}
-            <View>
-              <TouchableOpacity onPress={()=> editProfile()}>
-                <Text style={isDarkTheme ? styles.backButtonDark : styles.backButton}
-                >  &#x2190;</Text>
-              </TouchableOpacity>
-            </View>
-            <View  style={{alignItems: 'center', marginTop: 35}}>
-              <Avatar.Image
-                source={{ uri: thumbnail}}
-                size={100}
-              />
-              <View style={{alignItems: 'center'}}>
-                <Title style={styles.title}>{name}</Title>
-                <Caption style={styles.caption}>Loves snacking on {favoriteSnack}</Caption>
-              </View>
-            </View>
-            </ImageBackground>
-        </View>
-
-        {/* user info textinput section */}
-        <View style={styles.userInfoSection}>
-          <View style={styles.row}>
-            <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>First Name:          </Text>
-            <TextInput
-            placeholder={userData.first_name}
-            onChangeText={(val)=> setName(val)}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.input}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Last Name:          </Text>
-            <TextInput
-            placeholder={userData.last_name}
-            onChangeText={(val)=> setLastName(val)}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.input}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Age:                       </Text>
-            <TextInput
-            style={{marginRight:0}}
-            placeholder={userData.age ? userData.age.toString()  : '0'}
-            onChangeText={(val) => setAge(val)}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.input}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Species:               </Text>
-            <TextInput
-            placeholder={userData.animal_type ? userData.animal_type : ''}
-            onChangeText={(val) => setAnimalType(val)}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.input}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Favorite Snack:  </Text>
-            <TextInput
-            placeholder={userData.snack ? userData.snack : ''}
-            onChangeText={(val) => setFavoriteSnack(val)}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.input}
-            />
           </View>
         </ImageBackground>
       </View>
-
       {/* user info textinput section */}
       <View style={styles.userInfoSection}>
         <View style={styles.row}>
@@ -210,7 +111,6 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
           <TextInput placeholder={userData?.snack} onChangeText={val => setFavoriteSnack(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
       </View>
-
       {/* change profile picture / save changes button */}
       <TouchableRipple style={isDarkTheme ? styles.editProfileButtonsWrapperDark : styles.editProfileButtonsWrapper}>
         <Text

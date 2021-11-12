@@ -7,12 +7,13 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
 
   const [userEmail] = useState(email)
   const navigation = useNavigation(false);
+  const [list, setList] = useState(friendsList)
 
-  return (
+  return list.length !== 0 ? (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <ScrollView>
-      <SearchBarFriends loggedinEmail={userEmail} />
-            <View  style={styles.main}>{friendsList.map((e) => {
+        <SearchBarFriends loggedinEmail={userEmail} />
+            <View style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
                 navigation.navigate('Profile', { info: e})
                 console.log(`you clicked on user:  ${JSON.stringify(e)} 😄😄😄😄`)
@@ -30,6 +31,15 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
       </ScrollView>
     </TouchableWithoutFeedback>
         )
+        :
+        <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+        <ScrollView>
+          <SearchBarFriends loggedinEmail={userEmail} />
+              <View style={styles.container}>
+            <Text style={styles.addfriends}> Add some Furry Friends 🐕 </Text>
+            </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
       }
 
       const styles = StyleSheet.create({
@@ -45,17 +55,20 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
         },
         main: {
           flexDirection: 'column',
-          flex: 1,
           alignItems: 'flex-start'
         },
-      username: {
-        color: 'black',
-        fontWeight: 'bold',
-        marginTop: 38,
-        fontSize: 20,
-        flex: 1,
-        left: 15,
-        width: 270,
+        addfriends: {
+          fontSize: 30,
+          bottom: -40
+        },
+        username: {
+          color: 'black',
+          fontWeight: 'bold',
+          marginTop: 38,
+          fontSize: 20,
+          flex: 1,
+          left: 15,
+          width: 270,
       },
       usernameDark: {
         color: 'white',

@@ -39,6 +39,7 @@ function LoginPage(props) {
             .then(async response => {
               setErrorText('');
               props.setLoggedIn(true);
+              props.setUserId(response.data.userId);
               AsyncStorage.setItem('user', JSON.stringify(response.data));
             })
             .catch(err => {

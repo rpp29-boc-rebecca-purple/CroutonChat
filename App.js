@@ -27,10 +27,10 @@ import useToggle from './HelperFuncs/profileHelpers.js';
 import EditProfile from './components/profile/editProfileScreen.js';
 import LogoutScreen from './components/profile/logoutScreen.js';
 import ChangePasswordScreen from './components/profile/changePasswordScreen.js';
+import FriendProfile from './components/profile/friendProfileScreen.js';
 import LoginPage from './components/auth/loginPage';
 import SignupPage from './components/auth/signupPage';
 
-import fakeUser from './data/profileData.js';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -46,7 +46,8 @@ export default function App() {
   const [userId, setUserId] = useState('');
   const [userData, setUserData] = useState('');
   const [friendsList, setFriendsList] = useState('');
-
+  const [friendProfileView, setFriendProfileView] = useState(false);
+  const [clickedFriendId, setClickedFriendId] = useState(null);
   const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
   const [editProfile, setEditProfile] = useToggle(false);
   const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
@@ -102,23 +103,25 @@ export default function App() {
   };
 
   const fetchFriendsData = () => {
-    console.log(userId)
-      axios.get(`http://18.219.200.72:8080/user/friendsList?user_id=${userId}`)
-      .then(function (response) {
-        setFriendsList( response.data.sort((a, b) => ( a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1)) )
-
-      console.log(friendslist, '😂')
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+    axios.get(`http://18.219.200.72:8080/user/friendsList?user_id=${userId}`)
+    .then(function (response) {
+      setFriendsList( response.data.sort((a, b) => ( a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1)) )
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
     };
 
   const FriendsScreen = () => {
     return (
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-          <Friends email={userEmail} friendsList={friendsList} isDarkTheme={isDarkTheme} />
+          <Friends
+          email={userEmail}
+          friendsList={friendsList}
+          isDarkTheme={isDarkTheme}
+          setFriendProfileView={setFriendProfileView}
+          setClickedFriendId={setClickedFriendId} />
         </View>
       </ScrollView>
     );
@@ -135,7 +138,6 @@ export default function App() {
   };
 
   function ProfileScreen( {route} ) {
-
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {
@@ -162,7 +164,6 @@ export default function App() {
       if (editProfile) {
         displaypage = <EditProfile
         editProfile={setEditProfile}
-        fakeUser={fakeUser}
         userData={userData}
         fetchUserData={fetchUserData}
         isDarkTheme={isDarkTheme}
@@ -170,12 +171,22 @@ export default function App() {
       }
       else {
         if (!profileSettingsOpen) {
-          displaypage = <Profile
-          toggleSettings={setProfileSettingsOpen}
-          editProfile={setEditProfile}
-          userData={userData}
-          isDarkTheme={isDarkTheme}
-           />;
+          if (!friendProfileView) {
+            displaypage = <Profile
+            toggleSettings={setProfileSettingsOpen}
+            editProfile={setEditProfile}
+            userData={userData}
+            isDarkTheme={isDarkTheme}
+             />;
+          } else {
+            displaypage = <FriendProfile
+            userData={userData}
+            setFriendProfileView={setFriendProfileView}
+            isDarkTheme={isDarkTheme}
+            clickedFriendId={clickedFriendId}
+            fetchFriendsData={fetchFriendsData}
+            />
+          }
         }
       }
     }

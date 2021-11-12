@@ -95,6 +95,94 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
               <Title style={styles.title}>{name}</Title>
               <Caption style={styles.caption}>Loves snacking on {favoriteSnack}</Caption>
             </View>
+  }
+
+  await editProfilePicture(formData)
+    .then(()=> fetchUserData())
+  }
+
+    console.log(userData)
+    return (
+      <SafeAreaView style={styles.container}>
+
+        {/* profile pic, name, and snack tag */}
+        <View style={styles.userInfoSection}>
+          <ImageBackground
+          source={isDarkTheme ? require('../../assets/BOC.nightskymoon.jpeg') : require('../../assets/BOC.profile.cloud.bg.webp')}
+          style={{width: 400, height: 250}}>
+
+            {/* back button */}
+            <View>
+              <TouchableOpacity onPress={()=> editProfile()}>
+                <Text style={isDarkTheme ? styles.backButtonDark : styles.backButton}
+                >  &#x2190;</Text>
+              </TouchableOpacity>
+            </View>
+            <View  style={{alignItems: 'center', marginTop: 35}}>
+              <Avatar.Image
+                source={{ uri: thumbnail}}
+                size={100}
+              />
+              <View style={{alignItems: 'center'}}>
+                <Title style={styles.title}>{name}</Title>
+                <Caption style={styles.caption}>Loves snacking on {favoriteSnack}</Caption>
+              </View>
+            </View>
+            </ImageBackground>
+        </View>
+
+        {/* user info textinput section */}
+        <View style={styles.userInfoSection}>
+          <View style={styles.row}>
+            <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>First Name:          </Text>
+            <TextInput
+            placeholder={userData.first_name}
+            onChangeText={(val)=> setName(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={styles.input}
+            />
+          </View>
+          <View style={styles.row}>
+            <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Last Name:          </Text>
+            <TextInput
+            placeholder={userData.last_name}
+            onChangeText={(val)=> setLastName(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={styles.input}
+            />
+          </View>
+          <View style={styles.row}>
+            <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Age:                       </Text>
+            <TextInput
+            style={{marginRight:0}}
+            placeholder={userData.age ? userData.age.toString()  : '0'}
+            onChangeText={(val) => setAge(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={styles.input}
+            />
+          </View>
+          <View style={styles.row}>
+            <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Species:               </Text>
+            <TextInput
+            placeholder={userData.animal_type ? userData.animal_type : ''}
+            onChangeText={(val) => setAnimalType(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={styles.input}
+            />
+          </View>
+          <View style={styles.row}>
+            <Text style={isDarkTheme ? styles.textStyleDark :styles.textStyle}>Favorite Snack:  </Text>
+            <TextInput
+            placeholder={userData.snack ? userData.snack : ''}
+            onChangeText={(val) => setFavoriteSnack(val)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={styles.input}
+            />
           </View>
         </ImageBackground>
       </View>

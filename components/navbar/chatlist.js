@@ -30,7 +30,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
     })()
     findMessagesPhotos(currentChat)
     newList(found)
-}, [userFound, timer]);
+}, [userFound, timer, conversation]);
 
   const searchUsers = (name) => {
     let found = []

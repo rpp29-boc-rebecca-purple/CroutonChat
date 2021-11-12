@@ -32,7 +32,7 @@ const formatMessages = (messages, currentUserId) => {
       formattedMessage.image = message.photourl !== null ? message.photourl : undefined;
       return formattedMessage;
     })
-    .reverse();
+    .sort((a, b) => b._id - a._id);
 };
 
 const createGiftedUser = (incomingUserId, userId) => {

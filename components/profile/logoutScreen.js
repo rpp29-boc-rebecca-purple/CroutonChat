@@ -58,10 +58,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
     fontSize: 20,
-    borderRightWidth: 1,
     borderRadius: 50,
-    borderWidth: 1,
     margin: 7,
+    backgroundColor: '#EBD687',
+
   },
   logoutModalButtonsDark: {
     width: '45%',
@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
     fontSize: 20,
-    borderRightWidth: 1,
     borderRadius: 50,
-    borderWidth: 1,
     margin: 7,
-    borderColor: 'white'
+    borderColor: 'white',
+    backgroundColor: '#EBD687',
+
   },
   buttonTextDark: {
-    color: 'white',
+    color: 'black',
     fontSize: 20
   },
   buttonText: {

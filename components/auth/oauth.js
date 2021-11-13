@@ -50,14 +50,14 @@ function OAuth(props) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#1a74e9',
+    backgroundColor: '#EBD687',
     padding: 10,
     width: 275,
     margin: 10,
     borderRadius: 8,
   },
   buttonText: {
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
   },
 });

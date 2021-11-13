@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRightWidth: 1,
     borderRadius: 50,
-    borderWidth: 1,
+    backgroundColor: '#EBD687',
     margin: 7,
     height: 50
   },
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRightWidth: 1,
     borderRadius: 50,
-    borderWidth: 1,
+    backgroundColor: '#EBD687',
     margin: 7,
     height: 50,
     borderColor: 'white'
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   },
   profileButtonTextDark: {
     fontSize: 15,
-    color: 'white'
+    color: 'black'
   },
   backButton: {
     fontSize: 35,

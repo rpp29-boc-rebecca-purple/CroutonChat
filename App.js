@@ -64,11 +64,11 @@ export default function App() {
     ...NavigationDefaultTheme,
     ...PaperDefaultTheme,
     colors: {
-      // ...NavigationDefaultTheme.colors,
       primary: 'rgb(0, 125, 255)',
       background: 'white',
       text: 'black',
       card: 'white',
+      // ...NavigationDefaultTheme.colors,
       // ...PaperDefaultTheme.colors,
     },
   };

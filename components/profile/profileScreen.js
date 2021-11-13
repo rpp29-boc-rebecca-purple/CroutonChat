@@ -149,6 +149,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 15
+  },
+  buttonTextDark: {
+    fontSize: 15,
+    color: 'white'
   }
 });
 

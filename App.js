@@ -45,6 +45,7 @@ export default function App() {
   const [userEmail, setUserEmail] = useState('');
   const [userId, setUserId] = useState('');
   const [userData, setUserData] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState('');
   const [friendsList, setFriendsList] = useState('');
   const [friendProfileView, setFriendProfileView] = useState(false);
   const [clickedFriendId, setClickedFriendId] = useState('');
@@ -90,6 +91,7 @@ export default function App() {
     axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
     .then(function (response) {
       setUserData(response.data[0])
+      setLoggedInUser(response.data[0].username)
     })
     .catch(function (error) {
       console.log('\n\nfetchUserData failed:', error);
@@ -132,6 +134,7 @@ export default function App() {
   const ChatScreen = ({ route }) => {
     return <ChatList userID={userId} friendsList={friendsList} isDarkTheme={isDarkTheme} />;
   };
+
   const CameraScreen = () => {
     return (
       <View style={{ flex: 1 }}>

@@ -65,12 +65,8 @@ export default function App() {
     ...NavigationDefaultTheme,
     ...PaperDefaultTheme,
     colors: {
-      primary: 'rgb(0, 125, 255)',
-      background: 'white',
-      text: 'black',
-      card: 'white',
-      // ...NavigationDefaultTheme.colors,
-      // ...PaperDefaultTheme.colors,
+      ...NavigationDefaultTheme.colors,
+      ...PaperDefaultTheme.colors,
     },
   };
 
@@ -78,12 +74,8 @@ export default function App() {
     ...NavigationDarkTheme,
     ...PaperDarkTheme,
     colors: {
-      primary: 'rgb(0, 125, 255)',
-      background: 'black',
-      text: 'white',
-      card: 'black',
-      // ...NavigationDarkTheme.colors,
-      // ...PaperDarkTheme.colors,
+      ...NavigationDarkTheme.colors,
+      ...PaperDarkTheme.colors,
     },
   };
 

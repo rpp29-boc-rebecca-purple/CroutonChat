@@ -64,12 +64,12 @@ const Profile = ({userData, setEditProfile, setProfileSettingsOpen, isDarkTheme}
 
         {/* buttons for edit profile and navigate to settings */}
         <View style={isDarkTheme ? styles.darkProfileButtonsWrapper : styles.profileButtonsWrapper}>
-            <View style={styles.profileButton}>
+            <View style={isDarkTheme ? styles.profileButtonDark : styles.profileButton}>
               <TouchableOpacity onPress={()=> setEditProfile(true)}>
                   <Text style={isDarkTheme ? styles.buttonTextDark : styles.buttonText}>Edit Cuteness</Text>
               </TouchableOpacity>
             </View>
-          <View style={styles.profileButton}>
+          <View style={isDarkTheme ? styles.profileButtonDark : styles.profileButton}>
             <TouchableOpacity onPress={()=> setProfileSettingsOpen(true)}>
               <Text style={isDarkTheme ? styles.buttonTextDark : styles.buttonText}>Crouton Settings</Text>
             </TouchableOpacity>

@@ -102,20 +102,23 @@ const styles = StyleSheet.create({
   },
   settingsButtons: {
     alignItems: 'center',
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-    fontSize: 20,
-    minWidth: 200,
-    textAlign: 'center'
-  },
-  settingsButtonsDark: {
-    alignItems: 'center',
-    backgroundColor: "black",
     padding: 10,
     fontSize: 20,
     minWidth: 200,
     textAlign: 'center',
-    color: 'white'
+    borderRadius: 25,
+    borderWidth: 1,
+  },
+  settingsButtonsDark: {
+    alignItems: 'center',
+    padding: 10,
+    fontSize: 20,
+    minWidth: 200,
+    textAlign: 'center',
+    color: 'white',
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'white'
   },
   aboutSection: {
     alignItems: 'center',

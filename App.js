@@ -64,8 +64,10 @@ export default function App() {
     ...NavigationDefaultTheme,
     ...PaperDefaultTheme,
     colors: {
-      ...NavigationDefaultTheme.colors,
-      ...PaperDefaultTheme.colors,
+      // ...NavigationDefaultTheme.colors,
+      // background: 'orange',
+      primary: 'rgb(0, 125, 255)'
+      // ...PaperDefaultTheme.colors,
     },
   };
 
@@ -258,5 +260,5 @@ const styles = StyleSheet.create({
   backbutton: {
     top: -300,
     left: -150,
-  },
+  }
 });

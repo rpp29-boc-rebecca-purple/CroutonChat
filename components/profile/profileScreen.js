@@ -64,12 +64,12 @@ const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
 
         {/* buttons for edit profile and navigate to settings */}
         <View style={isDarkTheme ? styles.darkProfileButtonsWrapper : styles.profileButtonsWrapper}>
-            <View style={styles.profileButton}>
+            <View style={isDarkTheme ? styles.profileButtonDark : styles.profileButton}>
               <TouchableOpacity onPress={()=> editProfile()}>
                   <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Edit Profile</Text>
               </TouchableOpacity>
             </View>
-          <View style={styles.profileButton}>
+          <View style={isDarkTheme ? styles.profileButtonDark : styles.profileButton}>
             <TouchableOpacity onPress={()=> toggleSettings()}>
               <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Settings</Text>
             </TouchableOpacity>
@@ -117,30 +117,35 @@ const styles = StyleSheet.create({
   },
 
   profileButtonsWrapper: {
-    borderTopColor: 'black',
-    borderTopWidth: 1,
+    justifyContent: 'center',
     flexDirection: 'row',
     height: 100,
     marginTop: 'auto',
-    backgroundColor: "#DDDDDD",
     padding: 10,
-
   },
   darkProfileButtonsWrapper: {
-    borderTopColor: 'black',
-    borderTopWidth: 1,
+    justifyContent: 'center',
     flexDirection: 'row',
     height: 100,
     marginTop: 'auto',
-    backgroundColor: "black",
     padding: 10,
   },
   profileButton: {
-    width: '50%',
+    width: '40%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRightWidth: 1,
-
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 7
+  },
+  profileButtonDark: {
+    width: '40%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 7,
+    borderColor: 'white'
   }
 });
 

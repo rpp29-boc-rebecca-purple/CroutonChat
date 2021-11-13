@@ -108,12 +108,12 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         color: 'red'
       },
       border: {
-        borderBottomColor: 'black',
-        borderBottomWidth: 1,
+        borderBottomColor: 'lightgrey',
+        borderBottomWidth: 2,
       },
       borderDark: {
-        borderBottomColor: 'white',
-        borderBottomWidth: 1,
+        borderBottomColor: 'grey',
+        borderBottomWidth: 2,
       }
     });
 

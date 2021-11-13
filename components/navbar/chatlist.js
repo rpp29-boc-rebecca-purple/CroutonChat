@@ -141,7 +141,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
           marginTop: 11,
           marginBottom: 1,
           left: 15,
-          top: 15
+          top: 15,
         },
       username: {
         color: 'black',

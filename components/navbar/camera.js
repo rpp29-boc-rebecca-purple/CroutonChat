@@ -125,8 +125,8 @@ export default class CameraComponent extends React.Component {
                   style={styles.backArrow}
                   onPress={()=>this.exitCamera()}>
                   <Image
-                      source={{uri:'https://www.creativefabrica.com/wp-content/uploads/2019/03/Arrow-icon-by-ahlangraphic-150-580x386.jpg'}}
-                      style={{ height: 50, width: 50, left: 15, top: 10}}
+                      source={require('../../assets/icons/backArrowWhite.png')}
+                      style={{ height: 30, width: 30, left: 15, top: 10}}
                   />
                 </TouchableOpacity>
               )

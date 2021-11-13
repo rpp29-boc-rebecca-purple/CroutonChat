@@ -45,6 +45,7 @@ export default function App() {
   const [userEmail, setUserEmail] = useState('');
   const [userId, setUserId] = useState('');
   const [userData, setUserData] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState('');
   const [friendsList, setFriendsList] = useState('');
   const [friendProfileView, setFriendProfileView] = useState(false);
   const [clickedFriendId, setClickedFriendId] = useState(null);
@@ -88,10 +89,10 @@ export default function App() {
   }, [isLoggedIn, userId]);
 
   const fetchUserData = async () => {
-    console.log('fetchUserData invoked');
     await axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
     .then(function (response) {
       setUserData(response.data[0])
+      setLoggedInUser(response.data[0].username)
     })
     .catch(function (error) {
       console.log(error);
@@ -125,6 +126,7 @@ export default function App() {
   const ChatScreen = ({ route }) => {
     return <ChatList userID={userId} friendsList={friendsList} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
   };
+
   const CameraScreen = () => {
     return (
       <View style={{ flex: 1 }}>
@@ -207,7 +209,7 @@ export default function App() {
       <NavigationContainer theme={theme}>
         <Tab.Navigator>
           <Tab.Screen
-            name="Chat"
+            name={`${loggedInUser}'s friend conversations`}
             component={ChatScreen}
             options={{
               tabBarLabel: 'Chat',
@@ -216,7 +218,7 @@ export default function App() {
             />
 
           <Tab.Screen
-            name="Camera"
+            name={`Share Photo With ${loggedInUser}'s Friends`}
             component={CameraScreen}
             options={{
               tabBarLabel: 'Camera',
@@ -225,7 +227,7 @@ export default function App() {
             />
 
           <Tab.Screen
-            name="Friends"
+            name={`${loggedInUser}'s Friends List`}
             component={FriendsScreen}
             options={{
               tabBarLabel: 'Friends',
@@ -234,7 +236,7 @@ export default function App() {
             />
 
           <Tab.Screen
-            name="Profile"
+            name={`${loggedInUser}'s Profile`}
             component={ProfileScreen}
             options={{
               tabBarLabel: 'Profile',

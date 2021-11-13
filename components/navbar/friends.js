@@ -23,7 +23,7 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
                 </View>
                 <View style={isDarkTheme ? styles.borderDark : styles.border}>
                 <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
-                <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}>  following:{e.following_count} | followers: {e.follower_count} </Text>
+                <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}> {e.following_count} following  ✦✧ {e.follower_count} followers  </Text>
                 </View>
               </Text>
             })}
@@ -45,13 +45,12 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
       const styles = StyleSheet.create({
         container: {
           flex: 1,
-          flexDirection: 'column',
           width: Dimensions.get('window').width,
+          flexDirection: 'column',
           height: 100,
-          marginTop: 11,
-          marginBottom: 1,
+          marginTop: 5,
+          marginBottom: -35,
           left: 15,
-          top: 15
         },
         main: {
           flexDirection: 'column',
@@ -63,38 +62,32 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
         },
         username: {
           color: 'black',
-          fontWeight: 'bold',
+          fontWeight: '500',
           marginTop: 38,
-          fontSize: 20,
+          fontSize: 16,
           flex: 1,
-          left: 15,
+          top: 20,
+          left: 8,
+          bottom: -18,
           width: 270,
-      },
-      usernameDark: {
-        color: 'white',
-        fontWeight: 'bold',
-        marginTop: 38,
-        fontSize: 20,
-        flex: 1,
-        left: 15,
-        width: 270,
-      },
+        },
       images: {
-        width: 75,
-        height: 75,
+        width: 50,
+        height: 50,
+        top: 5,
         borderWidth: .5,
         borderRadius: 55,
-        marginBottom: 11,
+        marginBottom: 11
       },
       friendsonline: {
         fontSize: 14,
-        left: 20,
-        bottom: 16
+        left: 8,
+        bottom: 2
       },
       friendsonlineDark: {
         fontSize: 14,
-        left: 20,
-        bottom: 16,
+        left: 8,
+        bottom: 2,
         color: 'white'
       },
       show: {
@@ -105,11 +98,11 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
       },
       border: {
         borderBottomColor: 'black',
-        borderBottomWidth: 1,
+        borderBottomWidth: .3,
       },
       borderDark: {
         borderBottomColor: 'white',
-        borderBottomWidth: 1,
+        borderBottomWidth: .3,
       }
     });
 

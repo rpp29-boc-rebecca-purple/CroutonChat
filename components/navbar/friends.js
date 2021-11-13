@@ -44,7 +44,12 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         :
         <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
         <ScrollView>
-          <SearchBarFriends loggedinEmail={userEmail} />
+          <SearchBarFriends
+           loggedinEmail={userEmail}
+           setFriendProfileView={setFriendProfileView}
+           setClickedFriendId={setClickedFriendId}
+           cleanProfileState={cleanProfileState}
+           />
               <View style={styles.container}>
             <Text style={styles.addfriends}> Add some Furry Friends 🐕 </Text>
             </View>

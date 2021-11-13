@@ -56,8 +56,6 @@ export default function App() {
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
   const [isLoggedIn, setLoggedIn] = useState(false);
 
-  const [currentUser, setCurrentUser] = useState(5);
-
   const [authPage, setAuthPage] = useState('login');
 
   const [checkout,setCheckout] = useState({});
@@ -89,13 +87,15 @@ export default function App() {
   }, [isLoggedIn, userId]);
 
   const fetchUserData = async () => {
-    await axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
+    console.log('fetchUserData invoked');
+    axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
     .then(function (response) {
+      console.log('USER DATA', response.data[0])
       setUserData(response.data[0])
       setLoggedInUser(response.data[0].username)
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('\n\nfetchUserData failed:', error);
     })
   };
 
@@ -105,7 +105,7 @@ export default function App() {
       setFriendsList( response.data.sort((a, b) => ( a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1)) )
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('\n\nfetchFriendsData failed:', error);
     })
     };
 
@@ -124,7 +124,7 @@ export default function App() {
     );
   };
   const ChatScreen = ({ route }) => {
-    return <ChatList userID={userId} friendsList={friendsList} currentUser={currentUser} isDarkTheme={isDarkTheme} />;
+    return <ChatList userID={userId} friendsList={friendsList} isDarkTheme={isDarkTheme} />;
   };
 
   const CameraScreen = () => {
@@ -135,7 +135,7 @@ export default function App() {
     );
   };
 
-  function ProfileScreen() {
+  function ProfileScreen( {route} ) {
     let displaypage = null;
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {
@@ -209,7 +209,7 @@ export default function App() {
       <NavigationContainer theme={theme}>
         <Tab.Navigator>
           <Tab.Screen
-            name={`${loggedInUser}'s friend conversations`}
+            name="Chat"
             component={ChatScreen}
             options={{
               tabBarLabel: 'Chat',
@@ -218,7 +218,7 @@ export default function App() {
             />
 
           <Tab.Screen
-            name={`Share Photo With ${loggedInUser}'s Friends`}
+            name="Camera"
             component={CameraScreen}
             options={{
               tabBarLabel: 'Camera',
@@ -227,7 +227,7 @@ export default function App() {
             />
 
           <Tab.Screen
-            name={`${loggedInUser}'s Friends List`}
+            name="Friends"
             component={FriendsScreen}
             options={{
               tabBarLabel: 'Friends',
@@ -236,7 +236,7 @@ export default function App() {
             />
 
           <Tab.Screen
-            name={`${loggedInUser}'s Profile`}
+            name="Profile"
             component={ProfileScreen}
             options={{
               tabBarLabel: 'Profile',

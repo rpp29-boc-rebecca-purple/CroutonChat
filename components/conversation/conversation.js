@@ -1,22 +1,29 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, Pressable, ScrollView, TouchableOpacity} from 'react-native';
+import * as ScreenCapture from 'expo-screen-capture';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { ProgressBar } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import CameraComponent from '../navbar/camera';
 const api = require('./apiHelpers.js');
 
-const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPress }) => {
+const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => {
+  api.setConversationInfo(friendInfo.friendId, friendInfo.friendFirstName, friendInfo.friendAvatar);
+  let [currentChatId, setCurrentChatId] = useState(chatId);
   let [messages, setMessages] = useState([]);
   let [spotlightPic, setSpotlightPic] = useState('');
   let [picDisplay, setPicDisplay] = useState(false);
   let [cameraDisplay, setCameraDisplay] = useState(false);
   let [progressBarFill, setProgressBarFill] = useState(1);
 
+  let screenShotListener = ScreenCapture.addScreenshotListener(() => {
+    api.noteScreenShot(currentChatId, userId);
+  });
+
   // updates messages upon render
   useEffect(() => {
     async function updateMessages() {
-      const incomingMessages = await api.fetchMessages(chatId, userId);
+      const incomingMessages = await api.fetchMessages(currentChatId, userId);
       if (incomingMessages !== undefined && Array.isArray(incomingMessages)) {
         setMessages(incomingMessages);
       } else {
@@ -24,27 +31,33 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
       }
     }
     updateMessages();
-  }, [chatId, picDisplay, cameraDisplay]);
+  }, [currentChatId, picDisplay, cameraDisplay]);
 
   // handles text message send
   const onSend = useCallback((newMessages = []) => {
-    let newConversation = messages < 1;
-    console.log('\n\nNEW MESSAGES AT ONSEND', newMessages);
-    setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
+    let newConversation = messages.length === 0;
     newMessages.forEach((message) => {
-      console.log('message to be sent:', message);
+      console.log('new conversation boolean:', newConversation)
       if (newConversation) {
-        api.startConversation(message, userId);
+        api.startConversation(message, friendInfo.friendId)
+        .then((results) => {
+          console.log('results from startConversation:', results);
+          setMessages(results);
+          setCurrentChatId(results[0].chatId);
+        });
       } else {
-        api.sendMessage(message, chatId);
+        api.sendMessage(message, currentChatId)
+        .then((results) => {
+          console.log('results from sendMessage:', results);
+          setMessages(results);
+        });
       }
     });
-  }, []);
+  }, [messages]);
 
   // handles all tasks related to photo loading, displaying, & deleting
   const handleImageViewing = (imgUrl, messageId) => {
-    console.log(`parameters for deletion:\nchatId: ${chatId}\nmessageId: ${messageId}\n url: ${imgUrl}`);
-    api.deleteImage(chatId, messageId, imgUrl);
+    api.deleteImage(currentChatId, messageId, imgUrl);
     setSpotlightPic(imgUrl);
     setProgressBarFill(1);
     setPicDisplay(true);
@@ -61,7 +74,7 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
     return currentMessage.user._id !== userId ? (
       <Pressable onPress={() => { handleImageViewing(currentMessage.image, currentMessage._id); }} style={styles.unopenedImageBody}>
         <Image source={require('../../assets/icons/photoStack.jpeg')} style={styles.unopenedImageIcon}/>
-        <Text style={styles.unopenedImageText}>Tap here to view a new photo from {api.getFriendName(friendId)}!</Text>
+        <Text style={styles.unopenedImageText}>Tap here to view a new photo from {api.getFriendName(friendInfo.friendId)}!</Text>
       </Pressable>
     )
     :
@@ -90,7 +103,7 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
       <View style={styles.lightbox}>
         <View>
           <Image source={{uri: spotlightPic}} style={styles.spotlight}/>
-          <Pressable onPress={() => {}} style={{width: Dimensions.get('window').width, alignSelf: 'center', flex: 1, display: 'flex'}}>
+          <Pressable onPress={() => {api.saveImage(spotlightPic)}} style={{width: Dimensions.get('window').width, alignSelf: 'center', flex: 1, display: 'flex'}}>
             <Ionicons name="cloud-download-outline" style={{ color: "#fff", fontSize: 50, alignSelf: 'center'}}/>
           </Pressable>
           <ProgressBar progress={progressBarFill} color={'#a1dc91'} style={{height: 15}}/>
@@ -99,7 +112,11 @@ const Conversation = ({ userId = 0, friendId = 1, chatId = 1, handleBackButtonPr
     )
     : cameraDisplay ?
     (
-      <CameraComponent chatId={chatId} senderId={userId} exitCamera={exitCamera} />
+      <CameraComponent
+        chatId={currentChatId}
+        senderId={userId}
+        exitCamera={exitCamera}
+      />
     )
     :
     (

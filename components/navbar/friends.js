@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithout
 import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
 
-function Friends( { route, friendsList, email, isDarkTheme } ) {
+function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setClickedFriendId } ) {
 
   const [userEmail] = useState(email)
   const navigation = useNavigation(false);
@@ -12,12 +12,16 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
   return list.length !== 0 ? (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <ScrollView>
-        <SearchBarFriends loggedinEmail={userEmail} />
+        <SearchBarFriends
+         loggedinEmail={userEmail}
+         setFriendProfileView={setFriendProfileView}
+         setClickedFriendId={setClickedFriendId} />
             <View style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
-                navigation.navigate('Profile', { info: e})
-                console.log(`you clicked on user:  ${JSON.stringify(e)} 😄😄😄😄`)
-              }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
+                navigation.navigate('Profile', { info: e});
+                setClickedFriendId(e.friend_id);
+                setFriendProfileView(true);
+              }} key={e.key} style={styles.container}>
                 <View >
                 <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
                 </View>
@@ -48,11 +52,11 @@ function Friends( { route, friendsList, email, isDarkTheme } ) {
           width: Dimensions.get('window').width,
           flexDirection: 'column',
           height: 100,
-          marginTop: 5,
-          marginBottom: -35,
+          marginTop: -20,
           left: 15,
         },
         main: {
+          flex: 1,
           flexDirection: 'column',
           alignItems: 'flex-start'
         },

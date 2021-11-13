@@ -6,12 +6,14 @@ const CHAT_API = 'http://3.133.100.147:2550';
 // input: chatId: INTEGER (the chatId of the current conversation)
 // output: an array of messages in GiftedChat format
 const fetchMessages = (chatId, userId) => {
+  console.log(`\nARGUMENTS RECEIVED IN FETCH MESSAGES:\nchatId: ${chatId}, userId: ${userId}\n`);
   return axios({
     method: 'GET',
     url: `${CHAT_API}/conversation?chatId=${chatId}&senderId=${userId}`,
   })
   .then((res) => {
-    return formatMessages(res.data);
+    console.log('\n\nunformatted messages received from fetchMessages:', res.data);
+    return formatMessages(res.data, userId);
   })
   .catch((err) => {
     console.log('conversation retrieval failed\n', err);
@@ -19,26 +21,28 @@ const fetchMessages = (chatId, userId) => {
 };
 
 // converts messages into GiftedChat format
-const formatMessages = (messages) => {
+const formatMessages = (messages, currentUserId) => {
   return messages
     .map((message) => {
       let formattedMessage = {};
       formattedMessage._id = message.messageid;
       formattedMessage.text = message.body;
-      formattedMessage.createdAt = message.time;
-      formattedMessage.user = convertUser(fetchUserData(Number(message.senderid)));
+      formattedMessage.chatId = Number(message.chatid);
+      formattedMessage.createdAt = Date.parse(message.time);
+      formattedMessage.user = createGiftedUser(Number(message.senderid), currentUserId);
       formattedMessage.image = message.photourl !== null ? message.photourl : undefined;
       return formattedMessage;
     })
-    .reverse();
+    .sort((a, b) => b._id - a._id);
 };
 
-const convertUser = (incomingUser) => {
-  // console.log('\n\n\nincoming user data to be converted:', incomingUser)
-  return {
-    _id: incomingUser.uid,
-    name: incomingUser.name,
-    avatar: incomingUser.photo
+const createGiftedUser = (incomingUserId, userId) => {
+  return incomingUserId === currentFriendId ? {
+    _id: currentFriendId,
+    name: friendName,
+    avatar: friendAvatar
+  } : {
+    _id: userId
   }
 };
 
@@ -49,7 +53,7 @@ const sendMessage = async (message, chatId) => {
   formData.append('senderId', message.user._id);
   formData.append('body', message.text);
   formData.append('date', message.createdAt);
-  await fetch('http://3.133.100.147:2550/add-message', {
+  return await fetch('http://3.133.100.147:2550/add-message', {
     method: 'POST',
     body: formData,
     headers: {
@@ -59,38 +63,42 @@ const sendMessage = async (message, chatId) => {
   })
   .then((response) => {
     if (response.status === 200) {
-      console.log('message send successful');
+      console.log('message send successful', response);
+      return response.json();
     } else {
       console.log('message send failed');
     }
   })
+  .then((newData) => {
+    console.log('\nunformatted repsonse data from sendMessage:', newData);
+    return formatMessages(newData, message.user._id);
+  })
 };
 
 const startConversation = async (message, friendId) => {
-  console.log('message recieved at startConversation:', message);
   const formData = new FormData();
   formData.append('senderId', message.user._id);
   formData.append('userId2', friendId);
   formData.append('body', message.text);
-  return await fetch('http://3.133.100.147:2550/new-conversation', {
+  return fetch('http://3.133.100.147:2550/new-conversation', {
     method: 'POST',
     body: formData,
     headers: {
       Accept: 'application/json',
-      'content-type': 'multipart/form-data',
+      'content-type': 'application/json',
     },
   })
   .then((response) => {
     if (response.status === 200) {
-      console.log('conversation creation successful');
+      console.log('conversation creation successful', response);
+      return response.json();
     } else {
       console.log('conversation creation failed');
     }
   })
-};
-
-const markAsRead = () => {
-  //will eventually send read receipts to API
+  .then((newData) => {
+    return formatMessages(newData, message.user._id);
+  })
 };
 
 const deleteImage = (chatId, messageId, imageUrl) => {
@@ -110,8 +118,25 @@ const deleteImage = (chatId, messageId, imageUrl) => {
   })
 };
 
-const saveImage = () => {
+let screenShotRecentlyRecorded = false;
+const noteScreenShot = (chatId, userId) => {
+  if (!screenShotRecentlyRecorded) {
+    screenShotRecentlyRecorded = true;
+    console.log('note screen shot called');
+    let message = {
+      text: 'Your photo was saved.',
+      createdAt: new Date(),
+      user: {
+        _id: userId
+      }
+    };
+    sendMessage(message, chatId);
+    setTimeout(() => {screenShotRecentlyRecorded = false}, 5000);
+  }
 
+};
+
+const saveImage = (url) => {
 };
 
 const fetchUserData = (userId) => {
@@ -125,30 +150,18 @@ let currentFriendId = null;
 let friendName = null;
 let friendAvatar = null;
 
+const setConversationInfo = (id, name, avatar) => {
+  currentFriendId = id;
+  friendName = name;
+  friendAvatar = avatar;
+};
+
 const getFriendName = (friendId) => {
-  //will pull from user data retrieved in App
-  if (friendId === currentFriendId) {
-    return friendName;
-  } else {
-    let newFriendInfo = fetchUserData(friendId);
-    currentFriendId = friendId;
-    friendName = newFriendInfo.name;
-    friendAvatar = newFriendInfo.photo;
-    return friendName;
-  }
+  return friendName;
 };
 
 const getFriendAvatar = (friendId) => {
-  //will pull from user data retrieved in App
-  if (friendId === currentFriendId) {
-    return friendAvatar;
-  } else {
-    let newFriendInfo = fetchUserData(friendId);
-    currentFriendId = friendId;
-    friendName = newFriendInfo.name;
-    friendAvatar = newFriendInfo.photo;
-    return friendAvatar;
-  }
+  return friendAvatar;
 };
 
 const exitConversation = () => {
@@ -161,13 +174,14 @@ const exitConversation = () => {
 
 module.exports = {
   fetchMessages,
+  setConversationInfo,
   getFriendName,
   getFriendAvatar,
   sendMessage,
   startConversation,
-  markAsRead,
   deleteImage,
   exitConversation,
-  saveImage
+  saveImage,
+  noteScreenShot
 };
 

@@ -113,7 +113,7 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         fontSize: 14,
         left: 8,
         bottom: 2,
-        color: 'white'
+        color: 'grey'
       },
       show: {
         color: 'green'

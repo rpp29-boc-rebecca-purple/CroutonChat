@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const editProfileInfo = (changes, id) => {
-  console.log('SENDING', changes);
   return axios
     .put(`http://18.219.200.72:8080/user/edit/?user_id=${id}`, changes, {
       headers: {

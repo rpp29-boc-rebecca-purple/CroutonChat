@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
+const Profile = ({userData, setEditProfile, setProfileSettingsOpen, isDarkTheme}) => {
 
     return (
       <SafeAreaView style={styles.container}>

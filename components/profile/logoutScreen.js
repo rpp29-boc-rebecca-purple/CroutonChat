@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const LogoutScreen = ({logoutModalToggle, isDarkTheme, setLoggedIn}) => {
+const LogoutScreen = ({setLogoutModalToggle, isDarkTheme, setLoggedIn, cleanProfileState}) => {
   return (
     <SafeAreaView>
       <View style={styles.textWrap}>

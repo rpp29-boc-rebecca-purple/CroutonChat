@@ -4,7 +4,7 @@ import { StyleSheet, View} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
-function SearchBarFriends( {setFriendProfileView, setClickedFriendId}) {
+function SearchBarFriends( {setFriendProfileView, setClickedFriendId, cleanProfileState}) {
 
   const [searchEmail, setSearchEmail] = useState('');
   const navigation = useNavigation(false);
@@ -13,6 +13,7 @@ function SearchBarFriends( {setFriendProfileView, setClickedFriendId}) {
   await axios.get(`http://18.219.200.72:8080/searchFriend?email=${searchEmail.toLowerCase()}`)
   .then((res) => {
       let data = res.data[0];
+      cleanProfileState();
       setClickedFriendId(data.user_id);
       setFriendProfileView(true);
       navigation.navigate('Profile', {});

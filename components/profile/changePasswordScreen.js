@@ -9,7 +9,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {editPass }from '../../HelperFuncs/profileApi.js';
 
-const ChangePassword = ({changePassModalToggle, isDarkTheme}) => {
+const ChangePassword = ({setChangePassModalToggle, isDarkTheme}) => {
   const [newPass, setNewPass] = useState('');
   const [newPassConf, setNewPassConf] = useState('');
   const validatePword = (p1, p2) => {

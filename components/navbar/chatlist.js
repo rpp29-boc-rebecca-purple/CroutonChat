@@ -83,7 +83,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
     setConversation(false);
   };
 
-  return conversation ?
+   return conversation ?
         (
           <Conversation
             userId={userId}
@@ -114,15 +114,19 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
                   }}
                   key={e.friend_id} style={styles.container}>
                     <View>
-                    <Image style={styles.images} source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
+                    <Image
+                      style={styles.images}
+                      source={{
+                        uri: e.thumbnail_url || 'https://i.pinimg.com/550x/91/5d/82/915d8216347ab93d1e47714b0ea989de.jpg'
+                      }} />
                     </View>
                     <View style={isDarkTheme ? styles.borderDark : styles.border}>
                     <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
 
                     <Text style={isDarkTheme ? styles.unreadDark : styles.unread}>
-                    {e.unread <= 1 ? e.unread + ' 🐕 woofs' : ''}
+                    {e.unread > 0 ? e.unread + ' woofs 🐕 ' : ''}
                     {' '}{' '}
-                    {!e.photounread ? '  📷 meows' : ''}
+                    {e.photounread ? 'meows 📷 ' : ''}
                     </Text>
                     </View>
                   </Text>
@@ -135,53 +139,45 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
       const styles = StyleSheet.create({
         container: {
           flex: 1,
-          flexDirection: 'column',
           width: Dimensions.get('window').width,
+          flexDirection: 'column',
           height: 100,
-          marginTop: 11,
-          marginBottom: 1,
+          marginTop: -20,
           left: 15,
-          top: 15,
         },
       username: {
         color: 'black',
-        fontWeight: 'bold',
+        fontWeight: '500',
         marginTop: 38,
-        fontSize: 20,
+        fontSize: 16,
         flex: 1,
-        left: 15,
-        width: 270,
-      },
-      usernameDark: {
-        color: 'white',
-        fontWeight: 'bold',
-        marginTop: 38,
-        fontSize: 20,
-        flex: 1,
-        left: 15,
+        top: 20,
+        left: 8,
+        bottom: -18,
         width: 270,
       },
       images: {
-        width: 75,
-        height: 75,
+        width: 50,
+        height: 50,
+        top: 5,
         borderWidth: .5,
         borderRadius: 55,
         marginBottom: 11,
       },
       unread: {
         fontSize: 14,
-        left: 30,
-        bottom: 16
+        left: 15,
+        bottom: 2
       },
       unreadDark: {
         fontSize: 14,
-        left: 20,
-        bottom: 16,
+        left: 15,
+        bottom: 2,
         color: 'white'
       },
       border: {
         borderBottomColor: 'black',
-        borderBottomWidth: 1,
+        borderBottomWidth: .3,
       },
       borderDark: {
         borderBottomColor: 'white',
@@ -195,4 +191,3 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
     });
 
 export default ChatList
-

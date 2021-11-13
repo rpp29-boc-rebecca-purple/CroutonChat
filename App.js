@@ -45,13 +45,14 @@ export default function App() {
   const [userEmail, setUserEmail] = useState('');
   const [userId, setUserId] = useState('');
   const [userData, setUserData] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState('');
   const [friendsList, setFriendsList] = useState('');
   const [friendProfileView, setFriendProfileView] = useState(false);
-  const [clickedFriendId, setClickedFriendId] = useState(null);
-  const [profileSettingsOpen, setProfileSettingsOpen] = useToggle(false);
-  const [editProfile, setEditProfile] = useToggle(false);
-  const [logoutModalOpen, setLogoutModalOpen] = useToggle(false);
-  const [changePassModalOpen, setChangePassModalOpen] = useToggle(false);
+  const [clickedFriendId, setClickedFriendId] = useState('');
+  const [profileSettingsOpen, setProfileSettingsOpen] = useState(false);
+  const [editProfile, setEditProfile] = useState(false);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const [changePassModalOpen, setChangePassModalOpen] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useToggle(phoneTheme);
   const [isLoggedIn, setLoggedIn] = useState(false);
 
@@ -97,8 +98,8 @@ export default function App() {
     console.log('fetchUserData invoked');
     axios.get(`http://18.219.200.72:8080/user/?user_id=${userId}`)
     .then(function (response) {
-      console.log('USER DATA', response.data[0])
       setUserData(response.data[0])
+      setLoggedInUser(response.data[0].username)
     })
     .catch(function (error) {
       console.log('\n\nfetchUserData failed:', error);
@@ -115,6 +116,14 @@ export default function App() {
     })
     };
 
+  const cleanProfileState = () => {
+    setFriendProfileView(false);
+    setProfileSettingsOpen(false);
+    setEditProfile(false);
+    setLogoutModalOpen(false);
+    setChangePassModalOpen(false);
+  }
+
   const FriendsScreen = () => {
     return (
       <ScrollView>
@@ -124,7 +133,8 @@ export default function App() {
           friendsList={friendsList}
           isDarkTheme={isDarkTheme}
           setFriendProfileView={setFriendProfileView}
-          setClickedFriendId={setClickedFriendId} />
+          setClickedFriendId={setClickedFriendId}
+          cleanProfileState={cleanProfileState}  />
         </View>
       </ScrollView>
     );
@@ -132,6 +142,7 @@ export default function App() {
   const ChatScreen = ({ route }) => {
     return <ChatList userID={userId} friendsList={friendsList} isDarkTheme={isDarkTheme} />;
   };
+
   const CameraScreen = () => {
     return (
       <View style={{ flex: 1 }}>
@@ -145,28 +156,28 @@ export default function App() {
     if (profileSettingsOpen) {
       if (!logoutModalOpen && !changePassModalOpen) {
         displaypage = <Settings
-        toggleSettings={setProfileSettingsOpen}
+        setProfileSettingsOpen={setProfileSettingsOpen}
         state={profileSettingsOpen}
-        logoutModalToggle={setLogoutModalOpen}
-        changePassModalToggle={setChangePassModalOpen}
+        setLogoutModalToggle={setLogoutModalOpen}
+        setChangePassModalToggle={setChangePassModalOpen}
         darkThemeToggle={setIsDarkTheme}
         isDarkTheme={isDarkTheme}/>
       } else if (logoutModalOpen){
         displaypage = <LogoutScreen
-        logoutModalToggle={setLogoutModalOpen}
-        toggleSettings={setProfileSettingsOpen}
+        setLogoutModalToggle={setLogoutModalOpen}
         setLoggedIn={setLoggedIn}
-        isDarkTheme={isDarkTheme} />
+        isDarkTheme={isDarkTheme}
+        cleanProfileState={cleanProfileState} />
       } else if (changePassModalOpen) {
         displaypage = <ChangePasswordScreen
-        changePassModalToggle={setChangePassModalOpen}
-        toggleSettings={setProfileSettingsOpen}
-        isDarkTheme={isDarkTheme} />
+        setChangePassModalToggle={setChangePassModalOpen}
+        isDarkTheme={isDarkTheme}
+        cleanProfileState={cleanProfileState} />
       }
     } else {
       if (editProfile) {
         displaypage = <EditProfile
-        editProfile={setEditProfile}
+        setEditProfile={setEditProfile}
         userData={userData}
         fetchUserData={fetchUserData}
         isDarkTheme={isDarkTheme}
@@ -176,8 +187,8 @@ export default function App() {
         if (!profileSettingsOpen) {
           if (!friendProfileView) {
             displaypage = <Profile
-            toggleSettings={setProfileSettingsOpen}
-            editProfile={setEditProfile}
+            setProfileSettingsOpen={setProfileSettingsOpen}
+            setEditProfile={setEditProfile}
             userData={userData}
             isDarkTheme={isDarkTheme}
              />;

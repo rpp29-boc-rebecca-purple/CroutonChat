@@ -8,7 +8,7 @@ import { editProfileInfo} from '../../HelperFuncs/profileApi';
 
 
 
-const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
+const EditProfile = ({ userData, fetchUserData, setEditProfile, isDarkTheme }) => {
   const [name, setName] = useState(userData?.first_name);
   const [lastName, setLastName] = useState(userData?.last_name);
   const [age, setAge] = useState(userData?.age);
@@ -74,12 +74,12 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
         <ImageBackground source={isDarkTheme ? require('../../assets/BOC.nightskymoon.jpeg') : require('../../assets/BOC.profile.cloud.bg.webp')} style={{ width: 400, height: 250 }}>
           {/* back button */}
           <View>
-            <TouchableOpacity onPress={() => editProfile()}>
+            <TouchableOpacity onPress={() => setEditProfile(false)}>
               <Text style={isDarkTheme ? styles.backButtonDark : styles.backButton}> &#x2190;</Text>
             </TouchableOpacity>
           </View>
           <View style={{ alignItems: 'center', marginTop: 35 }}>
-            <Avatar.Image source={{ uri: thumbnailSrc }} size={100} />
+            <Avatar.Image source={{ uri: thumbnailSrc || userData.thumbnail_url }} size={100} />
             <View style={{ alignItems: 'center' }}>
               <Title style={styles.title}>{name}</Title>
               <Caption style={styles.caption}>Loves snacking on {favoriteSnack}</Caption>
@@ -90,19 +90,19 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
       {/* user info textinput section */}
       <View style={styles.userInfoSection}>
         <View style={styles.row}>
-          <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>First Name: </Text>
+          <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>First Name:          </Text>
           <TextInput placeholder={userData?.first_name} onChangeText={val => setName(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
         <View style={styles.row}>
-          <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Last Name: </Text>
+          <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Last Name:          </Text>
           <TextInput placeholder={userData?.last_name} onChangeText={val => setLastName(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
         <View style={styles.row}>
-          <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Age: </Text>
+          <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Age:                       </Text>
           <TextInput style={{ marginRight: 0 }} placeholder={userData.age ? userData.age.toString()  : '0'} onChangeText={val => setAge(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
         <View style={styles.row}>
-          <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Species: </Text>
+          <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Species:               </Text>
           <TextInput placeholder={userData?.animal_type} onChangeText={val => setAnimalType(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
         </View>
         <View style={styles.row}>
@@ -125,7 +125,7 @@ const EditProfile = ({ userData, fetchUserData, editProfile, isDarkTheme }) => {
         <Text
           style={isDarkTheme ? styles.editProfileButtonDark : styles.editProfileButton}
           onPress={() => {
-            editProfile();
+            setEditProfile(false);
             sendChanges();
           }}
         >

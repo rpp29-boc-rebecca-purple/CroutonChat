@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithout
 import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
 
-function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setClickedFriendId } ) {
+function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setClickedFriendId, cleanProfileState } ) {
 
   const [userEmail] = useState(email)
   const navigation = useNavigation(false);
@@ -15,19 +15,25 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         <SearchBarFriends
          loggedinEmail={userEmail}
          setFriendProfileView={setFriendProfileView}
-         setClickedFriendId={setClickedFriendId} />
+         setClickedFriendId={setClickedFriendId}
+         cleanProfileState={cleanProfileState}  />
             <View style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
                 navigation.navigate('Profile', { info: e});
+                cleanProfileState();
                 setClickedFriendId(e.friend_id);
                 setFriendProfileView(true);
-              }} key={e.key} style={styles.container}  key={e.key} style={styles.container}>
+              }} key={e.key} style={styles.container}>
                 <View >
-                <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
+                <Image
+                  style={styles.images}
+                  source={{
+                    uri: e.thumbnail_url || 'https://i.pinimg.com/550x/91/5d/82/915d8216347ab93d1e47714b0ea989de.jpg'
+                  }} />
                 </View>
                 <View style={isDarkTheme ? styles.borderDark : styles.border}>
                 <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
-                <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}>  following:{e.following_count} | followers: {e.follower_count} </Text>
+                <Text style={isDarkTheme ? styles.friendsonlineDark : styles.friendsonline}> {e.following_count} following  ✦✧ {e.follower_count} followers  </Text>
                 </View>
               </Text>
             })}
@@ -38,7 +44,12 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         :
         <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
         <ScrollView>
-          <SearchBarFriends loggedinEmail={userEmail} />
+          <SearchBarFriends
+           loggedinEmail={userEmail}
+           setFriendProfileView={setFriendProfileView}
+           setClickedFriendId={setClickedFriendId}
+           cleanProfileState={cleanProfileState}
+           />
               <View style={styles.container}>
             <Text style={styles.addfriends}> Add some Furry Friends 🐕 </Text>
             </View>
@@ -49,15 +60,14 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
       const styles = StyleSheet.create({
         container: {
           flex: 1,
-          flexDirection: 'column',
           width: Dimensions.get('window').width,
+          flexDirection: 'column',
           height: 100,
-          marginTop: 11,
-          marginBottom: 1,
+          marginTop: -20,
           left: 15,
-          top: 15
         },
         main: {
+          flex: 1,
           flexDirection: 'column',
           alignItems: 'flex-start'
         },
@@ -67,38 +77,32 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         },
         username: {
           color: 'black',
-          fontWeight: 'bold',
+          fontWeight: '500',
           marginTop: 38,
-          fontSize: 20,
+          fontSize: 16,
           flex: 1,
-          left: 15,
+          top: 20,
+          left: 8,
+          bottom: -18,
           width: 270,
-      },
-      usernameDark: {
-        color: 'white',
-        fontWeight: 'bold',
-        marginTop: 38,
-        fontSize: 20,
-        flex: 1,
-        left: 15,
-        width: 270,
-      },
+        },
       images: {
-        width: 75,
-        height: 75,
+        width: 50,
+        height: 50,
+        top: 5,
         borderWidth: .5,
         borderRadius: 55,
-        marginBottom: 11,
+        marginBottom: 11
       },
       friendsonline: {
         fontSize: 14,
-        left: 20,
-        bottom: 16
+        left: 8,
+        bottom: 2
       },
       friendsonlineDark: {
         fontSize: 14,
-        left: 20,
-        bottom: 16,
+        left: 8,
+        bottom: 2,
         color: 'white'
       },
       show: {
@@ -108,12 +112,12 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         color: 'red'
       },
       border: {
-        borderBottomColor: 'lightgrey',
-        borderBottomWidth: 2,
+        borderBottomColor: 'black',
+        borderBottomWidth: .3,
       },
       borderDark: {
-        borderBottomColor: 'grey',
-        borderBottomWidth: 2,
+        borderBottomColor: 'white',
+        borderBottomWidth: .3,
       }
     });
 

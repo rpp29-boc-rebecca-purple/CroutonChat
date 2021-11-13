@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
+const Profile = ({userData, setEditProfile, setProfileSettingsOpen, isDarkTheme}) => {
 
     return (
       <SafeAreaView style={styles.container}>
@@ -65,12 +65,12 @@ const Profile = ({userData, editProfile, toggleSettings, isDarkTheme}) => {
         {/* buttons for edit profile and navigate to settings */}
         <View style={isDarkTheme ? styles.darkProfileButtonsWrapper : styles.profileButtonsWrapper}>
             <View style={styles.profileButton}>
-              <TouchableOpacity onPress={()=> editProfile()}>
+              <TouchableOpacity onPress={()=> setEditProfile(true)}>
                   <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Edit Profile</Text>
               </TouchableOpacity>
             </View>
           <View style={styles.profileButton}>
-            <TouchableOpacity onPress={()=> toggleSettings()}>
+            <TouchableOpacity onPress={()=> setProfileSettingsOpen(true)}>
               <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Settings</Text>
             </TouchableOpacity>
           </View>

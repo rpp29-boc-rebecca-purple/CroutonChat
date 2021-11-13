@@ -16,12 +16,12 @@ const LogoutScreen = ({logoutModalToggle, isDarkTheme, setLoggedIn}) => {
       <View style={styles.logoutModalButtonsWrapper}>
         <View style={isDarkTheme ? styles.logoutModalButtonsDark : styles.logoutModalButtons}>
           <TouchableOpacity onPress={()=> logoutModalToggle()}>
-            <Text style={isDarkTheme ? styles.buttonTextDark : null}>Back</Text>
+            <Text style={isDarkTheme ? styles.buttonTextDark : styles.buttonText }>Back</Text>
           </TouchableOpacity>
             </View>
           <View style={isDarkTheme ? styles.logoutModalButtonsDark : styles.logoutModalButtons}>
           <TouchableOpacity onPress={()=> setLoggedIn(false)}>
-              <Text style={isDarkTheme ? styles.buttonTextDark : null}>Log Out</Text>
+              <Text style={isDarkTheme ? styles.buttonTextDark : styles.buttonText }>Log Out</Text>
           </TouchableOpacity>
           </View>
         </View>
@@ -49,29 +49,38 @@ const styles = StyleSheet.create({
   },
   logoutModalButtonsWrapper: {
     flexDirection: 'row',
-    height: 100,
-    marginTop: 150
+    height: 70,
+    marginTop: 50
   },
   logoutModalButtons: {
-    width: '50%',
+    width: '45%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#DDDDDD",
     padding: 10,
     fontSize: 20,
     borderRightWidth: 1,
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 7,
   },
   logoutModalButtonsDark: {
-    width: '50%',
+    width: '45%',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
     fontSize: 20,
     borderRightWidth: 1,
-    backgroundColor: 'black',
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 7,
+    borderColor: 'white'
   },
   buttonTextDark: {
-    color: 'white'
+    color: 'white',
+    fontSize: 20
+  },
+  buttonText: {
+    fontSize: 20
   }
 });
 

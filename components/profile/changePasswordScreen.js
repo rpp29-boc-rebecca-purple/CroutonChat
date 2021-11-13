@@ -58,12 +58,12 @@ const ChangePassword = ({changePassModalToggle, isDarkTheme}) => {
       <View style={styles.changePasswordButtonsWrapper}>
         <View style={isDarkTheme ? styles.changePasswordButtonsDark : styles.changePasswordButtons}>
           <TouchableOpacity onPress={()=> changePassModalToggle()}>
-            <Text style={isDarkTheme ? styles.buttonTextDark : null}>Back</Text>
+            <Text style={isDarkTheme ? styles.buttonTextDark : styles.buttonText }>Back</Text>
           </TouchableOpacity>
             </View>
           <View style={isDarkTheme ? styles.changePasswordButtonsDark : styles.changePasswordButtons}>
           <TouchableOpacity onPress={()=> {alert('new password submitted'); validatePword(newPass, newPassConf)}}>
-              <Text style={isDarkTheme ? styles.buttonTextDark : null}>Confirm</Text>
+              <Text style={isDarkTheme ? styles.buttonTextDark : styles.buttonText }>Confirm</Text>
           </TouchableOpacity>
           </View>
         </View>
@@ -89,26 +89,31 @@ const styles = StyleSheet.create({
   },
   changePasswordButtonsWrapper: {
     flexDirection: 'row',
-    height: 100,
-    marginTop: 150
+    height: 60,
+    marginTop: 30,
+    margin: 'auto'
   },
   changePasswordButtons: {
-    width: '50%',
+    width: '45%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#DDDDDD",
-    padding: 10,
     fontSize: 20,
     borderRightWidth: 1,
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 7
   },
   changePasswordButtonsDark: {
-    width: '50%',
+    width: '45%',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
     fontSize: 20,
     borderRightWidth: 1,
-    backgroundColor: 'black'
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 7,
+    borderColor: 'white'
   },
   row: {
     flexDirection: 'column',
@@ -147,7 +152,11 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   buttonTextDark: {
-    color: 'white'
+    color: 'white',
+    fontSize: 20
+  },
+  buttonText: {
+    fontSize: 18
   }
 });
 

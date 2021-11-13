@@ -161,12 +161,12 @@ const styles = StyleSheet.create({
   editProfileButton: {
     alignItems: 'center',
     padding: 10,
-    fontSize: 20,
+    fontSize: 15,
     minWidth: 210,
     textAlign: 'center',
-    borderRadius: 25,
+    borderRadius: 22,
     borderWidth: 1,
-    margin: 7
+    margin: 7,
   },
   editProfileButtonsWrapper: {
     alignItems: 'center',
@@ -178,11 +178,11 @@ const styles = StyleSheet.create({
   editProfileButtonDark: {
     alignItems: 'center',
     padding: 10,
-    fontSize: 20,
+    fontSize: 15,
     minWidth: 210,
     textAlign: 'center',
     color: 'white',
-    borderRadius: 25,
+    borderRadius: 22,
     borderWidth: 1,
     margin: 7,
     borderColor: 'white'

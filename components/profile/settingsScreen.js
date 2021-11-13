@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginBottom: 15,
-    marginTop: 20
+    marginTop: 20,
   },
   settingsButtons: {
     alignItems: 'center',
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderRadius: 25,
     borderWidth: 1,
+
   },
   settingsButtonsDark: {
     alignItems: 'center',

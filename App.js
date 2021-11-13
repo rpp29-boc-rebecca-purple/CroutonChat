@@ -269,5 +269,5 @@ const styles = StyleSheet.create({
   backbutton: {
     top: -300,
     left: -150,
-  }
+  },
 });

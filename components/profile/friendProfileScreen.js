@@ -14,6 +14,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
 
+
 const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFriendId, fetchFriendsData}) => {
 
   const [friendInfo, setFriendInfo] = useState('');

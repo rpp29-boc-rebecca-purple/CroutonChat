@@ -62,8 +62,7 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
           flex: 1,
           width: Dimensions.get('window').width,
           flexDirection: 'column',
-          height: 100,
-          marginTop: -35,
+          height: 65,
           left: 15,
         },
         main: {
@@ -78,7 +77,7 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         username: {
           color: 'black',
           fontWeight: '700',
-          marginTop: 38,
+          marginTop: 3,
           fontSize: 16,
           flex: 1,
           top: 20,

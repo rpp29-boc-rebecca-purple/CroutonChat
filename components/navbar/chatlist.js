@@ -3,15 +3,11 @@ import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from "react-nati
 import SearchBarMessages from '../navbar/searchBarMessages'
 import Conversation from '../conversation/conversation.js';
 import axios from 'axios'
-
 //delete after fake data
 import data from '../../data/data'
-
 function ChatList({ userID, friendsList, isDarkTheme }) {
   //hard coded delete after hookup
   const [userData, setUserData] = useState(data);
-
-
   const [userId, setUserId] = useState(userID);
   const [userFound, setUserFound] = useState(false)
   const [list, setList] = useState(friendsList)
@@ -20,7 +16,6 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
   const [conversation, setConversation] = useState(false);
   const [timer, setTimer] = useState(false)
   const [selectedFriend, setSelectedFriend] = useState({});
-
   useEffect( () => {
     (() => {
       setTimeout(function() {
@@ -30,7 +25,6 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
     findMessagesPhotos(userID)
     newList(found)
 }, [userFound, timer, conversation]);
-
   const searchUsers = (name) => {
     let found = []
     if (friendsList) {
@@ -49,7 +43,6 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
   }
     findMessagesPhotos(userId)
   };
-
   const newList = (array) => {
       if (userFound) {
         setList(array)
@@ -57,99 +50,93 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
         setList(friendsList)
       }
   }
-
   const findMessagesPhotos = (id) => {
     axios.get(`http://3.133.100.147:2550/chatlist?userId=${id}`)
       .then(function (response) {
       let data = response.data
-      let listCopy = list;
       for (const key in data) {
-        for (const id in listCopy) {
-          if (listCopy[id].friend_id == data[key].uid2 || listCopy[id].friend_id == data[key].uid1) {
-            listCopy[id].unread = data[key].unread;
-            listCopy[id].photounread = data[key].unreadphoto;
-            listCopy[id].userId = listCopy[id].friend_id == data[key].uid2 ? data[key].uid1 : data[key].uid2;
-            listCopy[id].chatId = data[key].chatid;
-            listCopy[id].lastSender = data[key].lastsenderid;
+        for (const id in list) {
+          if (list[id].friend_id == data[key].uid2 || list[id].friend_id == data[key].uid1) {
+
+            if (list[id].lastsenderid == userId) {
+              list[id].unread = 'hi'
+              list[id].unread = 0;
+              list[id].photounread = data[key].unreadphoto;
+              list[id].userId = list[id].friend_id == data[key].uid2 ? data[key].uid1 : data[key].uid2;
+              list[id].chatId = data[key].chatid;
+              list[id].lastsenderid = data[key].lastsenderid;
+            } else {
+              list[id].unread = data[key].unread;
+              list[id].photounread = data[key].unreadphoto;
+              list[id].userId = list[id].friend_id == data[key].uid2 ? data[key].uid1 : data[key].uid2;
+              list[id].chatId = data[key].chatid;
+              list[id].lastsenderid = data[key].lastsenderid;
+            }
           }
         }
       }
-      listCopy.forEach((chatListEntry) => {
-        if (chatListEntry.unread === undefined) {
-          chatListEntry.unread = 0;
-        }
-      })
-      return listCopy;
     })
     .catch((error) => {
       console.log(error);
     })
-    .then((listCopy) => {
-      setList(listCopy);
-    })
-
+    setList(list)
   }
-
   const backButtonHandler = () => {
     setConversation(false);
   };
 
-   return conversation ?
-        (
-          <Conversation
-            userId={userId}
-            friendInfo={selectedFriend}
-            chatId={chatId}
-            handleBackButtonPress={backButtonHandler}
-            isDarkTheme={isDarkTheme}
-            style={styles.conversation}
-          />
-        )
-        :
-        (
-          <ScrollView>
-            <SearchBarMessages searchUsers={searchUsers}/>
-                <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{list ? list.map((e) => {
-                  console.log('element being rendered in chatlist: ', e);
-                  return <Text chatId={0} onPress={(event) => {
-                    console.log('element clicked: ', e);
-                    let reTypedE = {
-                      chatId: Number(e.chatId),
-                      userId: Number(e.userId),
-                      friendId: Number(e.friend_id),
-                      friendFirstName: e.first_name,
-                      friendLastName: e.last_name,
-                      friendAvatar: e.thumbnail
-                    };
-                    setChatId(reTypedE.chatId);
-                    setUserId(Number(userID));
-                    setSelectedFriend(reTypedE);
-                    setConversation(true);
-                  }}
-                  key={e.friend_id} style={styles.container}>
-                    <View>
-                    <Image
-                      style={styles.images}
-                      source={{
-                        uri: e.thumbnail_url || 'https://i.pinimg.com/550x/91/5d/82/915d8216347ab93d1e47714b0ea989de.jpg'
-                      }} />
-                    </View>
-                    <View style={isDarkTheme ? styles.borderDark : styles.border}>
-                      <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
-                      <Text style={isDarkTheme ? styles.unreadDark : styles.unread}>
-                        {
-                          e.unread < 1 || e.lastSender == userId || e.unread === undefined ? '' :`Woofs (${e.unread}) 🐕`
-                        }
-                        {' '}{' '}
-                        {e.photounread && e.lastSender != userId ? '📷' : ''}
-                      </Text>
-                    </View>
-                  </Text>
-                }) : <Text> Add some furry friends </Text> }
+  return conversation ?
+  (
+    <Conversation
+      userId={userId}
+      friendInfo={selectedFriend}
+      chatId={chatId}
+      handleBackButtonPress={backButtonHandler}
+      style={styles.conversation}
+    />
+  )
+  :
+  (
+    <ScrollView>
+      <SearchBarMessages searchUsers={searchUsers}/>
+          <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{list ? list.map((e) => {
+            return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
+              let reTypedE = {
+                chatId: Number(e.chatId),
+                userId: Number(e.userId),
+                friendId: Number(e.friend_id),
+                friendFirstName: e.first_name,
+                friendLastName: e.last_name,
+                friendAvatar: e.thumbnail
+              };
+              setChatId(reTypedE.chatId);
+              setUserId(Number(userID));
+              setSelectedFriend(reTypedE);
+              setConversation(true);
+              setList(e.photounread = false)
+            }}
+            key={e.friend_id} style={styles.container}>
+              <View>
+              <Image
+                style={styles.images}
+                source={{
+                  uri: e.thumbnail_url || 'https://i.pinimg.com/550x/91/5d/82/915d8216347ab93d1e47714b0ea989de.jpg'
+                }} />
               </View>
-          </ScrollView>
-        )
-      }
+              <View style={isDarkTheme ? styles.borderDark : styles.border}>
+              <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
+              <Text style={isDarkTheme ? styles.unreadDark : styles.unread}>
+              {e.unread < 1 || e.lastsenderid == userId || e.unread === undefined ? '' :`Woofs (${e.unread}) 🐕`}
+              {' '}{' '}
+              {e.photounread && e.lastsenderid != userId ? '📷' : ''}
+              </Text>
+              </View>
+            </Text>
+          }) : <Text> Add some furry friends </Text> }
+        </View>
+    </ScrollView>
+  )
+}
 
       const styles = StyleSheet.create({
         container: {
@@ -198,7 +185,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
         fontSize: 14,
         left: 15,
         bottom: 2,
-        color: 'white'
+        color: 'grey'
       },
       border: {
         paddingBottom: 2,

@@ -45,6 +45,7 @@ export default function App() {
   const [userEmail, setUserEmail] = useState('');
   const [userId, setUserId] = useState('');
   const [userData, setUserData] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState('');
   const [friendsList, setFriendsList] = useState('');
   const [friendProfileView, setFriendProfileView] = useState(false);
   const [clickedFriendId, setClickedFriendId] = useState(null);
@@ -91,6 +92,7 @@ export default function App() {
     .then(function (response) {
       console.log('USER DATA', response.data[0])
       setUserData(response.data[0])
+      setLoggedInUser(response.data[0].username)
     })
     .catch(function (error) {
       console.log('\n\nfetchUserData failed:', error);
@@ -124,6 +126,7 @@ export default function App() {
   const ChatScreen = ({ route }) => {
     return <ChatList userID={userId} friendsList={friendsList} isDarkTheme={isDarkTheme} />;
   };
+
   const CameraScreen = () => {
     return (
       <View style={{ flex: 1 }}>

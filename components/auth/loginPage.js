@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, TouchableOpacity, Text, AsyncStorage } from 'react-native';
+import { StyleSheet, Image, TextInput, View, TouchableOpacity, Text, AsyncStorage } from 'react-native';
 import OAuth from './oauth';
 import axios from 'axios';
 
@@ -11,9 +11,9 @@ function LoginPage(props) {
   return (
 
     <View style={props.isDarkTheme ? styles.containerDark : styles.container}>
-      <View style={styles.logo}>
-        <Text>LOGO</Text>
-      </View>
+      <Image source={props.isDarkTheme ? require('../../assets/croutonchat4.png') : require('../../assets/CCchat3.png')} style={styles.logo} />
+      {/* <View style={styles.logo}>
+      </View> */}
       <TextInput style={props.isDarkTheme? styles.textInputDark : styles.textInput} placeholderTextColor={props.isDarkTheme ? 'white' : null} placeholder="Email" onChangeText={text => setEmail(text)} autoCapitalize="none" autoCorrect={false} textContentType="emailAddress" />
       <TextInput style={props.isDarkTheme? styles.textInputDark : styles.textInput} placeholderTextColor={props.isDarkTheme ? 'white' : null} placeholder="Password" onChangeText={text => setPassword(text)} autoCapitalize="none" autoCorrect={false} textContentType="password" secureTextEntry={true} />
       <Text style={styles.error}>{errorText}</Text>
@@ -64,7 +64,7 @@ function LoginPage(props) {
 
 const styles = StyleSheet.create({
   error: {
-    color: 'red',
+    color: 'black',
     fontWeight: 'bold',
   },
   horizontal: {
@@ -86,14 +86,14 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   mainButton: {
-    backgroundColor: 'grey',
+    backgroundColor: '#EBD687',
     padding: 10,
     width: 275,
     margin: 10,
     borderRadius: 8,
   },
   mainButtonText: {
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
   },
   button: {
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   buttonTextDark: {
     fontSize: 12,
-    color: 'white'
+    color: 'black'
   },
   container: {
     paddingHorizontal: 25,
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#7bc8e9'
   },
   containerDark: {
     paddingHorizontal: 25,
@@ -140,13 +141,13 @@ const styles = StyleSheet.create({
   },
   logo: {
     borderRadius: 75,
-    width: 75,
-    maxHeight: 75,
+    width: 250,
+    maxHeight: 250,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'lightgrey',
-    margin: 50,
+    margin: 5,
+    resizeMode: 'contain'
   },
   textStyleDark: {
     color: 'white'

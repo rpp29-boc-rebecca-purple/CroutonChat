@@ -91,6 +91,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
             friendInfo={selectedFriend}
             chatId={chatId}
             handleBackButtonPress={backButtonHandler}
+            isDarkTheme={isDarkTheme}
             style={styles.conversation}
           />
         )

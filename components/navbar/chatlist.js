@@ -114,7 +114,11 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
                   }}
                   key={e.friend_id} style={styles.container}>
                     <View>
-                    <Image style={styles.images} source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
+                    <Image
+                      style={styles.images}
+                      source={{
+                        uri: e.thumbnail_url || 'https://i.pinimg.com/550x/91/5d/82/915d8216347ab93d1e47714b0ea989de.jpg'
+                      }} />
                     </View>
                     <View style={isDarkTheme ? styles.borderDark : styles.border}>
                     <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>

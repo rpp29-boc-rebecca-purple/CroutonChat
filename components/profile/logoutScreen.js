@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const LogoutScreen = ({logoutModalToggle, isDarkTheme, setLoggedIn}) => {
+const LogoutScreen = ({setLogoutModalToggle, isDarkTheme, setLoggedIn, cleanProfileState}) => {
   return (
     <SafeAreaView>
       <View style={styles.textWrap}>
@@ -15,13 +15,13 @@ const LogoutScreen = ({logoutModalToggle, isDarkTheme, setLoggedIn}) => {
       </View>
       <View style={styles.logoutModalButtonsWrapper}>
         <View style={isDarkTheme ? styles.logoutModalButtonsDark : styles.logoutModalButtons}>
-          <TouchableOpacity onPress={()=> logoutModalToggle()}>
-            <Text style={isDarkTheme ? styles.buttonTextDark : null}>Back</Text>
+          <TouchableOpacity onPress={()=> setLogoutModalToggle(false)}>
+            <Text style={isDarkTheme ? styles.buttonTextDark : null}>No, keep playing</Text>
           </TouchableOpacity>
             </View>
           <View style={isDarkTheme ? styles.logoutModalButtonsDark : styles.logoutModalButtons}>
-          <TouchableOpacity onPress={()=> setLoggedIn(false)}>
-              <Text style={isDarkTheme ? styles.buttonTextDark : null}>Log Out</Text>
+          <TouchableOpacity onPress={()=> {setLoggedIn(false); cleanProfileState();}}>
+              <Text style={isDarkTheme ? styles.buttonTextDark : null}>Take a nap</Text>
           </TouchableOpacity>
           </View>
         </View>

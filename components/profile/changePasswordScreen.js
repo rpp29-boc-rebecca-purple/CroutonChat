@@ -9,7 +9,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {editPass }from '../../HelperFuncs/profileApi.js';
 
-const ChangePassword = ({changePassModalToggle, isDarkTheme}) => {
+const ChangePassword = ({setChangePassModalToggle, isDarkTheme}) => {
   const [newPass, setNewPass] = useState('');
   const [newPassConf, setNewPassConf] = useState('');
   const validatePword = (p1, p2) => {
@@ -57,7 +57,7 @@ const ChangePassword = ({changePassModalToggle, isDarkTheme}) => {
       {/* back button and confirm button */}
       <View style={styles.changePasswordButtonsWrapper}>
         <View style={isDarkTheme ? styles.changePasswordButtonsDark : styles.changePasswordButtons}>
-          <TouchableOpacity onPress={()=> changePassModalToggle()}>
+          <TouchableOpacity onPress={()=> setChangePassModalToggle(false)}>
             <Text style={isDarkTheme ? styles.buttonTextDark : null}>Back</Text>
           </TouchableOpacity>
             </View>

@@ -12,7 +12,7 @@ import {
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggle, darkThemeToggle, isDarkTheme}) => {
+const SettingsScreen = ({setProfileSettingsOpen, setLogoutModalToggle, setChangePassModalToggle, darkThemeToggle, isDarkTheme}) => {
 
   return (
     <SafeAreaView>
@@ -25,7 +25,7 @@ const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggl
             style={{width: 400, height:250}}>
             <View style={styles.headerImage}></View>
             <View style={{position: 'absolute'}} >
-              <TouchableOpacity onPress={()=> toggleSettings()}>
+              <TouchableOpacity onPress={()=> setProfileSettingsOpen(false)}>
                 <Text style={isDarkTheme ? styles.backButtonDark : styles.backButton}
                 >&#x2190;</Text>
               </TouchableOpacity>
@@ -48,12 +48,12 @@ const SettingsScreen = ({toggleSettings, logoutModalToggle, changePassModalToggl
 
         {/* Change Password and Logout Buttons */}
         <View style={styles.settingsButtonsWrap}>
-          <TouchableOpacity onPress={()=> logoutModalToggle()}>
+          <TouchableOpacity onPress={()=> setLogoutModalToggle(true)}>
             <Text style={isDarkTheme ? styles.settingsButtonsDark : styles.settingsButtons}>Logout?</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.settingsButtonsWrap}>
-          <TouchableOpacity onPress={()=> changePassModalToggle()}>
+          <TouchableOpacity onPress={()=> setChangePassModalToggle(true)}>
             <Text style={isDarkTheme ? styles.settingsButtonsDark : styles.settingsButtons}>Change Password?</Text>
           </TouchableOpacity>
         </View>

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableWithout
 import { useNavigation } from '@react-navigation/native';
 import SearchBarFriends from './searchBarFriends.js'
 
-function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setClickedFriendId } ) {
+function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setClickedFriendId, cleanProfileState } ) {
 
   const [userEmail] = useState(email)
   const navigation = useNavigation(false);
@@ -15,15 +15,21 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         <SearchBarFriends
          loggedinEmail={userEmail}
          setFriendProfileView={setFriendProfileView}
-         setClickedFriendId={setClickedFriendId} />
+         setClickedFriendId={setClickedFriendId}
+         cleanProfileState={cleanProfileState}  />
             <View style={styles.main}>{friendsList.map((e) => {
               return <Text onPress={() => {
                 navigation.navigate('Profile', { info: e});
+                cleanProfileState();
                 setClickedFriendId(e.friend_id);
                 setFriendProfileView(true);
               }} key={e.key} style={styles.container}>
                 <View >
-                <Image style={styles.images}  source={e.thumbnail ? e.thumbnail : require('../../data/photos/thumbnaillogo.png')} />
+                <Image
+                  style={styles.images}
+                  source={{
+                    uri: e.thumbnail_url || 'https://i.pinimg.com/550x/91/5d/82/915d8216347ab93d1e47714b0ea989de.jpg'
+                  }} />
                 </View>
                 <View style={isDarkTheme ? styles.borderDark : styles.border}>
                 <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
@@ -38,7 +44,12 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         :
         <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
         <ScrollView>
-          <SearchBarFriends loggedinEmail={userEmail} />
+          <SearchBarFriends
+           loggedinEmail={userEmail}
+           setFriendProfileView={setFriendProfileView}
+           setClickedFriendId={setClickedFriendId}
+           cleanProfileState={cleanProfileState}
+           />
               <View style={styles.container}>
             <Text style={styles.addfriends}> Add some Furry Friends 🐕 </Text>
             </View>

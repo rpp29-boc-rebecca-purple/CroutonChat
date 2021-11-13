@@ -97,6 +97,17 @@ const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress, isDar
 
   const exitCamera = () => {
     setCameraDisplay(false);
+    setTimeout(() => {
+      async function updateMessages() {
+        const incomingMessages = await api.fetchMessages(currentChatId, userId);
+        if (incomingMessages !== undefined && Array.isArray(incomingMessages)) {
+          setMessages(incomingMessages);
+        } else {
+          setMessages([]);
+        }
+      }
+      updateMessages();
+    }, 3000);
   };
 
   return picDisplay ? (

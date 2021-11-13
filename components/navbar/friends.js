@@ -63,7 +63,7 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
           width: Dimensions.get('window').width,
           flexDirection: 'column',
           height: 100,
-          marginTop: -20,
+          marginTop: -35,
           left: 15,
         },
         main: {
@@ -77,7 +77,7 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         },
         username: {
           color: 'black',
-          fontWeight: '500',
+          fontWeight: '700',
           marginTop: 38,
           fontSize: 16,
           flex: 1,
@@ -88,7 +88,7 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         },
         usernameDark: {
           color: 'white',
-          fontWeight: '500',
+          fontWeight: '700',
           marginTop: 38,
           fontSize: 16,
           flex: 1,
@@ -123,10 +123,12 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
         color: 'red'
       },
       border: {
+        paddingBottom: 2,
         borderBottomColor: 'black',
         borderBottomWidth: .3,
       },
       borderDark: {
+        paddingBottom: 2,
         borderBottomColor: 'white',
         borderBottomWidth: .3,
       }

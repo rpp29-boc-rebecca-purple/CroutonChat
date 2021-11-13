@@ -100,7 +100,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
             <SearchBarMessages searchUsers={searchUsers}/>
                 <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{list ? list.map((e) => {
                   console.log('element being rendered in chatlist: ', e);
-                  return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
+                  return <Text chatId={0} onPress={(event) => {
                     let reTypedE = {
                       chatId: Number(e.chatId),
                       userId: Number(e.userId),
@@ -126,8 +126,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
                       <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
                       <Text style={isDarkTheme ? styles.unreadDark : styles.unread}>
                         {
-                          e.unread < 1 || e.lastSender == userId || e.unread === undefined ? '' :
-                          e.unread + ' woofs 🐕 '
+                          e.unread < 1 || e.lastSender == userId || e.unread === undefined ? '' :`Woofs (${e.unread}) 🐕`
                         }
                         {' '}{' '}
                         {e.photounread && e.lastSender != userId ? '📷' : ''}
@@ -146,12 +145,12 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
           width: Dimensions.get('window').width,
           flexDirection: 'column',
           height: 100,
-          marginTop: -20,
+          marginTop: -35,
           left: 15,
         },
       username: {
         color: 'black',
-        fontWeight: '500',
+        fontWeight: '700',
         marginTop: 38,
         fontSize: 16,
         flex: 1,
@@ -162,7 +161,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
       },
       usernameDark: {
         color: 'white',
-        fontWeight: '500',
+        fontWeight: '700',
         marginTop: 38,
         fontSize: 16,
         flex: 1,
@@ -191,10 +190,12 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
         color: 'white'
       },
       border: {
+        paddingBottom: 2,
         borderBottomColor: 'black',
         borderBottomWidth: .3,
       },
       borderDark: {
+        paddingBottom: 2,
         borderBottomColor: 'white',
         borderBottomWidth: .3,
       },

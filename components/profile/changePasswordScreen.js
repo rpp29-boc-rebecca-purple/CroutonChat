@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 20,
-    borderRightWidth: 1,
     borderRadius: 50,
     margin: 7,
     backgroundColor: '#EBD687',

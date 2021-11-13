@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 50,
     margin: 7,
+    height: 50,
     backgroundColor: '#EBD687'
   },
   profileButtonDark: {
@@ -146,6 +147,7 @@ const styles = StyleSheet.create({
     margin: 7,
     borderColor: 'black',
     backgroundColor: '#EBD687',
+    height: 50,
     color: 'black'
 
   },

@@ -91,23 +91,23 @@ const EditProfile = ({ userData, fetchUserData, setEditProfile, isDarkTheme }) =
       <View style={styles.userInfoSection}>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>First Name:          </Text>
-          <TextInput placeholder={userData?.first_name} onChangeText={val => setName(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput placeholder={userData?.first_name} onChangeText={val => setName(val)} autoCapitalize="none" autoCorrect={false} style={isDarkTheme ? styles.inputDark : styles.input} />
         </View>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Last Name:          </Text>
-          <TextInput placeholder={userData?.last_name} onChangeText={val => setLastName(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput placeholder={userData?.last_name} onChangeText={val => setLastName(val)} autoCapitalize="none" autoCorrect={false} style={isDarkTheme ? styles.inputDark : styles.input} />
         </View>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Age:                       </Text>
-          <TextInput style={{ marginRight: 0 }} placeholder={userData.age ? userData.age.toString()  : '0'} onChangeText={val => setAge(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput style={{ marginRight: 0 }} placeholder={userData.age ? userData.age.toString()  : '0'} onChangeText={val => setAge(val)} autoCapitalize="none" autoCorrect={false} style={isDarkTheme ? styles.inputDark : styles.input} />
         </View>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Species:               </Text>
-          <TextInput placeholder={userData?.animal_type} onChangeText={val => setAnimalType(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput placeholder={userData?.animal_type} onChangeText={val => setAnimalType(val)} autoCapitalize="none" autoCorrect={false} style={isDarkTheme ? styles.inputDark : styles.input} />
         </View>
         <View style={styles.row}>
           <Text style={isDarkTheme ? styles.textStyleDark : styles.textStyle}>Favorite Snack: </Text>
-          <TextInput placeholder={userData?.snack} onChangeText={val => setFavoriteSnack(val)} autoCapitalize="none" autoCorrect={false} style={styles.input} />
+          <TextInput placeholder={userData?.snack} onChangeText={val => setFavoriteSnack(val)} autoCapitalize="none" autoCorrect={false} style={isDarkTheme ? styles.inputDark : styles.input} />
         </View>
       </View>
       {/* change profile picture / save changes button */}
@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderRadius: 22,
     borderWidth: 1,
+    backgroundColor: '#EBD687',
     margin: 7,
   },
   editProfileButtonsWrapper: {
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     // marginBottom: 15,
     // marginTop: 20,
-    margin: 'auto'
+    // margin: 'auto'
   },
   editProfileButtonDark: {
     alignItems: 'center',
@@ -181,27 +182,39 @@ const styles = StyleSheet.create({
     fontSize: 15,
     minWidth: 210,
     textAlign: 'center',
-    color: 'white',
+    color: 'black',
     borderRadius: 22,
     borderWidth: 1,
     margin: 7,
-    borderColor: 'white'
+    borderColor: 'white',
+    backgroundColor: '#EBD687',
+
   },
   editProfileButtonsWrapperDark: {
     alignItems: 'center',
     justifyContent: 'flex-end',
-    margin: 'auto',
+    // margin: 'auto',
     // marginBottom: 15,
     // marginTop: 20,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#777',
+    borderColor: '#EBD687',
     padding: 8,
     margin: 0,
     width: 250,
     height: 20,
     marginTop: -5,
+    backgroundColor: 'white',
+
+  },
+  inputDark: {
+    borderColor: '#EBD687',
+    padding: 8,
+    margin: 0,
+    width: 250,
+    height: 20,
+    marginTop: -5,
+    backgroundColor: 'black',
   },
   textStyle: {
     fontWeight: 'bold',

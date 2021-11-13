@@ -123,7 +123,7 @@ const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => 
       <View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, flex: 1, justifyContent: 'flex-start'}}>
         <View style={{width: Dimensions.get('window').width, flex: .08, backgroundColor: 'transparent', zIndex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
           <TouchableOpacity onPress={() => {api.exitConversation(); handleBackButtonPress();}}>
-            <Image source={require('../../assets/icons/backArrow.png')} style={{height: 50, width: 50, left: 15, top: 10}}/>
+            <Image source={require('../../assets/icons/backArrow.png')} style={{height: 30, width: 30, left: 15, top: 10}}/>
           </TouchableOpacity>
         </View>
         <GiftedChat

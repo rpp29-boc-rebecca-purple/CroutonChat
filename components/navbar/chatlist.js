@@ -62,22 +62,32 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
     axios.get(`http://3.133.100.147:2550/chatlist?userId=${id}`)
       .then(function (response) {
       let data = response.data
+      let listCopy = list;
       for (const key in data) {
-        for (const id in list) {
-          if (list[id].friend_id == data[key].uid2 || list[id].friend_id == data[key].uid1) {
-            list[id].unread = data[key].unread;
-            list[id].photounread = data[key].unreadphoto;
-            list[id].userId = list[id].friend_id == data[key].uid2 ? data[key].uid1 : data[key].uid2;
-            list[id].chatId = data[key].chatid;
-            list[id].lastSender = data[key].lastsenderid;
+        for (const id in listCopy) {
+          if (listCopy[id].friend_id == data[key].uid2 || listCopy[id].friend_id == data[key].uid1) {
+            listCopy[id].unread = data[key].unread;
+            listCopy[id].photounread = data[key].unreadphoto;
+            listCopy[id].userId = listCopy[id].friend_id == data[key].uid2 ? data[key].uid1 : data[key].uid2;
+            listCopy[id].chatId = data[key].chatid;
+            listCopy[id].lastSender = data[key].lastsenderid;
           }
         }
       }
+      listCopy.forEach((chatListEntry) => {
+        if (chatListEntry.unread === undefined) {
+          chatListEntry.unread = 0;
+        }
+      })
+      return listCopy;
     })
     .catch((error) => {
       console.log(error);
     })
-    setList(list)
+    .then((listCopy) => {
+      setList(listCopy);
+    })
+
   }
 
   const backButtonHandler = () => {
@@ -101,6 +111,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
                 <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{list ? list.map((e) => {
                   console.log('element being rendered in chatlist: ', e);
                   return <Text chatId={0} onPress={(event) => {
+                    console.log('element clicked: ', e);
                     let reTypedE = {
                       chatId: Number(e.chatId),
                       userId: Number(e.userId),
@@ -144,14 +155,13 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
           flex: 1,
           width: Dimensions.get('window').width,
           flexDirection: 'column',
-          height: 100,
-          marginTop: -35,
+          height: 65,
           left: 15,
         },
       username: {
         color: 'black',
         fontWeight: '700',
-        marginTop: 38,
+        marginTop: 3,
         fontSize: 16,
         flex: 1,
         top: 20,
@@ -162,7 +172,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
       usernameDark: {
         color: 'white',
         fontWeight: '700',
-        marginTop: 38,
+        marginTop: 3,
         fontSize: 16,
         flex: 1,
         top: 20,

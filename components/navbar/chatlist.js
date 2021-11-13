@@ -69,6 +69,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
             list[id].photounread = data[key].unreadphoto;
             list[id].userId = list[id].friend_id == data[key].uid2 ? data[key].uid1 : data[key].uid2;
             list[id].chatId = data[key].chatid;
+            list[id].lastSender = data[key].lastsenderid;
           }
         }
       }
@@ -98,6 +99,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
           <ScrollView>
             <SearchBarMessages searchUsers={searchUsers}/>
                 <View  style={{ flexDirection: 'column', flex: 1,  alignItems: 'left' }}>{list ? list.map((e) => {
+                  console.log('element being rendered in chatlist: ', e);
                   return <Text chatId={0} chatLsitEntryUserId={userData.uid} onPress={(event) => {
                     let reTypedE = {
                       chatId: Number(e.chatId),
@@ -121,13 +123,15 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
                       }} />
                     </View>
                     <View style={isDarkTheme ? styles.borderDark : styles.border}>
-                    <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
-
-                    <Text style={isDarkTheme ? styles.unreadDark : styles.unread}>
-                    {e.unread > 0 ? e.unread + ' woofs 🐕 ' : ''}
-                    {' '}{' '}
-                    {e.photounread ? 'meows 📷 ' : ''}
-                    </Text>
+                      <Text style={isDarkTheme ? styles.usernameDark : styles.username}> {e.first_name}</Text>
+                      <Text style={isDarkTheme ? styles.unreadDark : styles.unread}>
+                        {
+                          e.unread < 1 || e.lastSender == userId || e.unread === undefined ? '' :
+                          e.unread + ' woofs 🐕 '
+                        }
+                        {' '}{' '}
+                        {e.photounread && e.lastSender != userId ? '📷' : ''}
+                      </Text>
                     </View>
                   </Text>
                 }) : <Text> Add some furry friends </Text> }

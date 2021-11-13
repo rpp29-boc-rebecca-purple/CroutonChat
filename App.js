@@ -123,7 +123,8 @@ export default function App() {
           friendsList={friendsList}
           isDarkTheme={isDarkTheme}
           setFriendProfileView={setFriendProfileView}
-          setClickedFriendId={setClickedFriendId} />
+          setClickedFriendId={setClickedFriendId}
+          cleanProfileState={cleanProfileState}  />
         </View>
       </ScrollView>
     );

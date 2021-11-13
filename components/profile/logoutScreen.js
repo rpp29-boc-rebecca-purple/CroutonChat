@@ -16,12 +16,12 @@ const LogoutScreen = ({setLogoutModalToggle, isDarkTheme, setLoggedIn, cleanProf
       <View style={styles.logoutModalButtonsWrapper}>
         <View style={isDarkTheme ? styles.logoutModalButtonsDark : styles.logoutModalButtons}>
           <TouchableOpacity onPress={()=> setLogoutModalToggle(false)}>
-            <Text style={isDarkTheme ? styles.buttonTextDark : null}>Back</Text>
+            <Text style={isDarkTheme ? styles.buttonTextDark : null}>No, keep playing</Text>
           </TouchableOpacity>
             </View>
           <View style={isDarkTheme ? styles.logoutModalButtonsDark : styles.logoutModalButtons}>
           <TouchableOpacity onPress={()=> {setLoggedIn(false); cleanProfileState();}}>
-              <Text style={isDarkTheme ? styles.buttonTextDark : null}>Log Out</Text>
+              <Text style={isDarkTheme ? styles.buttonTextDark : null}>Take a nap</Text>
           </TouchableOpacity>
           </View>
         </View>

@@ -125,15 +125,16 @@ const styles = StyleSheet.create({
   textInput: {
     width: '100%',
     borderWidth: 1,
-    borderColor: 'lightgrey',
+    borderColor: '#EBD687',
     padding: 10,
     margin: 8,
     borderRadius: 5,
+    color: 'black'
   },
   textInputDark: {
     width: '100%',
     borderWidth: 1,
-    borderColor: 'lightgrey',
+    borderColor: '#EBD687',
     padding: 10,
     margin: 8,
     borderRadius: 5,

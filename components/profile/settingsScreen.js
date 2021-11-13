@@ -102,21 +102,23 @@ const styles = StyleSheet.create({
   },
   settingsButtons: {
     alignItems: 'center',
-    padding: 10,
+    padding: 12,
+    overflow: 'hidden',
     fontSize: 20,
+    height: 50,
     minWidth: 200,
     textAlign: 'center',
     borderRadius: 25,
     backgroundColor: '#EBD687',
     color: 'black',
-
-
   },
   settingsButtonsDark: {
     alignItems: 'center',
-    padding: 10,
+    padding: 12,
     fontSize: 20,
     minWidth: 200,
+    height: 50,
+    overflow: 'hidden',
     textAlign: 'center',
     color: 'black',
     borderRadius: 25,

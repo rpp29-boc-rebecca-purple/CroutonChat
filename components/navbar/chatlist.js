@@ -65,10 +65,21 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
       for (const key in data) {
         for (const id in list) {
           if (list[id].friend_id == data[key].uid2 || list[id].friend_id == data[key].uid1) {
-            list[id].unread = data[key].unread;
-            list[id].photounread = data[key].unreadphoto;
-            list[id].userId = list[id].friend_id == data[key].uid2 ? data[key].uid1 : data[key].uid2;
-            list[id].chatId = data[key].chatid;
+
+            if (list[id].lastsenderid == userId) {
+              list[id].unread = 'hi'
+              list[id].unread = 0;
+              list[id].photounread = data[key].unreadphoto;
+              list[id].userId = list[id].friend_id == data[key].uid2 ? data[key].uid1 : data[key].uid2;
+              list[id].chatId = data[key].chatid;
+              list[id].lastsenderid = data[key].lastsenderid;
+            } else {
+              list[id].unread = data[key].unread;
+              list[id].photounread = data[key].unreadphoto;
+              list[id].userId = list[id].friend_id == data[key].uid2 ? data[key].uid1 : data[key].uid2;
+              list[id].chatId = data[key].chatid;
+              list[id].lastsenderid = data[key].lastsenderid;
+            }
           }
         }
       }
@@ -111,6 +122,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
                     setUserId(Number(userID));
                     setSelectedFriend(reTypedE);
                     setConversation(true);
+                    setList(e.photounread = false)
                   }}
                   key={e.friend_id} style={styles.container}>
                     <View>
@@ -156,6 +168,17 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
         bottom: -18,
         width: 270,
       },
+      usernameDark: {
+        color: 'grey',
+        fontWeight: '500',
+        marginTop: 38,
+        fontSize: 16,
+        flex: 1,
+        top: 20,
+        left: 8,
+        bottom: -18,
+        width: 270,
+      },
       images: {
         width: 50,
         height: 50,
@@ -173,7 +196,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
         fontSize: 14,
         left: 15,
         bottom: 2,
-        color: 'white'
+        color: 'grey'
       },
       border: {
         borderBottomColor: 'black',
@@ -181,7 +204,7 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
       },
       borderDark: {
         borderBottomColor: 'white',
-        borderBottomWidth: 1,
+        borderBottomWidth: .3,
       },
       conversation: {
         flex: 1,

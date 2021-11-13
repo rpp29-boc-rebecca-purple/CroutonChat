@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import CameraComponent from '../navbar/camera';
 const api = require('./apiHelpers.js');
 
-const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => {
+const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress, isDarkTheme }) => {
   api.setConversationInfo(friendInfo.friendId, friendInfo.friendFirstName, friendInfo.friendAvatar);
   let [currentChatId, setCurrentChatId] = useState(chatId);
   let [messages, setMessages] = useState([]);
@@ -123,7 +123,7 @@ const Conversation = ({ userId, friendInfo, chatId, handleBackButtonPress }) => 
       <View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, flex: 1, justifyContent: 'flex-start'}}>
         <View style={{width: Dimensions.get('window').width, flex: .08, backgroundColor: 'transparent', zIndex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
           <TouchableOpacity onPress={() => {api.exitConversation(); handleBackButtonPress();}}>
-            <Image source={require('../../assets/icons/backArrow.png')} style={{height: 30, width: 30, left: 15, top: 10}}/>
+            <Image source={isDarkTheme ? require('../../assets/icons/backArrowWhite.png') : require('../../assets/icons/backArrow.png')} style={{height: 25, width: 25, left: 15, top: 10}}/>
           </TouchableOpacity>
         </View>
         <GiftedChat

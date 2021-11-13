@@ -135,24 +135,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
-    borderWidth: 1,
     margin: 7,
+    backgroundColor: '#EBD687'
   },
   profileButtonDark: {
     width: '40%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
-    borderWidth: 1,
     margin: 7,
-    borderColor: 'white'
+    borderColor: 'black',
+    backgroundColor: '#EBD687',
+    color: 'black'
+
   },
   buttonText: {
     fontSize: 15
   },
   buttonTextDark: {
     fontSize: 15,
-    color: 'white'
+    color: 'black'
   }
 });
 

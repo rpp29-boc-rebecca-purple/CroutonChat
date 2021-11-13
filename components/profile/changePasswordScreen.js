@@ -100,8 +100,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     borderRightWidth: 1,
     borderRadius: 50,
-    borderWidth: 1,
-    margin: 7
+    margin: 7,
+    backgroundColor: '#EBD687',
+
   },
   changePasswordButtonsDark: {
     width: '45%',
@@ -111,9 +112,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     borderRightWidth: 1,
     borderRadius: 50,
-    borderWidth: 1,
     margin: 7,
-    borderColor: 'white'
+    borderColor: 'white',
+    backgroundColor: '#EBD687',
+
   },
   row: {
     flexDirection: 'column',
@@ -152,7 +154,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   buttonTextDark: {
-    color: 'white',
+    color: 'black',
     fontSize: 20
   },
   buttonText: {

@@ -107,7 +107,9 @@ const styles = StyleSheet.create({
     minWidth: 200,
     textAlign: 'center',
     borderRadius: 25,
-    borderWidth: 1,
+    backgroundColor: '#EBD687',
+    color: 'black',
+
 
   },
   settingsButtonsDark: {
@@ -116,10 +118,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     minWidth: 200,
     textAlign: 'center',
-    color: 'white',
+    color: 'black',
     borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'white'
+    borderColor: 'white',
+    backgroundColor: '#EBD687'
   },
   aboutSection: {
     alignItems: 'center',

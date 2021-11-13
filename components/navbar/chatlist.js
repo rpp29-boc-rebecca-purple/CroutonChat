@@ -83,6 +83,10 @@ function ChatList({ userID, friendsList, isDarkTheme }) {
   }
   const backButtonHandler = () => {
     setConversation(false);
+    setTimeout(() => {
+      setConversation(true);
+      setConversation(false);
+    }, 1000);
   };
 
   return conversation ?

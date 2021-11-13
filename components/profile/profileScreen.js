@@ -64,14 +64,14 @@ const Profile = ({userData, setEditProfile, setProfileSettingsOpen, isDarkTheme}
 
         {/* buttons for edit profile and navigate to settings */}
         <View style={isDarkTheme ? styles.darkProfileButtonsWrapper : styles.profileButtonsWrapper}>
-            <View style={styles.profileButton}>
+            <View style={isDarkTheme ? styles.profileButtonDark : styles.profileButton}>
               <TouchableOpacity onPress={()=> setEditProfile(true)}>
-                  <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Edit Cuteness</Text>
+                  <Text style={isDarkTheme ? styles.buttonTextDark : styles.buttonText}>Edit Cuteness</Text>
               </TouchableOpacity>
             </View>
-          <View style={styles.profileButton}>
+          <View style={isDarkTheme ? styles.profileButtonDark : styles.profileButton}>
             <TouchableOpacity onPress={()=> setProfileSettingsOpen(true)}>
-              <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Crouton Settings</Text>
+              <Text style={isDarkTheme ? styles.buttonTextDark : styles.buttonText}>Crouton Settings</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -117,30 +117,42 @@ const styles = StyleSheet.create({
   },
 
   profileButtonsWrapper: {
-    borderTopColor: 'black',
-    borderTopWidth: 1,
+    justifyContent: 'center',
     flexDirection: 'row',
-    height: 100,
+    height: 90,
     marginTop: 'auto',
-    backgroundColor: "#DDDDDD",
     padding: 10,
-
   },
   darkProfileButtonsWrapper: {
-    borderTopColor: 'black',
-    borderTopWidth: 1,
+    justifyContent: 'center',
     flexDirection: 'row',
-    height: 100,
+    height: 90,
     marginTop: 'auto',
-    backgroundColor: "black",
     padding: 10,
   },
   profileButton: {
-    width: '50%',
+    width: '40%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRightWidth: 1,
-
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 7,
+  },
+  profileButtonDark: {
+    width: '40%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 7,
+    borderColor: 'white'
+  },
+  buttonText: {
+    fontSize: 15
+  },
+  buttonTextDark: {
+    fontSize: 15,
+    color: 'white'
   }
 });
 

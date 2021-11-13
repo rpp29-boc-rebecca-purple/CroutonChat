@@ -57,8 +57,8 @@ const ChangePassword = ({setChangePassModalToggle, isDarkTheme}) => {
       {/* back button and confirm button */}
       <View style={styles.changePasswordButtonsWrapper}>
         <View style={isDarkTheme ? styles.changePasswordButtonsDark : styles.changePasswordButtons}>
-          <TouchableOpacity onPress={()=> changePassModalToggle()}>
-            <Text style={isDarkTheme ? styles.buttonTextDark : styles.buttonText }>Back</Text>
+          <TouchableOpacity onPress={()=> setChangePassModalToggle(false)}>
+            <Text style={isDarkTheme ? styles.buttonTextDark : styles.buttonText}>Back</Text>
           </TouchableOpacity>
             </View>
           <View style={isDarkTheme ? styles.changePasswordButtonsDark : styles.changePasswordButtons}>

@@ -109,12 +109,12 @@ const FriendProfile = ({userData, isDarkTheme,  setFriendProfileView, clickedFri
         <View style={isDarkTheme ? styles.darkProfileButtonsWrapper : styles.profileButtonsWrapper}>
             <View style={styles.profileButton}>
               <TouchableOpacity onPress={()=> followFriend()}>
-                  <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Follow</Text>
+                  <Text style={isDarkTheme ? styles.profileButtonTextDark : styles.profileButtonText}>Follow</Text>
               </TouchableOpacity>
             </View>
           <View style={styles.profileButton}>
             <TouchableOpacity onPress={()=> unfollowFriend()}>
-              <Text style={isDarkTheme ? styles.valueTextStyleDark : styles.valueTextStyle}>Unfollow</Text>
+              <Text style={isDarkTheme ? styles.profileButtonTextDark : styles.profileButtonText}>Unfollow</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -160,29 +160,35 @@ const styles = StyleSheet.create({
   },
 
   profileButtonsWrapper: {
-    borderTopColor: 'black',
-    borderTopWidth: 1,
+    justifyContent: 'center',
     flexDirection: 'row',
-    height: 100,
+    height: 90,
     marginTop: 'auto',
-    backgroundColor: "#DDDDDD",
     padding: 10,
 
   },
   darkProfileButtonsWrapper: {
-    borderTopColor: 'black',
-    borderTopWidth: 1,
     flexDirection: 'row',
-    height: 100,
+    height: 90,
     marginTop: 'auto',
     backgroundColor: "black",
     padding: 10,
   },
   profileButton: {
-    width: '50%',
+    width: '40%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRightWidth: 1,
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 7,
+    height: 50
+  },
+  profileButtonText: {
+    fontSize: 15,
+  },
+  profileButtonTextDark: {
+    fontSize: 15,
   },
   backButton: {
     fontSize: 35,

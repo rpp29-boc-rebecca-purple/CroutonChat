@@ -86,6 +86,17 @@ function Friends( { friendsList, email, isDarkTheme, setFriendProfileView, setCl
           bottom: -18,
           width: 270,
         },
+        usernameDark: {
+          color: 'white',
+          fontWeight: '500',
+          marginTop: 38,
+          fontSize: 16,
+          flex: 1,
+          top: 20,
+          left: 8,
+          bottom: -18,
+          width: 270,
+        },
       images: {
         width: 50,
         height: 50,

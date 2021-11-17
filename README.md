@@ -54,6 +54,10 @@ A 4-week project where our team created an MVP, full-stack application for our c
 <span align="center"><img width="40" src="https://raw.githubusercontent.com/gilbarbara/logos/master/logos/aws-s3.svg"/></span></div>
 
 
+### Architecture
+![CroutonChat Architecture](https://user-images.githubusercontent.com/54588865/142109519-f47d8dc9-74ce-4474-9d63-f7c16e238aa3.jpg)
+
+
 
 ### CircleCI Build and Test
 

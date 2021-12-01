@@ -11,17 +11,12 @@ A 4-week project where our team created an MVP, full-stack application for our c
 [Matthew Saxe](https://github.com/mattsaxe17)<br/>
 
 ### Project Overview
-- Our team learned React-Native to build a native mobile front-end, supported by a NodeJS back-end using micro-service architecture. 
+- Our team learned React-Native to build a native mobile front-end, supported by a Node.js and PostgreSQL back-end utilizing micro-service architecture. 
 - Our client wanted an application to share photos of their pets, without the worry of pet based blackmail. Our solution was to create a chat focused app, that allows users to share photos that will automatically delete after 10 seconds. Our users can follow other users, send messages or photos, and build profiles for their followers to view!
 
- 
-
-
-### Technical Challenges and research that you anticipated
-
-### Challenges that were unexpected
 
 ### Video Demo / Screen shot walkthrough of the app
+![CroutonChat demo gif](BOCdemo.gif)
 
 ### How does the app work?
 - Create an account and search for your friends with their email addresses.
@@ -30,6 +25,10 @@ A 4-week project where our team created an MVP, full-stack application for our c
 - Send and receive messages or photos with other users.
 
 ### What research was required?
+
+### Technical Challenges and research that you anticipated
+
+### Challenges that were unexpected
 
 ### Workflow and Key lessons from your team - specifically those related to: Agile, CI/CD, testing, working with external stakeholders, ticketing, and user stories.
 

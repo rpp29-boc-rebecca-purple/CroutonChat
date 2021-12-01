@@ -15,7 +15,7 @@ A 4-week project where our team created an MVP, full-stack application for our c
 - Our client wanted an application to share photos of their pets, without the worry of pet based blackmail. Our solution was to create a chat focused app, that allows users to share photos that will automatically delete after 10 seconds. Our users can follow other users, send messages or photos, and build profiles for their followers to view!
 
 
-### Video Demo / Screen shot walkthrough of the app
+### Video Demo 
 ![CroutonChat demo gif](BOCdemo.gif)
 
 ### How does the app work?
